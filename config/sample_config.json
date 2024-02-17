@@ -1,0 +1,32 @@
+{
+    "PORT": 4002,
+    "BASE": "http://localhost:4002",
+    "BUCKET_URL": "http://localhost:4001",
+    "APP_NAME": "Regius",
+    "DB": {
+        "connectionLimit": 1000,
+        "host": "localhost",
+        "user": "regius",
+        "password":"",
+        "database": "regius",
+        "port" : 3306,
+        "waitForConnections": true,
+        "queueLimit": 0,
+        "debug" : false,
+        "charset": "utf8mb4"
+    },
+    "AWS": {
+        "key": "",
+        "secret": "",
+        "region": "",
+        "email": "",
+        "bucket": ""
+    },
+    "RECAPTCHA": {
+        "SHOW": true,
+        "SITE_KEY": "",
+        "SECRET_KEY": ""
+    },
+    "GOOGLE_MAP_KEY": "",
+    "JWT_ACCESS_TOKEN": ""
+}
