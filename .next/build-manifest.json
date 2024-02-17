@@ -20,11 +20,6 @@
       "static/chunks/main.js",
       "static/chunks/pages/Home.js"
     ],
-    "/NotFound": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/NotFound.js"
-    ],
     "/_app": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",

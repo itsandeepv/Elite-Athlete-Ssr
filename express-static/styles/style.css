@@ -1218,3 +1218,89 @@ li.has-dropdown:hover >ul{
     top: 0;
     display: block;
 }
+.progress-bar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.tracking-title, .tracking-bar, .tracking-date {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.tracking-bar {
+    padding: 0 40px;
+    margin: 25px 0;
+}
+
+.tracking-title .point {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.tracking-date .date {
+    color: #000;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.progress-bar {
+    padding: 20px 40px;
+}
+
+.tracking-bar .one, .tracking-bar .two, .tracking-bar .three {
+    width: 33%;
+    height: 5px;
+    background: var(--thm-primary);
+    position: relative;
+}
+
+.tracking-bar .one::before, .tracking-bar .two::before, .tracking-bar .three::before {
+    content: "";
+    width: 15px;
+    height: 15px;
+    display: block;
+    background-color: #000;
+    border-radius: 50%;
+    position: absolute;
+    left: -10px;
+    top: -5px;
+}
+
+.tracking-bar .three::after {
+    content: "";
+    width: 15px;
+    height: 15px;
+    display: block;
+    background-color: #000;
+    border-radius: 50%;
+    position: absolute;
+    right: -10px;
+    top: -5px;
+}
+
+.tracking-bar .one.active,
+.tracking-bar .two.active,
+.tracking-bar .three.active {
+    background: #51A24E;
+}
+.all-brands{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 40px;
+}
+.all-brands .img{
+    width: 20%;
+    height: auto;
+    text-align: center;
+    padding: 20px 0;
+    border: 1px solid rgb(228, 228, 228);
+}
+.all-brands .img img{
+    width: 50%;
+    height: 50px;
+    object-fit: contain;
+}

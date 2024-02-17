@@ -31,8 +31,14 @@
     .product-items .item {
         width: 30%;
     }
+    .all-brands .img{
+        width: 25%;
+    }
 }
 @media screen and (max-width:500px) {
+    .all-brands .img{
+        width: 50%;
+    }
     .product-items .item {
         width: 44%;
     }
