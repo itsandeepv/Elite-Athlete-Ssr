@@ -1,0 +1,31 @@
+{
+    "PORT": 4003,
+    "BASE": "http://localhost:4003",
+    "BUCKET_URL": "http://localhost:4001",
+    "APP_NAME": "Elite-Athlete-Nutrition",
+    "DB": {
+        "connectionLimit": 1000,
+        "host": "localhost",
+        "user": "sandeep",
+        "password":"",
+        "database": "Elite",
+        "port" : 3306,
+        "waitForConnections": true,
+        "queueLimit": 0,
+        "debug" : false,
+        "charset": "utf8mb4"
+    },
+    "AWS": {
+        "key": "AKIA3IATATPT4JABLWWO",
+        "secret": "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",
+        "region": "us-east-1",
+        "email": "info@regiustechnologies.com",
+        "bucket": "kb3-bucket"
+    },
+	"RECAPTCHA": {
+		"SITE_KEY": "6LfsmlcmAAAAABGFlBKDAo43MmmMmqjYqrLcCgCd",
+        "SECRET_KEY": "6LfsmlcmAAAAAJgZe1Bfb3oW1kRSNMtXv5pSR1PS"
+	},
+    "GOOGLE_MAP_KEY": "AIzaSyDvhOGoz1mwbXEFxIPd2OhA4nn7kntFbUk",
+    "JWT_ACCESS_TOKEN": "lwroeitugnnt4t48998ecvcm3n#*$*JKFejfijejf84refjkDGRgsigjsge8ghkdsnv"
+}
