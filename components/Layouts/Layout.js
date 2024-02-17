@@ -4,6 +4,7 @@ import Footer from './Footer'
 // import WriteReviews from '../Modal/WriteReviews'
 import { useSelector } from 'react-redux'
 import WriteReviews from '@components/Modal/WriteReviews'
+import TrackOrder from '@components/Modal/TrackOrder'
 // import TrackOrder from '../Modal/TrackOrder'
 
 function Layout({ children }) {
@@ -13,8 +14,8 @@ function Layout({ children }) {
   return (
     <React.Fragment>
       {popUpData?.isOpen && popUpData?.popUpName == "Add_Review" &&
-        // <TrackOrder />
-        <WriteReviews />
+        <TrackOrder />
+        // <WriteReviews />
       }
       <Header />
       {children}

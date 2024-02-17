@@ -1,6 +1,7 @@
 import React from 'react'
 import { handlePopup } from '../../redux/actions/popupActions'
 import { useDispatch } from 'react-redux'
+import ProgressBar from './ProgressBar'
 
 function TrackOrder() {
     const dispatch = useDispatch()
@@ -26,10 +27,8 @@ function TrackOrder() {
                     </div>
                 </div>
                 <div>
-                    <b>Tracking</b>
-                    <div>
-                        tracking row
-                    </div>
+                    <b className='pt-3'>Tracking</b>
+                    <ProgressBar/>
                 </div>
                 <div className='row border-bottom-g'>
                     <div className='col-lg-6 p-3 d-flex flex-column gap-2'>
@@ -59,7 +58,7 @@ function TrackOrder() {
 
                 </div>
                 <div className='d-flex justify-content-end gap-3'>
-                    <button className='c-btn bg-voilet text-light'>Back To Order History</button>
+                    <button className='c-btn bg-voilet text-light' onClick={() => { dispatch(handlePopup({ data: "test" }, "Add_Review", false)) }}>Back To Order History</button>
                 </div>
             </div>
         </div>

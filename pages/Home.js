@@ -10,6 +10,7 @@ import ProductSlide from '@components/ProductContent/ProductSlide';
 import TopBrandsSection from '@components/TopBrandsSection';
 import TopStarsSection from '@components/TopStarsSection';
 import Layout from '@components/Layouts/Layout';
+import TopBrands from '@components/Modal/TopBrands';
 const MainWrap = styled.div`
     background:${colors.white};text-align:center;padding:0 20px;font-size:20px;text-align:center;display:flex;justify-content:center;align-items:center;flex-direction:column;min-height:100vh;
     & img{max-width:300px;width:100%;}
@@ -42,7 +43,8 @@ const HomePage = () => {
                 <ShopebySports />
                 <ProductSlide />
                 <TopBrandsSection />
-                <TopStarsSection />
+                {/* <TopStarsSection /> */}
+                <TopBrands/>
             </Layout>
         </React.Fragment>
     );
