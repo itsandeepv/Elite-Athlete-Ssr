@@ -6,7 +6,8 @@
             "@components/*": ["components/*"],
             "@constants/*": ["constants/*"],
             "@helpers/*": ["helpers/*"],
-            "@utils/*": ["utils/*"]
+            "@utils/*": ["utils/*"],
+            "@redux/*": ["redux/*"]
         }
     },
     "exclude": ["node_modules"]

@@ -1,60 +1,72 @@
-import Breadcrums from '@components/Breadcrums/Breadcrums'
-import Layout from '@components/Layouts/Layout'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { baseUrl } from '../utils/urls'
+import axios from 'axios'
+import Layout from '@components/Layouts/Layout';
+import Breadcrums from '@components/Breadcrums/Breadcrums';
+import PropTypes from 'prop-types';
 
-function PrivacyPolicy() {
+function PrivacyPolicy({pageDataS}) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const pagename = urlParams.get('pagename');
+    const [pageData, setpageData] = useState(pageDataS|| {})
+    // console.log(pageDataS, "<<<<<window.pageDataS" ,pageData);
     const breadcumsDetails = [
         {
-            title:"Home",
-            path:"/"
+            title: "Home",
+            path: "/"
         },
         {
-            title:"Privacy Policy",
-            path:"/"
+            title: pageData?.title,
+            path: "#"
         },
     ]
+
     return (
         <Layout>
-            <div className='container-fluid'>
-                <div className='row'>
-                    <div className='col'>
-                        <Breadcrums breadcumsDetails={breadcumsDetails} />
-                    </div>
-                </div>
-                <div>
-                    <div>
-                        <h2 className='heading-large'>INTRODUCTION</h2>
-                        <p className='commen-text py-2'>
-                            Welcome to Power Body Nutrition Ltd.'s privacy notice.
-                        </p>
-                        <p className='commen-text py-2'>
-                            We respect your privacy and are committed to protecting your personal data. This privacy notice will inform you as to how we look after your personal data when you visit our website (regardless of where you visit it from) including any data you may provide through this website when you sign up to our newsletter, enquire about or purchase a product or service, take part in a competition or supply services to us.                        </p>
-                        <p className='commen-text py-2'>
-                            This notice tells you about your privacy rights and how the law protects you.
-                        </p>
-                        <p className='commen-text py-2'>
-                            Please contact us if you require a pdf copy. Please also use the Glossary to understand the meaning of some of the terms used in this privacy notice.                                                </p>
-
-                    </div>
-                    <div>
-                        <h3 className='heading-large'>Important information and who we are</h3>
-                        <p className='commen-text py-2'>
-                            Welcome to Power Body Nutrition Ltd.'s privacy notice.
-                        </p>
-                        <p className='commen-text py-2'>
-                            We respect your privacy and are committed to protecting your personal data. This privacy notice will inform you as to how we look after your personal data when you visit our website (regardless of where you visit it from) including any data you may provide through this website when you sign up to our newsletter, enquire about or purchase a product or service, take part in a competition or supply services to us.                        </p>
-                        <p className='commen-text py-2'>
-                            This notice tells you about your privacy rights and how the law protects you.
-                        </p>
-                        <p className='commen-text py-2'>
-                            Please contact us if you require a pdf copy. Please also use the Glossary to understand the meaning of some of the terms used in this privacy notice.                                                </p>
-
-                    </div>
-
+            <div className='row container-fluid'>
+                <div className='col'>
+                    <Breadcrums breadcumsDetails={breadcumsDetails} />
                 </div>
             </div>
-        </Layout>
+            <div className='container-fluid d-flex align-items-center '>
+                <div className='banner-container mb-4 bg-blue w-100'>
+                    <h2 className='text-light py-2 text-center w-100' >{pageData?.title}</h2>
+                </div>
+            </div>
+            <div className='container-fluid' style={{ position: "relative",minHeight:"300px" }}>
+                <div>
+                    {/* {!pageData &&
+                        <LoaderSmall />
+                    } */}
+                    <div className='priv-policy'>
+                        <div
+                            dangerouslySetInnerHTML={{ __html: pageData?.content }}
+                        ></div>
+                    </div>
+                </div>
+            </div>
+        </Layout >
     )
+}
+
+PrivacyPolicy.propTypes = {
+    pagename: PropTypes.string,
+  };
+  
+
+
+export async function getServerSideProps(context) {
+    const { query } = context;
+    const pagename = query.pagename || '';
+    var pageDataS;
+    await axios.get(baseUrl + "/api/get-all-pages").then((res) => {
+        if (res.data?.responseCode == 200) {
+            pageDataS = res.data?.result?.find((item) => item?.slug == pagename)  
+        }
+    }).catch((err) => {
+        console.log(err);
+    })
+        return { props: { pageDataS } }
 }
 
 export default PrivacyPolicy

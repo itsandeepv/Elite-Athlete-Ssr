@@ -1,6 +1,10 @@
+import moment from 'moment';
 import React from 'react'
 
-function ProgressBar({ shipped, outOfDelivery, delivered }) {
+function ProgressBar({ itemData,shipped, outOfDelivery, delivered }) {
+
+    console.log(itemData , "<<<<<<<<itemData");
+    
     return (
         <div className="progress-bar container-fluid">
             <div className="tracking-title">
@@ -15,7 +19,7 @@ function ProgressBar({ shipped, outOfDelivery, delivered }) {
                 <div className={`three ${delivered ? 'active' : ''}`}></div>
             </div>
             <div className="tracking-date">
-                <div className="date">Thu, 7th Sep</div>
+                <div className="date">{moment(itemData?.order_date).calendar()}</div>
                 <div className="date">Wed, 13th Sep</div>
                 <div className="date">Wed, 13th Sep</div>
                 <div className="date">Thu, 14th Sep</div>

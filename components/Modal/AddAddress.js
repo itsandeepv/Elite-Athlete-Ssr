@@ -1,15 +1,74 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { hasValidationError, validatedFields, validationError } from '../../helpers/frontend'
+import { baseUrl } from '../../utils/urls';
+import { useDispatch, useSelector } from 'react-redux';
+import { addUserAddress } from '../../redux/actions/userDetailsActions';
+import Loader from './Loader';
 
-function AddAddress({setshowPopup}) {
+function AddAddress({ setshowPopup, metadata }) {
+    const [errors, setErrors] = useState([]);
+    const { userData, userDetails } = useSelector((state) => state)
+    const dispatch = useDispatch()
+
+    const [formData, setFormData] = useState({
+        name: metadata?.data?.name || metadata?.data?.name || "",
+        pincode: metadata?.data?.pincode || "",
+        mobile: metadata?.data?.mobile || "",
+        address: metadata?.data?.address || "",
+        locality: metadata?.data?.locality || "",
+        country: metadata?.data?.country || "",
+        city: metadata?.data?.city || "",
+        state: metadata?.data?.state || "",
+        address_type: metadata?.data?.address_type || "",
+        is_default: metadata?.data?.is_default || "",
+        address_id: metadata?.data?.id || "",
+    })
+
+    let config = {
+        method: 'post',
+        url: `${baseUrl}/api/${metadata?.data?.id ? "update" : "add"}-user-address`,
+        headers: {
+            'Authorization': `Bearer ${userData?.token}`,
+        },
+        data: formData
+    }
+
+    const onChangeHandle = (e) => {
+        const { name, value } = e.target
+        if (e.target.type == "checkbox") {
+            setFormData((prev) => ({ ...prev, [name]: e.target.checked == false ? "no" : "yes" }))
+        } else {
+            setFormData((prev) => ({ ...prev, [name]: value }))
+        }
+    
+    }
+
+    const validateInput = ["name", "pincode", "mobile", "city", "state", "address"]
+    const onSubmit = (e) => {
+        e.preventDefault();
+        // setIsLoading(true)
+        if (!validatedFields(formData, validateInput, setErrors)) { return; }
+        dispatch(addUserAddress(config, setshowPopup))
+    }
+
+
     return (
-        <form className='login-details add-address'>
+        <form className='login-details add-address' onSubmit={(e) => { onSubmit(e) }} >
+            {/* {userDetails?.loading && <Loader />} */}
             <div className="login">
                 <div className=" py-2 d-flex justify-content-between">
-                    <h4 className='heading bold-600'>Add Address</h4>
+                    <h4 className='heading bold-600'>
+                        {
+                            metadata?.data?.id ? "Update Address " : "Add Address"
+                        }
+
+                    </h4>
                     {/* <hr/> */}
-                    <span className='cursor-pointer' onClick={()=>{
-                        if(setshowPopup){
-                            setshowPopup(false)
+                    <span className='cursor-pointer' onClick={() => {
+                        if (setshowPopup) {
+                            setshowPopup({
+                                isOpen: false,
+                            })
                         }
                     }}>
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -22,43 +81,59 @@ function AddAddress({setshowPopup}) {
                     <div className='col-lg-4'>
                         <div className="form-contr">
                             <label htmlFor="name">Full Name*</label>
-                            <input type="text" id='name' placeholder='Enter your Name' />
+                            <input type="text" id='name' name='name' value={formData?.name} onChange={(e) => onChangeHandle(e)} placeholder='Enter your Name' />
+                            {hasValidationError(errors, "name") ? (<span style={{ color: "red", fontSize: "12px" }} className="has-cust-error">{formData?.name == "" && validationError(errors, "name")}</span>) : null}
                         </div>
                     </div>
                     <div className='col-lg-4'>
                         <div className="form-contr">
                             <label htmlFor="number">Mobile Number*</label>
-                            <input type="number" id='number' placeholder='Enter your Mobile Number' />
+                            <input type="number" id='number' name='mobile' value={formData?.mobile} onChange={(e) => onChangeHandle(e)} placeholder='Enter your Mobile Number' />
+                            {hasValidationError(errors, "mobile") ? (<span style={{ color: "red", fontSize: "12px" }} className="has-cust-error">{formData?.mobile == "" && validationError(errors, "mobile")}</span>) : null}
                         </div>
                     </div>
                     <div className='col-lg-4'>
                         <div className="form-contr">
                             <label htmlFor="email">Pincode*</label>
-                            <input type="number" id='email' placeholder='Enter your email' />
+                            <input type="number" id='email' name='pincode' value={formData?.pincode} onChange={(e) => onChangeHandle(e)} placeholder='Enter your pincode' />
+                            {hasValidationError(errors, "pincode") ? (<span style={{ color: "red", fontSize: "12px" }} className="has-cust-error">{formData?.pincode == "" && validationError(errors, "pincode")}</span>) : null}
                         </div>
                     </div>
                 </div>
                 <div className="form-contr py-lg-2">
                     <label htmlFor="password">Address*</label>
-                    <input type="text" id='password' placeholder='Enter your Address' />
+                    <input type="text" id='password' name='address' value={formData?.address} onChange={(e) => onChangeHandle(e)} placeholder='Enter your Address' />
+                    {hasValidationError(errors, "address") ? (<span style={{ color: "red", fontSize: "12px" }} className="has-cust-error">{formData?.address == "" && validationError(errors, "address")}</span>) : null}
                 </div>
                 <div className='row py-lg-2'>
                     <div className='col-lg-4'>
                         <div className="form-contr">
-                            <label htmlFor="name">State*</label>
-                            <input type="text" id='name' placeholder='Enter your State' />
-                        </div>
-                    </div>
-                    <div className='col-lg-4'>
-                        <div className="form-contr">
                             <label htmlFor="number">City*</label>
-                            <input type="text" id='number' placeholder='Enter your City' />
+                            <input type="text" id='number' name='city' value={formData?.city} onChange={(e) => onChangeHandle(e)} placeholder='Enter your City' />
+                            {hasValidationError(errors, "city") ? (<span style={{ color: "red", fontSize: "12px" }} className="has-cust-error">{formData?.city == "" && validationError(errors, "city")}</span>) : null}
+
                         </div>
                     </div>
                     <div className='col-lg-4'>
                         <div className="form-contr">
                             <label htmlFor="email">Locality/Town*</label>
-                            <input type="text" id='email' placeholder='Enter your Town' />
+                            <input type="text" id='email' name='locality' value={formData?.locality} onChange={(e) => onChangeHandle(e)} placeholder='Enter your Town' />
+                            {/* {hasValidationError(errors, "locality") ? (<span style={{ color: "red", fontSize: "12px" }} className="has-cust-error">{formData?.locality == "" && validationError(errors, "locality")}</span>) : null} */}
+
+                        </div>
+                    </div>
+                    <div className='col-lg-4'>
+                        <div className="form-contr">
+                            <label htmlFor="email">Country*</label>
+                            <input type="text" id='email' name='country' value={formData?.country} onChange={(e) => onChangeHandle(e)} placeholder='Enter your Country' />
+                        </div>
+                    </div>
+                    <div className='col-lg-4'>
+                        <div className="form-contr">
+                            <label htmlFor="name">State*</label>
+                            <input type="text" id='name' name='state' value={formData?.state} onChange={(e) => onChangeHandle(e)} placeholder='Enter your State' />
+                            {hasValidationError(errors, "state") ? (<span style={{ color: "red", fontSize: "12px" }} className="has-cust-error">{formData?.state == "" && validationError(errors, "state")}</span>) : null}
+
                         </div>
                     </div>
                 </div>
@@ -69,42 +144,52 @@ function AddAddress({setshowPopup}) {
                     <div>
                         <ul className='d-flex gap-2 p-0 pt-2'>
                             <li className='d-flex gap-2'>
-                                <input type='radio' name='address' />
+                                <input type='radio' name='address_type' checked={formData?.address_type == "Home" ? true : false} value={"Home"} onChange={(e) => onChangeHandle(e)} />
                                 <p>Home</p>
                             </li>
                             <li className='d-flex gap-2'>
-                                <input type='radio' name='address' />
+                                <input type='radio' name='address_type' checked={formData?.address_type == "Office" ? true : false} value={"Office"} onChange={(e) => onChangeHandle(e)} />
                                 <p>Office</p>
                             </li>
                         </ul>
-                        <ul className=' p-0'>
-                            <li className='my-1 py-2 d-flex gap-2'>
-                                <input type='checkbox' />
-                                <p>
-                                    Is your office open on sunday
-                                </p>
-                            </li>
-                            <li className='my-1 py-2 d-flex gap-2'>
-                                <input type='checkbox' />
-                                <p>
-                                    Is your office open on saturday
-                                </p>
-                            </li>
-                        </ul>
+                        {
+                            formData?.address_type == "Home" || formData?.address_type == "" ? "" :
+                                <ul className=' p-0'>
+                                    <li className='my-1 py-2 d-flex gap-2'>
+                                        <input type='checkbox' name='isOpenOnSunday' value={formData?.isOpenOnSunday} onChange={(e) => onChangeHandle(e)} />
+                                        <p>
+                                            Is your office open on sunday
+                                        </p>
+                                    </li>
+                                    <li className='my-1 py-2 d-flex gap-2'>
+                                        <input type='checkbox' name='isOpenOnSaturday' value={formData?.isOpenOnSaturday} onChange={(e) => onChangeHandle(e)} />
+                                        <p>
+                                            Is your office open on saturday
+                                        </p>
+                                    </li>
+                                </ul>
+
+                        }
                         <hr />
                         <div className='d-flex gap-2'>
-                            <input type='checkbox' />
-                            <p>
-                                Is your office open on sunday
-                            </p>
+                            <input type='checkbox' name='is_default' checked={formData?.is_default == "yes" ? true : false} value={"yes"} onChange={(e) => onChangeHandle(e)} />
+                            <p>   Set default </p>
                         </div>
-
                     </div>
                 </div>
-
                 <div className='d-flex justify-content-end gap-3'>
-                    <button className='c-btn btn-black'>Cancel</button>
-                    <button className='c-btn btn-voilet'>Add New Address</button>
+                    <button type='button' onClick={() => {
+                        if (setshowPopup) {
+                            setshowPopup({
+                                isOpen: false,
+                            })
+                        }
+                    }} className='c-btn btn-black'>Cancel</button>
+                    <button type='submit' className='c-btn btn-voilet' onClick={() => {
+
+                    }}>
+                        {metadata?.data?.id ? "Save" : "Add "}
+                    </button>
                 </div>
             </div>
         </form>

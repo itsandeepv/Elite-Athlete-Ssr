@@ -8,10 +8,10 @@ const initialState = {
 
 const popupsReduccer = (state = initialState, action) => {
     switch (action.type) {
-        case 'Add_Review':
-            return { ...state, isOpen: action.isOpen ,popUpName:action.type };
+        case action.type:
+            return { ...state, isOpen: action.isOpen ,popUpName:action.type ,popupdata:action?.payload };
         default:
-            return state;
+            return state
     }
 };
 

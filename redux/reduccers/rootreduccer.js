@@ -1,13 +1,47 @@
 import { combineReducers } from 'redux';
 import popupsReduccer from './popupsReduccer';
-
+import authReducer from './authReduccer';
+import categoryReduccer from './categoryReduccer';
+import brandReduccer from './brandReduccer';
+import userDetailsReducer from './userDetailsReducer';
+import categoryBySectionReduccer from './categoryBySectionReduccer';
+import cartListCountReduccer from './cartListCountReduccer';
+import cartWishListCountReduccer from './cartWishListCountReduccer';
+import  addToCartReduccer  from './addToCartReduccer';
+import getCartListReduccer from './getCartListReduccer';
+import getWishListReduccer from './getWishListReduccer'
+import checkoutReduccer from './checkoutReduccer';
+import getProductByVarientReduccer from './getProductByVarientReduccer';
+import getUserOrderReduccer from './getUserOrderReduccer';
+import getUserOrderByIdReduccer from './getUserOrderIdReduccer';
+import removeToWishListReduccer from './removeToWishListReduccer';
+import productReduccer from './productReduccer';
+import userDataReducer from './userDataReducer';
 
 const rootReducer = combineReducers({
   // Add your reducers here
-  popUpData :popupsReduccer,
-//   categoryData :categoryreducer,
-//   productsData :productreducer
-  
+  popUpData: popupsReduccer,
+  userData: authReducer,
+  userData2: userDataReducer,
+  categoryData: categoryReduccer,
+  productData: productReduccer,
+  brandData: brandReduccer,
+  userDetails: userDetailsReducer,
+  categoryBySectionData:categoryBySectionReduccer,
+  cartListCountData:cartListCountReduccer,
+  cartWishListCountData:cartWishListCountReduccer,
+  addToCartData:addToCartReduccer,
+  getCartListData:getCartListReduccer,
+  getWishListData:getWishListReduccer,
+  addCheckout:checkoutReduccer,
+  ProductByVarientData:getProductByVarientReduccer,
+  userOrderData:getUserOrderReduccer,
+  userOrderDataById:getUserOrderByIdReduccer,
+  removeToWishListData:removeToWishListReduccer
+
+  //   categoryData :categoryreducer,
+  //   productsData :productreducer
+
 });
 
 export default rootReducer;

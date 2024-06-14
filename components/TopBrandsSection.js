@@ -1,35 +1,63 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Slider from 'react-slick';
-import TopdealsCard from './Cards/TopDeals';
 import SectionsHeading from './Cards/SectionsHeading';
 import SportsCards from './Cards/SportsCards';
+import axios from 'axios';
+import { baseUrl } from '../utils/urls';
 
-function TopBrandsSection() {
+function TopBrandsSection({starsdata}) {
+
+    const [data, setData] = useState(starsdata ||[])
+   
     var settings = {
-        dots: true,
+        dots: false,
         infinite: true,
-        speed: 500,
-        slidesToShow: 4,
-        slidesToScroll: 4
+        speed: 1000,
+        autoplay: false,
+        slidesToShow: 2,
+        slidesToScroll: 1,
+        responsive: [
+            {
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 2,
+                    infinite: true,
+                    dots: true
+                }
+            },
+            {
+                breakpoint: 768,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    initialSlide: 1
+                }
+            }
+        ]
     };
-    const topArray = [1, 2, 3, 4, 5, 6]
+
     return (
         <div className='container-fluid home-sections bg-light'>
-                <SectionsHeading title="Top Brands" />
+            <SectionsHeading title="Trusted By The Best" subTitle={"Top-tier performers rely on our products daily. Whether aiming for the podium or personal success, they deserve unparalleled quality and support."} />
             <div className='row'>
-                <div className='col'>
+                <div className='sports-slides'>
                     <div className='row'>
-                        <div className='col-lg-6'>
-                            <SportsCards />
-                        </div>
-                        <div className='col-lg-6'>
-                            <SportsCards />
-                        </div>
-
+                        <Slider {...settings}>
+                            {
+                                data?.map((item, index) => {
+                                    return (
+                                        <div className='col-lg-6 ' key={index}>
+                                            <SportsCards detials={item} />
+                                        </div>
+                                    )
+                                })
+                            }
+                        </Slider>
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 

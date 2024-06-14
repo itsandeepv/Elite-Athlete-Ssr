@@ -1,22 +1,17 @@
 import React, { useState } from 'react'
 import Header from './Header'
 import Footer from './Footer'
-// import WriteReviews from '../Modal/WriteReviews'
+import ProductSlide from '../ProductContent/ProductSlide'
+import WriteReviews from '../Modal/WriteReviews'
 import { useSelector } from 'react-redux'
-import WriteReviews from '@components/Modal/WriteReviews'
-import TrackOrder from '@components/Modal/TrackOrder'
-// import TrackOrder from '../Modal/TrackOrder'
+import TrackOrder from '../Modal/TrackOrder'
 
 function Layout({ children }) {
-
   const { popUpData } = useSelector((state) => state)
-
   return (
     <React.Fragment>
-      {popUpData?.isOpen && popUpData?.popUpName == "Add_Review" &&
-        <TrackOrder />
-        // <WriteReviews />
-      }
+      {popUpData?.isOpen && popUpData?.popUpName == "trackorder" && <TrackOrder />}
+      { popUpData?.isOpen && popUpData?.popUpName == "Add_Review" &&<WriteReviews />}
       <Header />
       {children}
       <Footer />

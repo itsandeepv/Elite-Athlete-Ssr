@@ -1,13 +1,25 @@
 import React, { useState } from 'react'
 import { handlePopup } from '../../redux/actions/popupActions'
-import { useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux';
+import { baseUrl } from '../../utils/urls';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import LoaderSmall from './LoaderSmall';
+import { getUserOrder } from "./../../redux/actions/getUserOrderActions";
 
 function WriteReviews() {
-    const [formData, setFormData] = useState({
+    const [formDataCl, setFormData] = useState({
         userReview: "",
         reviewImages: [],
     })
     const [images, setimages] = useState([])
+    const [rating, setRating] = useState(0);
+
+    const { userData } = useSelector((state) => state)
+    const popMetaData = useSelector((state) => state.popUpData?.popupdata)
+
+    // console.log(popMetaData , "<<<<<<popMetaData");
     const dispatch = useDispatch()
     const onchange = (e) => {
         const { name, value } = e.target
@@ -19,22 +31,60 @@ function WriteReviews() {
                 [name]: value
             }))
         }
-        console.log(name, e.target?.type, images);
+        // console.log(formDataCl, "<<<<<<<formDataCl");
     }
-    const deleteImage = (index)=>{
-        const updateImagesArray = images?.filter((item ,oldindex)=>oldindex != index)
+    const deleteImage = (index) => {
+        const updateImagesArray = images?.filter((item, oldindex) => oldindex != index)
         setimages(updateImagesArray)
-        // console.log(updateImagesArray , "<<<<<<<updateImagesArray");
     }
 
+const [isloading ,setisLoading] = useState(false)
+    const fetchData = async () => {
+        setisLoading(true)
+        try {
+            const formData = new FormData()
+            formData.append("product_id", popMetaData?.product_id)
+            formData.append("user_id", popMetaData?.order_details?.user_id)
+            formData.append("customer_name", popMetaData?.order_details?.name)
+            formData.append("rating", rating)
+            formData.append("review", formDataCl?.userReview)
+            // console.log(images, "<<<<<<<images");
+            images?.map((item)=>{ formData.append("image[]", item)})
+            if (userData && userData.token) {
+                const response = await axios.post(`${baseUrl}/api/add-product-review`, formData, {
+                    headers: {
+                        'Authorization': `Bearer ${userData.token}`
+                    }
+                });
+                if (response && response.status === 200) {
+                    toast.success(response.data.message);
+                    dispatch(getUserOrder(`/api/get-user-orders`, userData?.token));
+                    setisLoading(true)
+                    dispatch(handlePopup({ data: response.data.result }, "Add_Review", false));
+                }
+            } else {
+                // Handle the case where user data or token is not available
+            }
+        } catch (error) {
+            console.log(error);
+            setisLoading(false)
+
+        }
+    }
+
+
+    // const ratingArr = [1, 2, 3, 4, 5]
 
 
     return (
         <div className='model-container '>
-            <div className='model-content'>
+            <div className='model-content' style={{position:"relative"}}>
+               {isloading && 
+                <LoaderSmall/>
+               }
                 <div className=' d-flex justify-content-between'>
                     <b>Write Review</b>
-                    <span className='cursor-pointer' onClick={() => { dispatch(handlePopup({ data: "test" }, "Add_Review", false)) }}>
+                    <span className='cursor-pointer' onClick={() => { dispatch(handlePopup({}, "Add_Review", false)) }}>
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M2.38552 0.392699L7.99966 6.00684L13.5847 0.421788C13.7081 0.290477 13.8567 0.185433 14.0216 0.112955C14.1866 0.0404768 14.3645 0.00205708 14.5446 0C14.9304 0 15.3003 0.153235 15.5731 0.425996C15.8459 0.698756 15.9991 1.0687 15.9991 1.45444C16.0025 1.63276 15.9694 1.80989 15.9019 1.97496C15.8343 2.14003 15.7338 2.28956 15.6064 2.41437L9.94861 7.99943L15.6064 13.6572C15.8461 13.8917 15.9867 14.2093 15.9991 14.5444C15.9991 14.9302 15.8459 15.3001 15.5731 15.5729C15.3003 15.8456 14.9304 15.9989 14.5446 15.9989C14.3593 16.0065 14.1744 15.9756 14.0016 15.908C13.8288 15.8404 13.672 15.7376 13.5411 15.6062L7.99966 9.99201L2.40006 15.5916C2.27717 15.7185 2.13036 15.8199 1.9681 15.8898C1.80584 15.9597 1.63134 15.9967 1.45468 15.9989C1.06894 15.9989 0.698993 15.8456 0.426233 15.5729C0.153472 15.3001 0.000236647 14.9302 0.000236647 14.5444C-0.00315437 14.3661 0.0299297 14.189 0.0974587 14.0239C0.164988 13.8588 0.265537 13.7093 0.392936 13.5845L6.05071 7.99943L0.392936 2.34165C0.153222 2.10713 0.012657 1.78956 0.000236647 1.45444C0.000236647 1.0687 0.153472 0.698756 0.426233 0.425996C0.698993 0.153235 1.06894 0 1.45468 0C1.80374 0.00436332 2.13827 0.145444 2.38552 0.392699Z" fill="black" />
                         </svg>
@@ -42,16 +92,23 @@ function WriteReviews() {
                 </div>
                 <div className='d-flex gap-3 align-items-center'>
                     <div className='purchase-image p-3'>
-                        <img src='assets/images/historyproduct.png' className='img-fluid' />
+                        <img src={popMetaData?.product_image ? `${baseUrl}/${popMetaData?.product_image}` : 'assets/images/historyproduct.png'} className='img-fluid' />
                     </div>
                     <div className='d-flex flex-column gap-2'>
-                        <p className='gray'><b> Quercetion </b> -500 mg - 200 caps </p>
-                        <span className='py-2'>
-                            <svg viewBox="0 0 24 24" width="24" height="24" fill="rgba(240,187,64,1)"><path d="M12.0006 18.26L4.94715 22.2082L6.52248 14.2799L0.587891 8.7918L8.61493 7.84006L12.0006 0.5L15.3862 7.84006L23.4132 8.7918L17.4787 14.2799L19.054 22.2082L12.0006 18.26Z"></path></svg>
-                            <svg viewBox="0 0 24 24" width="24" height="24" fill="rgba(240,187,64,1)"><path d="M12.0006 18.26L4.94715 22.2082L6.52248 14.2799L0.587891 8.7918L8.61493 7.84006L12.0006 0.5L15.3862 7.84006L23.4132 8.7918L17.4787 14.2799L19.054 22.2082L12.0006 18.26Z"></path></svg>
-                            <svg viewBox="0 0 24 24" width="24" height="24" fill="rgba(240,187,64,1)"><path d="M12.0006 18.26L4.94715 22.2082L6.52248 14.2799L0.587891 8.7918L8.61493 7.84006L12.0006 0.5L15.3862 7.84006L23.4132 8.7918L17.4787 14.2799L19.054 22.2082L12.0006 18.26Z"></path></svg>
-                            <svg viewBox="0 0 24 24" width="24" height="24" fill="rgba(240,187,64,1)"><path d="M12.0006 18.26L4.94715 22.2082L6.52248 14.2799L0.587891 8.7918L8.61493 7.84006L12.0006 0.5L15.3862 7.84006L23.4132 8.7918L17.4787 14.2799L19.054 22.2082L12.0006 18.26Z"></path></svg>
-                            <svg viewBox="0 0 24 24" width="24" height="24" fill="rgba(240,187,64,1)"><path d="M12.0006 18.26L4.94715 22.2082L6.52248 14.2799L0.587891 8.7918L8.61493 7.84006L12.0006 0.5L15.3862 7.84006L23.4132 8.7918L17.4787 14.2799L19.054 22.2082L12.0006 18.26Z"></path></svg>
+                        <p className='gray'><b> {popMetaData?.product_name} </b> ({popMetaData?.variant_name || ""}) </p>
+                        <span className=' d-flex gap-1'>
+                            {[...Array(5)].map((_, index) => {
+                                const starValue = index + 1;
+                                return (
+                                    <span
+                                        key={index}
+                                        onClick={() => setRating(starValue)}
+                                        style={{ cursor: 'pointer', color: starValue <= rating ? 'gold' : 'gray', fontSize: "30px" }}
+                                    >
+                                        ★
+                                    </span>
+                                );
+                            })}
                         </span>
                     </div>
                 </div>
@@ -87,7 +144,7 @@ function WriteReviews() {
                                 const imageUrl = item ? URL.createObjectURL(item) : "";
                                 return (
                                     <div key={index} className='image-upload-review border h-100 p-2 position-relative'>
-                                        <span className='close-icon' onClick={()=>{
+                                        <span className='close-icon' onClick={() => {
                                             deleteImage(index)
                                         }}>
                                             <svg width="10" height="10" viewBox="0 0 16 16" fill="none" >
@@ -103,8 +160,10 @@ function WriteReviews() {
                     </div>
                 </div>
                 <div className='d-flex justify-content-end gap-3'>
-                    <button className='c-btn bg-black text-light'>Cancel</button>
-                    <button className='c-btn bg-voilet text-light'>Add Now</button>
+                    <button className='c-btn bg-black text-light' onClick={() => {
+                        dispatch(handlePopup({}, "Add_Review", false))
+                    }}>Cancel</button>
+                    <button className='c-btn bg-voilet text-light' onClick={fetchData}>Add Now</button>
                 </div>
             </div>
         </div>

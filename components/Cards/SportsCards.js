@@ -1,22 +1,23 @@
 import React from 'react'
+import { baseUrl } from '../../utils/urls';
 
-function SportsCards() {
+function SportsCards({ detials }) {
     return (
         <div className='sports-Cards p-3 d-flex gap-4 align-items-center '>
             <div>
-                <img src='assets/images/stars.png' />
+                <img src={baseUrl+"/"+ detials?.image} />
             </div>
-            <div>
-                <h3 className='heading-one light-black'>
-                    Neeraj Chopra
+            <div className='position-relative'>
+                <h3 className='heading-one white-col'>
+                    {detials?.name}
                 </h3>
                 <p className='text-one py-2 light-black'>
-                    Men's javelin throw
+                    {detials?.expertise}
                 </p >
                 <p className='text-description'>
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                    {detials?.description}
                 </p>
+                <div className='bg'></div>
             </div>
         </div>
     )

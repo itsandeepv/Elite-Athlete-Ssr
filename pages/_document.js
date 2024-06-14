@@ -6,7 +6,8 @@ export default class CustomDocument extends Document {
     static async getInitialProps(context) {
         const initialProps = await Document.getInitialProps(context);
         const sheet = new ServerStyleSheet();
-        const page = context.renderPage((App) => (props) => sheet.collectStyles(<App {...props} />));
+        const page = await context.renderPage((App) => (props) => sheet.collectStyles(<App {...props} />));
+        // console.log(page, "<<<<<<<<<<Asdfa");
         const styleTags = sheet.getStyleElement();
         return { ...initialProps, ...page, styleTags, host: context.req ? context.req.hostname ? context.req.hostname : "" : "" };
     }
@@ -25,8 +26,9 @@ export default class CustomDocument extends Document {
                     <link rel="stylesheet" href={`${c.BASE_URL}/assets/styles/slick.min.css`} />
                     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
                     <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no" />
-                    <link rel="stylesheet" href={`${c.BASE_URL}/styles/style.css`} />
-                    <link rel="stylesheet" href={`${c.BASE_URL}/styles/responsive.css`} />
+                    <link rel="stylesheet" href={`${c.BASE_URL}/assets/styles/style.css`} />
+                    <link rel="stylesheet" href={`${c.BASE_URL}/assets/styles/responsive.css`} />
+                    <link rel="stylesheet" href={`${c.BASE_URL}/assets/styles/loader.css`} />
                     <link rel="shortcut icon" href={`${c.BASE_URL}/favicon.png`} />
                     <meta name="viewport" content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no,user-scalable=no,viewport-fit=cover" />
                 </Head>

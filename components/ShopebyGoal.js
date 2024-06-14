@@ -1,24 +1,37 @@
-import React from 'react'
+import React from 'react';
 import Slider from 'react-slick';
-import TopdealsCard from './Cards/TopDeals';
 import SectionsHeading from './Cards/SectionsHeading';
-import SportsCards from './Cards/SportsCards';
+import { baseUrl } from '../utils/urls';
 
-function ShopebyGoal() {
-    var settings = {
+const duplicateItems = (items, slidesToShow) => {
+    const itemsCount = items.length;
+    if (itemsCount >= slidesToShow) return items;
+
+    const duplicatedItems = [];
+    while (duplicatedItems.length < slidesToShow) {
+        duplicatedItems.push(...items);
+    }
+    return duplicatedItems.slice(0, slidesToShow);
+};
+
+function ShopebyGoal({ productSection }) {
+    const slidesToShow = 5;
+    const categories = productSection?.categories ? duplicateItems(productSection.categories, slidesToShow) : [];
+    const settings = {
         dots: false,
         infinite: true,
-        speed: 500,
-        slidesToShow: 6,
-        slidesToScroll: 6,
+        speed: 1000,
+        slidesToShow: slidesToShow,
+        autoplay: false,
+        slidesToScroll: 1,
         responsive: [
             {
                 breakpoint: 1024,
                 settings: {
                     slidesToShow: 4,
                     slidesToScroll: 1,
-                    infinite: true,
-                    dots: true
+                    infinite: false,
+                    dots: false
                 }
             },
             {
@@ -26,43 +39,48 @@ function ShopebyGoal() {
                 settings: {
                     slidesToShow: 2,
                     slidesToScroll: 1,
-                    initialSlide: 1
+                    initialSlide: 1,
+                    centerMode: false,
                 }
             }
         ]
     };
-    const topArray = [1, 2, 3, 4, 5, 6]
+
     return (
         <div className='container-fluid home-sections bg-light'>
-            <SectionsHeading title="Shop by goal" subTitle="Visit our shop to see amazing creations from our Gym house" />
+            <SectionsHeading 
+                title={productSection?.product_section_name || "title"} 
+                subTitle={productSection?.description || "Visit our shop to see amazing creations from our Gym house"} 
+            />
             <div className='row'>
                 <div className='col'>
                     <div className='row'>
                         <Slider {...settings}>
-                            {
-                                topArray?.map((item, index) => {
-                                    return (
-                                        <div key={index} className='col-lg-2 col-md-4 p-3'>
-                                            <div className='goals-card'>
-                                                <img src='assets/images/stars.png' className='img-fluid category-image' alt='img' />
-                                                <div className='card-content'>
-                                                    <h5>Weight Lose</h5>
-                                                    <p>
-                                                        50 Items
-                                                    </p>
-                                                </div>
+                            {categories.map((item, index) => (
+                                <div key={index} className='col-lg-2 col-md-4 p-3'>
+                                    <a href={`/all-product?type=category&id=${item?.id}`}>
+                                        <div className='goals-card'>
+                                            <img 
+                                                src={baseUrl + "/" + (item?.image || 'assets/images/stars.png')} 
+                                                className='img-fluid category-image' 
+                                                alt='img' 
+                                            />
+                                            <div className='card-content'>
+                                                <h5>{item?.name || "category name"}</h5>
+                                                <p>
+                                                    {/* {item?.item_count} */}
+                                                </p>
                                             </div>
                                         </div>
-
-                                    )
-                                })
-                            }
+                                    </a>
+                                </div>
+                            ))}
                         </Slider>
                     </div>
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
-export default ShopebyGoal
+export default ShopebyGoal;

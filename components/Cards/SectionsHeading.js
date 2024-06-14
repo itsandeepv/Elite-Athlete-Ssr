@@ -3,9 +3,10 @@ import React from 'react'
 function SectionsHeading({ title, subTitle }) {
     return (
 
-        <div className='col top-deals py-3 flex-column align-items-center'>
+        <div className='col top-deals py-3 flex-column align-items-center '>
             <div className="heading">
                 <h2 className='text-center'>{title}</h2>
+                <div className="u-line"></div>
             </div>
                 {
                     subTitle &&

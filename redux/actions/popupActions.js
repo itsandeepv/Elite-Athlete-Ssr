@@ -6,7 +6,6 @@ export const showPopup = (popupdata,popName , isOpen) => ({
 });
 
 export const handlePopup = (data ,popName , isOpen) => {
-    console.log(data);
     return (dispatch) => {
         dispatch(showPopup(data,popName , isOpen));
     };

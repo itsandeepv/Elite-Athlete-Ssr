@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
-import styled from "styled-components";
 import c from "@constants/Common";
 import colors from '@constants/Colors';
 import ShopebyGoal from '@components/ShopebyGoal';
@@ -10,16 +9,33 @@ import ProductSlide from '@components/ProductContent/ProductSlide';
 import TopBrandsSection from '@components/TopBrandsSection';
 import TopStarsSection from '@components/TopStarsSection';
 import Layout from '@components/Layouts/Layout';
+import { baseUrl } from '@utils/urls';
+import HomeBanner from '@components/ProductContent/HomeBanner';
+import axios from 'axios';
 import TopBrands from '@components/Modal/TopBrands';
-const MainWrap = styled.div`
-    background:${colors.white};text-align:center;padding:0 20px;font-size:20px;text-align:center;display:flex;justify-content:center;align-items:center;flex-direction:column;min-height:100vh;
-    & img{max-width:300px;width:100%;}
-    & h1{font-size:50px;font-weight:300;text-align:center;margin:0;}
-    & p{font-weight:300;}
-`;
-const HomePage = () => {
+
+const HomePage = ({ topdealdata, homeBannerdata, shopbydata ,starsdata }) => {
     useEffect(() => {
         window.scrollTo(0, 0);
+    }, []);
+
+    // console.log(starsdata, "<<<<<<<<<<productSection");
+    const [productSection, setProductSection] = useState(shopbydata || []);
+    const [loading, setLoading] = useState(true);
+    const fetchData = async () => {
+        try {
+            const res = await axios.get(`${baseUrl}/api/get-product-sections-with-item-count`);
+            if (res.status === 200) {
+                setProductSection(res.data.result);
+                setLoading(false);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
     }, []);
     return (
         <React.Fragment>
@@ -38,15 +54,49 @@ const HomePage = () => {
                 <link rel="canonical" href={`${c.BASE_URL}`} />
             </Head>
             <Layout>
-                <ShopebyGoal />
-                <TopdealSection />
-                <ShopebySports />
+                <HomeBanner homeBannerdata={homeBannerdata} />
+                <TopdealSection topdealdata={topdealdata} />
+                <ShopebyGoal productSection={productSection[0]} />
                 <ProductSlide />
-                <TopBrandsSection />
-                {/* <TopStarsSection /> */}
-                <TopBrands/>
+                {productSection.slice(1).map((item) => (
+                    <ShopebyGoal key={item.id} productSection={item} />
+                ))}
+                <TopBrandsSection starsdata={starsdata} />
+                <TopBrands />
             </Layout>
         </React.Fragment>
     );
 }
+
+export async function getServerSideProps() {
+
+    let homeBannerdata;
+    let topdealdata;
+    let shopbydata;
+    let starsdata;
+    await axios.get(`${baseUrl}/api/get-slider`).then((res) => {
+        if (res.status == 200) {
+            homeBannerdata = res.data.result
+        }
+    }).catch((err) => { console.log(err) })
+    await axios.get(`${baseUrl}/api/get-all-products-by-top-deal`).then((res) => {
+        topdealdata = res.data.result
+    }).catch((err) => { console.log(err); })
+    await axios.get(`${baseUrl}/api/get-sport-stars`).then((res) => {
+        starsdata = res.data.result
+    }).catch((err) => { console.log(err); })
+    try {
+        const res = await axios.get(`${baseUrl}/api/get-product-sections-with-item-count`);
+        if (res.status === 200) {
+            shopbydata = res.data.result
+        }
+    } catch (err) {
+        console.log(err);
+    }
+    // console.log(productSection ,res , "<<<<<<<productSection");
+    return { props: { homeBannerdata, topdealdata, shopbydata ,starsdata } }
+}
+
+
+
 export default HomePage;
