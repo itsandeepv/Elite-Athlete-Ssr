@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
-import { hasValidationError, validatedFields, validationError } from '../../helpers/frontend'
-import { baseUrl } from '../../utils/urls';
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { addUserAddress } from '../../redux/actions/userDetailsActions';
-import Loader from './Loader';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { baseUrl } from '@utils/urls';
+import { addUserAddress } from '@redux/actions/userDetailsActions';
+import { hasValidationError, validatedFields, validationError } from '@helpers/frontend';
 
 function AddAddress({ setshowPopup, metadata }) {
     const [errors, setErrors] = useState([]);
@@ -40,7 +41,6 @@ function AddAddress({ setshowPopup, metadata }) {
         } else {
             setFormData((prev) => ({ ...prev, [name]: value }))
         }
-    
     }
 
     const validateInput = ["name", "pincode", "mobile", "city", "state", "address"]
@@ -51,6 +51,43 @@ function AddAddress({ setshowPopup, metadata }) {
         dispatch(addUserAddress(config, setshowPopup))
     }
 
+    const [addData, setaddDaata] = useState()
+    const handlePincode = async (e) => {
+        const { name, value } = e.target
+        if (value?.length >= 6) {
+            await axios.get(`https://api.postalpincode.in/pincode/${value}`).then((res) => {
+                if (res.status == 200) {
+                    let resN = res.data[0]
+                    if (resN?.Status == 404 || resN?.Status == "Error") {
+                        toast.error(resN?.Message)
+                    } else {
+                        setaddDaata(resN)
+                        // console.log(resN, "<<resN<<<<asdf");
+                        setTimeout(() => {
+                            setFormData((preD) => ({
+                                ...preD,
+                                city: resN?.PostOffice[0]?.District,
+                                state: resN?.PostOffice[0]?.State,
+                                country: resN?.PostOffice[0]?.Country,
+                            }))
+                        }, 50);
+
+                    }
+                }
+                // console.log(res, "<<<<<<asdf");
+            }).catch((err) => {
+                console.log(err);
+            })
+
+        }
+
+    }
+
+    useEffect(()=>{
+        if(metadata?.data?.pincode){
+            handlePincode({target:{value:metadata?.data?.pincode}})
+        }
+    },[])
 
     return (
         <form className='login-details add-address' onSubmit={(e) => { onSubmit(e) }} >
@@ -88,14 +125,21 @@ function AddAddress({ setshowPopup, metadata }) {
                     <div className='col-lg-4'>
                         <div className="form-contr">
                             <label htmlFor="number">Mobile Number*</label>
-                            <input type="number" id='number' name='mobile' value={formData?.mobile} onChange={(e) => onChangeHandle(e)} placeholder='Enter your Mobile Number' />
-                            {hasValidationError(errors, "mobile") ? (<span style={{ color: "red", fontSize: "12px" }} className="has-cust-error">{formData?.mobile == "" && validationError(errors, "mobile")}</span>) : null}
+                            <input type="number" id='number' name='mobile' value={formData?.mobile} onChange={(e) => {
+                                if(e.target.value?.length <= 10){onChangeHandle(e)}
+                            }} placeholder='Enter your Mobile Number'  />
+                            {hasValidationError(errors, "mobile") && (<span style={{ color: "red", fontSize: "12px" }} className="has-cust-error">{ validationError(errors, "mobile")}</span>) }
                         </div>
                     </div>
                     <div className='col-lg-4'>
                         <div className="form-contr">
                             <label htmlFor="email">Pincode*</label>
-                            <input type="number" id='email' name='pincode' value={formData?.pincode} onChange={(e) => onChangeHandle(e)} placeholder='Enter your pincode' />
+                            <input type="number" id='email' name='pincode' value={formData?.pincode} onChange={(e) => {
+                                if(e.target.value?.length <= 6){
+                                    onChangeHandle(e)
+                                    handlePincode(e)
+                                }
+                            }} placeholder='Enter your pincode' maxLength={6} />
                             {hasValidationError(errors, "pincode") ? (<span style={{ color: "red", fontSize: "12px" }} className="has-cust-error">{formData?.pincode == "" && validationError(errors, "pincode")}</span>) : null}
                         </div>
                     </div>
@@ -108,20 +152,31 @@ function AddAddress({ setshowPopup, metadata }) {
                 <div className='row py-lg-2'>
                     <div className='col-lg-4'>
                         <div className="form-contr">
+                            <label htmlFor="email">Locality/Town*</label>
+                            <select id='email' name='locality' value={formData?.locality} onChange={(e) => onChangeHandle(e)}>
+                                <option value="" selected >Select </option>
+                                {
+                                    addData?.PostOffice?.map((item , index)=>{
+                                        return(
+                                            <option value={item?.Name} key={index}>{item?.Name}</option>
+                                        )
+                                    })
+                                }
+                            </select>
+                            {/* <input type="text" id='email' name='locality' value={formData?.locality} onChange={(e) => onChangeHandle(e)} placeholder='Enter your Town' /> */}
+                            {/* {hasValidationError(errors, "locality") ? (<span style={{ color: "red", fontSize: "12px" }} className="has-cust-error">{formData?.locality == "" && validationError(errors, "locality")}</span>) : null} */}
+
+                        </div>
+                    </div>
+                    <div className='col-lg-4'>
+                        <div className="form-contr">
                             <label htmlFor="number">City*</label>
                             <input type="text" id='number' name='city' value={formData?.city} onChange={(e) => onChangeHandle(e)} placeholder='Enter your City' />
                             {hasValidationError(errors, "city") ? (<span style={{ color: "red", fontSize: "12px" }} className="has-cust-error">{formData?.city == "" && validationError(errors, "city")}</span>) : null}
 
                         </div>
                     </div>
-                    <div className='col-lg-4'>
-                        <div className="form-contr">
-                            <label htmlFor="email">Locality/Town*</label>
-                            <input type="text" id='email' name='locality' value={formData?.locality} onChange={(e) => onChangeHandle(e)} placeholder='Enter your Town' />
-                            {/* {hasValidationError(errors, "locality") ? (<span style={{ color: "red", fontSize: "12px" }} className="has-cust-error">{formData?.locality == "" && validationError(errors, "locality")}</span>) : null} */}
 
-                        </div>
-                    </div>
                     <div className='col-lg-4'>
                         <div className="form-contr">
                             <label htmlFor="email">Country*</label>

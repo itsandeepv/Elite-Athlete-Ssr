@@ -1,7 +1,7 @@
 const config = require("./../config");
 
 module.exports = {
-    APP_NAME: config.APP_NAME,
+    APP_NAME: "Suppkart",
     AWSSNS: {
         accessKeyId: config.AWS.key,
         secretAccessKey: config.AWS.secret,

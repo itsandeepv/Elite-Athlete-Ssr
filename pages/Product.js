@@ -164,7 +164,7 @@ function Product({pageProps}) {
         <React.Fragment>
              <Head>
                 <meta charset="utf-8" />
-                <title>Home-Products</title>
+                <title>{c.APP_NAME}</title>
                 <meta name="description" content={"all product"} />
                 <meta name="author" content={c.APP_NAME} />
                 <meta property="og:url" content={c.BASE_URL} />

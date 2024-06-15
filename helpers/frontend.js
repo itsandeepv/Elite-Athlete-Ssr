@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 
 export const limitText = (text,limit = 500) => {
     let newText = text;
@@ -58,9 +59,19 @@ export const formatPhoneNumber = (phoneNumberString)  => {
 export  const validatedFields = (formdata , inputArray ,setErrors) => {
     const newError = {};
     let positionFocus = "";
-    var regex = /^[0-9]+$/
     inputArray?.map((inputname)=>{
-        if(inputname == "cpassword" ){
+        var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        if(inputname == "email" ){
+            console.log(regex.test(formdata["email"]) , "<<regex.test(formdata]");
+            if (!formdata["email"] || !formdata["email"].trim()) {
+                newError["email"] = "Fill email address ";
+                positionFocus = positionFocus || "email"
+            }else if(!regex.test(formdata["email"])){
+                toast.error("Enter a valid email")
+                newError["email"] = "Enter a valid email ";
+                positionFocus = positionFocus || "email"
+            }
+        }else if(inputname == "cpassword" ){
             if (!formdata["cpassword"] || !formdata["cpassword"].trim()) {
                 newError["cpassword"] = "Confirm  password Required";
                 positionFocus = positionFocus || "cpassword"
@@ -77,16 +88,16 @@ export  const validatedFields = (formdata , inputArray ,setErrors) => {
                 newError["password"] = "Password length should be greater then 8 ";
                 positionFocus = positionFocus || "password"
             }
-        }else if(inputname == "phone"){
+        }else if(inputname == "phone" || inputname == "mobile"){
             var regex = /^[6-9]\d{9}$/;
-            // console.log(regex.test(formdata["phone"]) , "<<<<<<<number validate");
-            if (!formdata["phone"] || !formdata["phone"].trim()) {
-                newError["phone"] = "Phone number is Required";
-                positionFocus = positionFocus || "phone"
-            }else if(!regex.test(formdata["phone"]) ){
+            console.log(formdata[inputname] , "<<<<<<<number validate");
+            if (!formdata[inputname] || !formdata[inputname].trim()) {
+                newError[inputname] = "Phone number is Required";
+                positionFocus = positionFocus || inputname
+            }else if(!regex.test(formdata[inputname]) ){
                 //  console.log(formdata["phone"].length , "<<<<<<<formdata");
-                newError["phone"] = "Please enter a valid number ";
-                positionFocus = positionFocus || "phone"
+                newError[inputname] = "Please enter a valid number ";
+                positionFocus = positionFocus || inputname
             }
         }else{
             if (!formdata[inputname] || !formdata[inputname].trim()) {
@@ -116,9 +127,9 @@ const TruncatedText = ({ text, maxLength }) => {
   export default TruncatedText;
   
 
-  export  const formatCurrency = (number, currencySymbol = '₹') => {
+  export  const formatCurrency = (number, currencySymbol = 'Rs.') => {
     // Check if the input is a valid number
-    if (isNaN(number)) { return ''; }
+    if (isNaN(number) || number === undefined || number === 0) { return ''; }
     // Convert the number to a string and split it into integer and decimal parts
     const parts = number.toFixed(2).toString().split('.');
     const integerPart = parts[0];
@@ -128,5 +139,20 @@ const TruncatedText = ({ text, maxLength }) => {
     for (let i = integerPart.length - 1, j = 0; i >= 0; i--, j++) {
       formattedIntegerPart = integerPart[i] + (j > 0 && j % 3 === 0 ? ',' : '') + formattedIntegerPart;
     }
-    return currencySymbol + formattedIntegerPart + '.' + decimalPart;
+    return currencySymbol + formattedIntegerPart ;
   };
+
+
+
+  export function formatDate(inputDateStr) {
+    var inputDateParts = inputDateStr.split('-');
+    var inputDate = new Date(inputDateParts[2], inputDateParts[1] - 1, inputDateParts[0]); // Month is 0-based
+
+    var day = inputDate.toLocaleString('en-us', { weekday: 'short' });
+    var month = inputDate.toLocaleString('en-us', { month: 'short' });
+    var dayOfMonth = inputDate.getDate();
+    var year = inputDate.getFullYear();
+    var time = inputDate.toLocaleTimeString('en-US', { hour12: false });
+
+    return `${day} ${month} ${dayOfMonth} ${year} ${time} GMT${inputDate.getTimezoneOffset() > 0 ? '-' : '+'}${Math.abs(inputDate.getTimezoneOffset() / 60).toString().padStart(2, '0')}${Math.abs(inputDate.getTimezoneOffset() % 60).toString().padStart(2, '0')} (India Standard Time)`;
+  }

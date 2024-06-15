@@ -68,135 +68,132 @@ function Footer() {
 
   return (
     <footer>
-      <div className="container-fluid">
-        <div className="row justify-content-between">
-          <div className="col-lg-4">
-            <div className="d-flex all-imhgs">
-              <img
-                src={"/footer/Group-1261154105.png"}
-                alt="logo"
-                className="logo-img"
-              />
-              <img
-                src={"/footer/Group-1261154110.png"}
-                alt="logo"
-                className="logo-img"
-              />
-              <img
-                src={"/footer/Group-1261154107.png"}
-                alt="logo"
-                className="logo-img"
-              />
-              <img
-                src={"/footer/certified-Icon.png"}
-                alt="logo"
-                className="logo-img"
-              />
-              <img
-                src={"/footer/last-icn.png"}
-                alt="logo"
-                className="logo-img"
-              />
-            </div>
+    <div className="container-fluid">
+      <div className="row justify-content-between">
+        <div className="col-lg-4">
+          <div className="d-flex all-imhgs">
+            <img
+              src={"/footer/fssai.png"}
+              alt="logo"
+              className="logo-img"
+            />
+            <img
+              src={"/footer/secure.png"}
+              alt="logo"
+              className="logo-img"
+            />
+            <img
+              src={"/footer/authentic.png"}
+              alt="logo"
+              className="logo-img"
+            />
+            <img
+              src={"/footer/certified-Icon.png"}
+              alt="logo"
+              className="logo-img"
+            />
+            <img
+              src={"/footer/last-icn.png"}
+              alt="logo"
+              className="logo-img"
+            />
+          </div>
+          <p>
+            {footerData?.result?.address || `BEYOND JUST WORK, B-38, Old DLF Colony, Sector 14, Gurugram,
+            Haryana 122001`}
+          </p>
+          <p>Call us : <a href={`mobileTo:${footerData?.result?.call_us}`}>{footerData?.result?.call_us || "+91 91078888088"}</a> </p>
+          <p>Email : <a href={`mailto:${footerData?.result?.admin_mail}`}>{footerData?.result?.admin_mail || "contact@gmail.com"}</a>  </p>
+          <div className="links-icon">
+
+            {
+              footerData?.socialLinks?.length > 0 && footerData?.socialLinks?.map((item, index) => {
+                return (
+                  <a href={item?.url} key={index}>
+                    <i className={`fa-brands fa-${item?.name?.toLowerCase()}`}></i>
+                  </a>
+                )
+              })
+            }
+            {/* <a href="#">
+              <i className="fa-brands fa-twitter"></i>
+            </a>
+            <a href="#">
+              <i className="fa-brands fa-linkedin"></i>
+            </a> */}
+            {/* <a href="#">
+              <i className="fa-brands fa-pinterest"></i>
+            </a>
+            <a href="#">
+              <i className="fa-brands fa-instagram"></i>
+            </a> */}
+          </div>
+        </div>
+
+        <div className="col-lg-2">
+          <h5>Information</h5>
+          <ul>
+            <li>
+              <a href="/aboutus">About us</a>
+            </li>
+            {
+              pageData?.filter((item) => item?.page_type == "information")?.map((item, index) => {
+                return (
+                  <li key={index}>
+                    <a href={`/pages?pagename=${item?.slug}`}>{item?.title}</a>
+                  </li>
+                )
+              })
+            }
+            {/* <li>
+              <a href="#">Contact us</a>
+            </li> */}
+          </ul>
+        </div>
+        <div className="col-lg-2">
+          <h5>Customer Service</h5>
+          <ul>
+                  <li>
+                    <a href={`/contact`}>Contact us</a>
+                  </li>
+            {
+              pageData?.filter((item) => item?.page_type == "customer_service")?.map((item, index) => {
+                return (
+                  <li key={index}>
+                    <a href={`/pages?pagename=${item?.slug}`}>{item?.title}</a>
+                  </li>
+                )
+              })
+            }
+
+          </ul>
+        </div>
+        <div className="col-lg-3">
+          <h5>Newsletter Sign Up</h5>
+          <p>Receive our latest updates about our products and promitions.</p>
+          {hasValidationError(errors, "email") ? (<span style={{ color: "red", fontSize: "12px" }} className="has-cust-error">{formData?.email == "" && validationError(errors, "email")}</span>) : null}
+          <div className="search-container">
+            <form onSubmit={handleSubmit} className='w-100'>
+              <input type="email" id='email' name='email' value={formData?.email} onChange={(e) => onChangeHandle(e)} placeholder='Enter your email' style={hasValidationError(errors, "email") ? { borderBottom: "2px solid red" } : {}} />
+              <button type="submit" disabled={isButtonDisabled}>Subscribe</button>
+            </form>
+          </div>
+          <div className="checkbox">
+            <input type="checkbox" name="check" id="check" required defaultChecked />
             <p>
-              {footerData?.result?.address || `BEYOND JUST WORK, B-38, Old DLF Colony, Sector 14, Gurugram,
-              Haryana 122001`}
+              I agree with the Terms of Use and Privacy Policy and I declare
+              that I have read thee information is required in accordance with
+              Article 13 of GDPR
             </p>
-            <p>Call us : <a href={`mobileTo:${footerData?.result?.call_us}`}>{footerData?.result?.call_us || "+91 91078888088"}</a> </p>
-            <p>Email : <a href={`mailto:${footerData?.result?.admin_mail}`}>{footerData?.result?.admin_mail || "contact@gmail.com"}</a>  </p>
-            <div className="links-icon">
-
-              {
-                footerData?.socialLinks?.length > 0 && footerData?.socialLinks?.map((item, index) => {
-                  return (
-                    <a href={item?.url} key={index}>
-                      <i className={`fa-brands fa-${item?.name?.toLowerCase()}`}></i>
-                    </a>
-                  )
-                })
-              }
-              {/* <a href="#">
-                <i className="fa-brands fa-twitter"></i>
-              </a>
-              <a href="#">
-                <i className="fa-brands fa-linkedin"></i>
-              </a> */}
-              {/* <a href="#">
-                <i className="fa-brands fa-pinterest"></i>
-              </a>
-              <a href="#">
-                <i className="fa-brands fa-instagram"></i>
-              </a> */}
-            </div>
-          </div>
-
-          <div className="col-lg-2">
-            <h5>Information</h5>
-            <ul>
-              <li>
-                <a href="/aboutus">About us</a>
-              </li>
-              {
-                pageData?.filter((item) => item?.page_type == "information")?.map((item, index) => {
-                  return (
-                    <li key={index}>
-                      <a onClick={()=>{
-                        window.location = `/pages?pagename=${item?.slug}`
-                      }} href="#">{item?.title}</a>
-                    </li>
-                  )
-                })
-              }
-              {/* <li>
-                <a href="#">Contact us</a>
-              </li> */}
-            </ul>
-          </div>
-          <div className="col-lg-2">
-            <h5>Customer Service</h5>
-            <ul>
-              {
-                pageData?.filter((item) => item?.page_type == "customer_service")?.map((item, index) => {
-                  return (
-                    <li key={index}>
-                      <a href='#' onClick={()=>{
-                        window.location = `/pages?pagename=${item?.slug}`
-                      }}
-                      // href={`/pages?pagename=${item?.slug}`}
-                      >{item?.title}</a>
-                    </li>
-                  )
-                })
-              }
-
-            </ul>
-          </div>
-          <div className="col-lg-3">
-            <h5>Newsletter Sign Up</h5>
-            <p>Receive our latest updates about our products and promitions.</p>
-            {hasValidationError(errors, "email") ? (<span style={{ color: "red", fontSize: "12px" }} className="has-cust-error">{formData?.email == "" && validationError(errors, "email")}</span>) : null}
-            <div className="search-container">
-              <form onSubmit={handleSubmit} className='w-100'>
-                <input type="email" id='email' name='email' value={formData?.email} onChange={(e) => onChangeHandle(e)} placeholder='Enter your email' style={hasValidationError(errors, "email") ? { borderBottom: "2px solid red" } : {}} />
-                <button type="submit" disabled={isButtonDisabled}>Subscribe</button>
-              </form>
-            </div>
-            <div className="checkbox">
-              <input type="checkbox" name="check" id="check" required defaultChecked />
-              <p>
-                I agree with the Terms of Use and Privacy Policy and I declare
-                that I have read thee information is required in accordance with
-                Article 13 of GDPR
-              </p>
-            </div>
           </div>
         </div>
       </div>
-      <div className="container-fluid copyright">
-        <p>SuppKart {footerData?.result?.copyright ? footerData?.result?.copyright : "© 2024. All Rights Reserved"}</p>
-        <img src="assets/icons/payment-icon.png" alt="payment"  style={{maxWidth:"220px"}}/>
-      </div>
-    </footer>
+    </div>
+    <div className="container-fluid copyright">
+      <p>SuppKart {footerData?.result?.copyright ? footerData?.result?.copyright : "© 2024. All Rights Reserved"}</p>
+      <img src="assets/icons/payment-icon.png" alt="payment"  style={{maxWidth:"220px"}}/>
+    </div>
+  </footer>
   );
 }
 

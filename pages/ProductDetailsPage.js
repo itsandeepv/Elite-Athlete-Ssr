@@ -450,9 +450,7 @@ export async function getServerSideProps(context) {
     // if (data && data.category_id) {
     const category_id = { category_id: productdetails.category_id };
     await axios.post(`${baseUrl}/api/get-product-by-category`, category_id).then((response) => {
-        // console.log(response.data);
         if (response.data.responseCode === 200) {
-            // setData(response.data.result);
             relatedProduct = response.data.result
         }
     }).catch((err) => {

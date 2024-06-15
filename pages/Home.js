@@ -51,7 +51,7 @@ const HomePage = ({ topdealdata, homeBannerdata, shopbydata ,starsdata }) => {
                 <meta property="og:url" content={c.BASE_URL} />
                 <meta property="og:site_name" content={c.APP_NAME} />
                 <meta property="og:image" content={`${c.BASE_URL}/assets/images/logo.png`} />
-                <link rel="canonical" href={`${c.BASE_URL}`} />
+                <link rel="canonical" href={`${baseUrl}`} />
             </Head>
             <Layout>
                 <HomeBanner homeBannerdata={homeBannerdata} />

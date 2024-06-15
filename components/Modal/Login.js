@@ -1,16 +1,9 @@
+import { hasValidationError, validatedFields, validationError } from "@helpers/frontend";
 import React, { useEffect, useState } from "react";
-import {
-  hasValidationError,
-  validatedFields,
-  validationError,
-} from "../../helpers/frontend";
-import { handlePopup } from "../../redux/actions/popupActions";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchFailure, userLogin } from "../../redux/actions/userAuthActions";
-import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { baseUrl } from "../../utils/urls";
 import LoaderSmall from "./LoaderSmall";
+import { userLogin } from "@redux/actions/userAuthActions";
 
 function Login({ setShowpopup }) {
   const { userData } = useSelector((state) => state);
@@ -18,10 +11,9 @@ function Login({ setShowpopup }) {
   const [errors, setErrors] = useState([]);
   const [isPassText, setIsPassText] = useState(false);
   const dispatch = useDispatch();
-  const { state } = useLocation();
   const { error } = useSelector((state) => state?.userData);
   const [formData, setFormData] = useState({
-    email: state?.userData?.email || "",
+    email:  "",
     password: "",
     phone: "",
   });
@@ -42,7 +34,7 @@ function Login({ setShowpopup }) {
       }));
     }
   };
-  const navigate = useNavigate();
+  const navigate = ()=>{};
   const onSubmit = (e) => {
     const fomatedDAta = /^\d+$/.test(formData.phone)
       ? { phone: formData.phone, password: formData?.password }
@@ -69,8 +61,9 @@ function Login({ setShowpopup }) {
         <span
           className="cross-icon"
           onClick={() => {
+            setShowpopup(false)
             // navigate(`${window.location?.pathname+window.location?.search}`, { state: { popName: "" } });
-            navigate(`${window.location?.pathname+window.location?.search}`, { replace: true });
+            // navigate(`${window.location?.pathname+window.location?.search}`, { replace: true });
           }}
         >
           <svg
@@ -173,15 +166,12 @@ function Login({ setShowpopup }) {
           className="text-center mt-2 mb-5"
           onClick={() => {
             // if (formData?.email != "") {
-            navigate("/", {
-              state: {
-                popName: "forgotPassword",
-                enteredEmail: formData?.email,
-              },
-            });
-            // } else {
-            //     toast.warning("Please Enter your registered email !")
-            // }
+            // navigate("/", {
+            //   state: {
+            //     popName: "forgotPassword",
+            //     enteredEmail: formData?.email,
+            //   },
+            // });
           }}
         >
           Forgot Password?
@@ -190,7 +180,7 @@ function Login({ setShowpopup }) {
           <p>Don’t have an account?</p>
           <a
             onClick={() => {
-              navigate(`${window.location?.pathname+window.location?.search}`, { state: { popName: "Signup" } });
+              // navigate(`${window.location?.pathname+window.location?.search}`, { state: { popName: "Signup" } });
               // dispatch(handlePopup({ test: "data" }, "Signup", true))
             }}
           >

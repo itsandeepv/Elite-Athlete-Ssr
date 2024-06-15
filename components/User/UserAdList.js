@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import AddAddress from '../Modal/AddAddress'
-import { NewServiceCall } from '../../utils/config'
-import { baseUrl } from '../../utils/urls'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import Loader from '../Modal/Loader'
-import { deleteUserAddress, getUserAddress } from '../../redux/actions/userDetailsActions'
+import { deleteUserAddress, getUserAddress } from '@redux/actions/userDetailsActions'
+import AddAddress from '@components/Modal/AddAddress'
+import { baseUrl } from '@utils/urls'
 
 function UserAdList() {
     const [showpopup, setshowPopup] = useState({
@@ -59,7 +58,7 @@ function UserAdList() {
         })
     }
 
-    console.log(userDetails ,"<<<<<<<<<<<<userDetails");
+    // console.log(userDetails ,"<<<<<<<<<<<<userDetails");
     return (
         <React.Fragment>
             <div className='section-details p-1'>
@@ -149,63 +148,6 @@ function UserAdList() {
                                         </div>
                                     </div>
 
-                                    {/* popup-address */}
-                                    {/* <div className="popup-address">
-                                        <div className='address-container'>
-                                            <div className='py-3'>
-                                                <div className='d-flex justify-content-between align-items-center'>
-                                                    <b> {item?.name} </b>
-                                                    <p className=' bg-voilet text-light py-1 px-2 bold-600'> {item?.address_type}</p>
-                                                </div>
-                                                <p className=' my-2 text-dark bold-600'>
-                                                    {item?.address} <br />
-                                                    {item?.locality}{"  -"} {item?.city}<br />
-                                                    {item?.state}
-                                                    ({item?.pincode})
-                                                </p>
-                                                <div className='w-100'>
-                                                    <div className=' '>
-                                                        <p>
-                                                            Mobile : <b>+91 {item?.mobile}</b>
-                                                        </p>
-                                                        {
-                                                            item.is_default == "yes" ?
-                                                                <div className='d-flex  align-items-center gap-3 pt-3'>
-                                                                    <button className='c-btn bg-dark text-light' onClick={() => {
-                                                                        setshowPopup({
-                                                                            isOpen: true,
-                                                                            data: item
-                                                                        })
-                                                                    }}>Edit</button>
-                                                                    <button className='c-btn bg-voilet text-light' onClick={() => {
-                                                                        deleteUserAdd(item?.id)
-                                                                    }} >Delete</button>
-                                                                </div> :
-                                                                <div className='d-lg-flex justify-content-between align-items-center pt-3'>
-                                                                    <div className='d-flex  align-items-center gap-3 '>
-                                                                        <button className='c-btn bg-dark text-light' onClick={() => {
-                                                                            setshowPopup({
-                                                                                isOpen: true,
-                                                                                data: item
-                                                                            })
-                                                                        }}>Edit</button>
-                                                                        <button className='c-btn bg-voilet text-light' onClick={() => {
-                                                                            deleteUserAdd(item?.id)
-                                                                        }}>Delete</button>
-                                                                    </div>
-                                                                    <div className='d-flex  align-items-center gap-2'>
-                                                                        <input type='checkbox' checked={item.is_default == "yes"} onClick={() => {
-                                                                            makeDefault(item.id)
-                                                                        }} />
-                                                                        <p>Make this default address</p>
-                                                                    </div>
-                                                                </div>
-                                                        }
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div> */}
                                 </div>
 
                             )

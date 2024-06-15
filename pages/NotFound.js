@@ -1,24 +1,16 @@
-import React from 'react';
-import Head from 'next/head';
-import styled from "styled-components";
-import c from '@constants/Common';
-import colors from '@constants/Colors';
-const NotFoundWrap = styled.div`
-    max-width:${c.width};margin:0 auto;padding:40px 20px;display:flex;flex-direction:column;justify-content:center;align-items:center;height:100vh;box-sizing:border-box;
-    & p{margin:0;font-size:18px;color:${colors.black};}
-`;
-const NotFound = (props) => {
-    return (
-        <React.Fragment>
-            <Head>
-                <title>Page Not Found</title>
-            </Head>
-            <React.Fragment>
-                <NotFoundWrap>
-                    <p>We are Sorry. The Page You're Looking for Can't be Found.</p>
-                </NotFoundWrap>
-            </React.Fragment>
-        </React.Fragment>
-    );
+import Layout from '@components/Layouts/Layout'
+import React from 'react'
+
+function NotFound() {
+  return (
+    <Layout>
+    <div className='not-found' style={{Width:"100%" , overflow:"hidden"}}>
+      <img src="assets/images/page-not-found.webp" alt="" style={{maxHeight:"400px"}} />
+      <p className='my-3 text-center'>Unfortunately the page you are looking for has been moved or deleted</p>
+      <a href="/">GO TO HOMEPAGE</a>
+    </div>
+    </Layout>
+  )
 }
-export default NotFound;
+
+export default NotFound

@@ -1,18 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import Login from "../Modal/Login";
-import SignUp from "../Modal/SignUp";
 import { useDispatch, useSelector } from "react-redux";
 import Sidebar from "./Sidebar";
-import ResetPassword from "../Modal/ResetPassword";
-import { fetchSuccess } from "../../redux/actions/userAuthActions";
-// import { useLocation, useNavigate } from "react-router-dom";
-import { getCartListCount } from '../../redux/actions/CartListCountActions';
 import Cookies from 'js-cookie';
 import axios from 'axios';
-import { getUserdata } from '../../redux/actions/userDataActions';
+import { useRouter } from 'next/router';
+import Login from '@components/Modal/Login';
+import { getCartListCount } from '@redux/actions/CartListCountActions';
+import { getUserdata } from '@redux/actions/userDataActions';
 
 function Header() {
-
+  const router = useRouter();
   const { userData, userData2 } = useSelector((state) => state)
   const { categoryData } = useSelector((state) => state)
   const dispatch = useDispatch()
@@ -20,8 +17,6 @@ function Header() {
   const [cartCount, setCartCount] = useState()
   const [showProfile, setShowprofile] = useState(false)
   const [openSidebar, setopenSidebar] = useState(false)
-  const navigate = ()=>{}
-  const { state } = ()=>{}
   const { cartListCountData } = useSelector((state) => state.cartListCountData)
   const { cartWishListCountData } = useSelector((state) => state?.cartWishListCountData)
   const [loading, setLoading] = useState(false);
@@ -52,7 +47,7 @@ function Header() {
     setsearchvalue(e.target.value)
     console.log(searchvalue, e.target.value);
     if (e.target.value.length >= 2) {
-      await axios.get(`https://ean.gocoolcare.com/api/suggest-product?query=${e.target.value}`).then((res) => {
+      await axios.get(`${baseUrl}/api/suggest-product?query=${e.target.value}`).then((res) => {
         // console.log("res?.data>>>>>>>>", res?.data);
         if (res?.status == 200) {
           setsearchSuggestions(res?.data?.data)
@@ -71,6 +66,17 @@ function Header() {
     }
   }, [])
 
+  const handleNavigation = (path) => {
+    const { pathname, search } = window.location;
+    const query = new URLSearchParams(search);
+    router.push({
+      pathname,
+      query: {
+        ...Object.fromEntries(query.entries()),
+        popName: path
+      }
+    });
+  };
   // console.log(userData2, "<<<<<userData2");
 
   return (
@@ -84,7 +90,7 @@ function Header() {
           <div className="middle">
             <img src="assets/icons/hamburger.svg" onClick={() => { setopenSidebar(true) }} alt="img" className="hamburger" />
             <div className="search-container">
-              {/* <i className="fa-solid fa-magnifying-glass serchc"></i> */}
+              <i className="fa-solid fa-magnifying-glass serchc"></i>
               <select onChange={handleProductChange}>
                 <option value='' selected disabled>All Categories</option>
                 {categoryData?.categoryData?.map((item) => (
@@ -122,13 +128,15 @@ function Header() {
           </div>
 
           <div className="right">
-            <a onClick={() => {
+            <a  onClick={() => {
               if (userData.token) {
-                navigate("/cart")
+                // navigate("/cart")
+                window.location = "/cart"
               } else {
-                navigate(`${window.location?.pathname+window.location?.search}`, {
-                  state: { popName: "Sigin" }
-                })
+
+                // navigate(`${window.location?.pathname+window.location?.search}`, {
+                //   state: { popName: "Sigin" }
+                // })
               }
             }}>
               <i className="fa-solid fa-cart-shopping"></i>
@@ -141,11 +149,11 @@ function Header() {
 
             <a onClick={() => {
               if (userData.token) {
-                navigate("/wish-list")
+                window.location = "/wish-list"
               } else {
-                navigate(`${window.location?.pathname+window.location?.search}`, {
-                  state: { popName: "Sigin" }
-                })
+                // handleNavigation("Sigin")
+                // window.location = "/Sigin"
+                setShowpopup(true)
               }
             }}>
               <i className="fa-solid fa-heart"></i>
@@ -158,9 +166,10 @@ function Header() {
                 setShowprofile(!showProfile)
               }} className="sign-in"><i className="fa-solid fa-user"></i> <i className="fa-solid fa-chevron-down"></i></a> :
               <a onClick={() => {
-                navigate(`${window.location?.pathname+window.location?.search}`, {
-                  state: { popName: "Sigin" }
-                })
+                setShowpopup(true)
+                // navigate(`${window.location?.pathname+window.location?.search}`, {
+                //   state: { popName: "Sigin" }
+                // })
               }} className="sign-in"><i className="fa-solid fa-user"></i> </a>
             }
           </div>
@@ -175,9 +184,9 @@ function Header() {
           <div className="items">
             <a href="/wish-list"><img src="assets/icons/menu1.svg" alt="img" /> Wishlist</a>
             <a href='#' onClick={() => {
-              navigate("/user-dashboard", {
-                state: "Purchase History"
-              })
+              // navigate("/user-dashboard", {
+              //   state: "Purchase History"
+              // })
             }} ><img src="assets/icons/menu2.svg" alt="img" /> Order</a>
             <a href="/user-dashboard"><img src="assets/icons/menu3.svg" alt="img" /> Edit Profile</a>
             <a href="#"
@@ -191,16 +200,16 @@ function Header() {
         <div className="blank"></div>
       </header>
       {
-        (state?.popName == "Sigin" && !userData.token) &&
+        ( showPop && !userData.token) &&
         <Login setShowpopup={setShowpopup} />
       }
-      {
+      {/* {
         (state?.popName == "Signup" && !userData.token) &&
         <SignUp setShowpopup={setShowpopup} />}
       {
         state?.popName == "forgotPassword" &&
         <ResetPassword setShowpopup={setShowpopup} />
-      }
+      } */}
 
     </React.Fragment>
   );

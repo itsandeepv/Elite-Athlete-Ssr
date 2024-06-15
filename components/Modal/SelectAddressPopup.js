@@ -1,8 +1,7 @@
+import { deleteUserAddress } from "@redux/actions/userDetailsActions";
+import { baseUrl } from "@utils/urls";
 import React, { useState, useEffect } from "react";
-import "../../styles/style.css";
 import { useDispatch, useSelector } from "react-redux";
-import { baseUrl } from "../../utils/urls";
-import { deleteUserAddress } from "../../redux/actions/userDetailsActions";
 import { toast } from "react-toastify";
 
 function SelectAddressPopup({
@@ -79,10 +78,6 @@ function SelectAddressPopup({
                 </button>
               </div>
               {addressData?.map((item, index) => {
-                // console.log(item , "<<<<<<<item");
-                // if(item?.is_default == "yes"){
-                //   setuserAddress(item)
-                // }
                 return (
                   <div
                     key={index}

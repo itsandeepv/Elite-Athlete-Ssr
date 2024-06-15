@@ -17,8 +17,8 @@ intance.interceptors.response.use((response) => {
     return Promise.resolve(response);
 },async(error) => {
     if(error.response.data.status === 401){
-        localStorage.removeItem("regius-user-token");
-        localStorage.removeItem("regius-user-details");
+        // localStorage.removeItem("regius-user-token");
+        // localStorage.removeItem("regius-user-details");
         if(window.location.pathname !== "/"){
             window.location.href = '/';
         }else{
