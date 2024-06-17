@@ -13,14 +13,13 @@ import Layout from '@components/Layouts/Layout';
 import Loader from '@components/Modal/Loader';
 import Breadcrums from '@components/Breadcrums/Breadcrums';
 import LoaderSmall from '@components/Modal/LoaderSmall';
-// import ProductdetailsCard from '@components/Cards/ProductdetailsCard';
 import PropTypes from 'prop-types';
 import TopdealsCard from '@components/Cards/TopDeals';
 import ProductdetailsCard from '@components/Cards/ProductdetailsCard';
 
 function ProductDetailsPage({ productdetails, relatedProduct, productVarintdetails }) {
 
-    console.log("pageDataS", productdetails);
+    // console.log("pageDataS", productdetails);
     const [data, setData] = useState(productdetails || []);
     const [loading, setLoading] = useState(false);
     const [catProductData, setCatProductData] = useState(relatedProduct.products || []);

@@ -12,6 +12,7 @@ import CoupenPopupFalse from "@components/Modal/CoupenPopupFalse";
 import SelectAddressPopup from "@components/Modal/SelectAddressPopup";
 import { getUserAddress } from "@redux/actions/userDetailsActions";
 import { getCartListCount } from "@redux/actions/CartListCountActions";
+import LoaderSmall from "@components/Modal/LoaderSmall";
 
 function UserCart() {
   // const [checkCartData, setCheckCartData] = useState(false);

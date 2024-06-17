@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import LoaderSmall from "./LoaderSmall";
 import { userLogin } from "@redux/actions/userAuthActions";
+import { showPopup } from "@redux/actions/popupActions";
 
 function Login({ setShowpopup }) {
   const { userData } = useSelector((state) => state);
@@ -13,7 +14,7 @@ function Login({ setShowpopup }) {
   const dispatch = useDispatch();
   const { error } = useSelector((state) => state?.userData);
   const [formData, setFormData] = useState({
-    email:  "",
+    email: "",
     password: "",
     phone: "",
   });
@@ -34,7 +35,7 @@ function Login({ setShowpopup }) {
       }));
     }
   };
-  const navigate = ()=>{};
+  const navigate = () => { };
   const onSubmit = (e) => {
     const fomatedDAta = /^\d+$/.test(formData.phone)
       ? { phone: formData.phone, password: formData?.password }
@@ -48,7 +49,7 @@ function Login({ setShowpopup }) {
   };
 
   setTimeout(() => {
-    if(error?.result || error?.response?.data?.errors ){
+    if (error?.result || error?.response?.data?.errors) {
       dispatch(fetchFailure({}))
     }
   }, 3000);
@@ -61,9 +62,7 @@ function Login({ setShowpopup }) {
         <span
           className="cross-icon"
           onClick={() => {
-            setShowpopup(false)
-            // navigate(`${window.location?.pathname+window.location?.search}`, { state: { popName: "" } });
-            // navigate(`${window.location?.pathname+window.location?.search}`, { replace: true });
+            dispatch(showPopup({}, "", false))
           }}
         >
           <svg
@@ -135,7 +134,7 @@ function Login({ setShowpopup }) {
               className="has-cust-error"
             >
               {(formData?.password == "") && "Please enter password first"}
-              { (formData?.password.length < 8 && "Please use a password with at least 8 characters")}
+              {(formData?.password.length < 8 && "Please use a password with at least 8 characters")}
             </span>
           ) : null}
           <span
@@ -157,7 +156,7 @@ function Login({ setShowpopup }) {
         </div>
         {/* please fix this line design */}
         <div>
-          <p className="errs">{error?.result ? error?.result :error?.response?.data?.errors ? error?.response?.data?.errors :"" }</p>
+          <p className="errs">{error?.result ? error?.result : error?.response?.data?.errors ? error?.response?.data?.errors : ""}</p>
         </div>
         <button type="button" onClick={() => onSubmit()}>
           SIGN IN
@@ -165,6 +164,7 @@ function Login({ setShowpopup }) {
         <p
           className="text-center mt-2 mb-5"
           onClick={() => {
+            dispatch(showPopup({},"forgotPassword" , true))
             // if (formData?.email != "") {
             // navigate("/", {
             //   state: {
@@ -180,8 +180,7 @@ function Login({ setShowpopup }) {
           <p>Don’t have an account?</p>
           <a
             onClick={() => {
-              // navigate(`${window.location?.pathname+window.location?.search}`, { state: { popName: "Signup" } });
-              // dispatch(handlePopup({ test: "data" }, "Signup", true))
+              dispatch(showPopup({},"Signup" , true))
             }}
           >
             Sign Up Now

@@ -102,7 +102,7 @@ p {
 }
 
 .banner-container {
-    background: url("../../public/assets/images/about-usimg.jpg");
+    background: url("../images/aboutback.png");
     background-size: cover;
     min-height: 385px;
     display: flex;

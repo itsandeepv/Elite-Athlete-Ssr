@@ -4,6 +4,7 @@ import axios from 'axios'
 import { baseUrl } from '@utils/urls'
 import Layout from '@components/Layouts/Layout'
 import Breadcrums from '@components/Breadcrums/Breadcrums'
+import Head from 'next/head'
 
 function Aboutus() {
 
@@ -47,15 +48,7 @@ function Aboutus() {
             <Head>
                 <meta charset="utf-8" />
                 <title>About Us</title>
-                {/* <meta name="description" content="Home" />
-                <meta name="keywords" content="Home" />
-                <meta name="author" content={c.APP_NAME} />
-                <meta property="og:type" content="website" />
-                <meta property="og:title" content="Home" />
-                <meta property="og:description" content="Home Page" />
-                <meta property="og:url" content={c.BASE_URL} />
-                <meta property="og:site_name" content={c.APP_NAME} /> */}
-                <meta property="og:image" content={`${c.BASE_URL}/assets/images/logo.png`} />
+                {/* <meta property="og:image" content={`${c.BASE_URL}/assets/images/logo.png`} /> */}
                 <link rel="canonical" href={`${baseUrl}`} />
             </Head>
            

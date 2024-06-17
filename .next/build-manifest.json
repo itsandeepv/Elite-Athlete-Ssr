@@ -15,20 +15,20 @@
   ],
   "rootMainFiles": [],
   "pages": {
+    "/Home": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/Home.js"
+    ],
     "/NotFound": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/NotFound.js"
     ],
-    "/UserCart": [
+    "/Product": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/UserCart.js"
-    ],
-    "/WishList": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/WishList.js"
+      "static/chunks/pages/Product.js"
     ],
     "/_app": [
       "static/chunks/webpack.js",

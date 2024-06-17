@@ -8,14 +8,16 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 function UserDashboard() {
-    const [showpopup, setshowPopup] = useState(false);
-    const dispatch = useDispatch();
-    const [sidebartabs, setsidebartabs] = useState("Profile");
     const { userData, userData2 } = useSelector((state) => state);
     const { userOrderData } = useSelector((state) => state.userOrderData);
+    const dispatch = useDispatch();
+    const [showpopup, setshowPopup] = useState(false);
+    const pathN = window.location.pathname
+    const [sidebartabs, setsidebartabs] = useState(pathN == "/order-history" ? "Purchase History": "Profile");
     const [showProfs, setshowProfs] = useState("false");
     const [userUpdatedDetails, setuserUpdatedDetails] = useState();
-    //   console.log(userUpdatedDetails , "<<<<<<<<userOrderData");
+    // const details = useParams()
+      console.log(window.location.pathname , "<<<<<<<< /order-history");
     
     useEffect(() => {
         dispatch(getUserOrder(`/api/get-user-orders`, userData?.token));

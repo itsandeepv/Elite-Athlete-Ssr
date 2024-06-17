@@ -1,15 +1,16 @@
 import React, { useState } from 'react'
 import { hasValidationError, validatedFields, validationError } from '../../helpers/frontend';
-import { handlePopup } from '../../redux/actions/popupActions';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { fetchFailure, userRegister } from '../../redux/actions/userAuthActions';
 import LoaderSmall from './LoaderSmall';
+import { showPopup } from '@redux/actions/popupActions';
 
 function SignUp({ setShowpopup }) {
     const [errors, setErrors] = useState([]);
     const dispatch = useDispatch()
-    const navigate = useNavigate()
+    const navigate = ()=>{ 
+        dispatch(showPopup({},"" , true))
+    }
     const [isPassText, setIsPassText] = useState(false);
     const [isPassText2, setIsPassText2] = useState(false);
     const [isloading, setloading] = useState(false);
@@ -56,7 +57,8 @@ function SignUp({ setShowpopup }) {
                 } */}
                 <span className='cross-icon' onClick={() => {
                     // navigate("/", { state: { popName: "" } })
-                    navigate(`${window.location?.pathname + window.location?.search}`, { replace: true });
+                    dispatch(showPopup({}, "", false))
+                    // navigate(`${window.location?.pathname + window.location?.search}`, { replace: true });
 
                 }}>
                     <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -116,7 +118,8 @@ function SignUp({ setShowpopup }) {
                 <button type='submit'>REGISTER</button>
                 <div className="not-acc">
                     <a onClick={() => {
-                        navigate(`${window.location?.pathname + window.location?.search}`, { state: { popName: "Sigin" } })
+                         dispatch(showPopup({},"Sigin" , true))
+                        // navigate(`${window.location?.pathname + window.location?.search}`, { state: { popName: "Sigin" } })
                     }}
 
                     >Login</a>

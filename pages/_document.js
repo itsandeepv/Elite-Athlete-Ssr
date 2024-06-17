@@ -7,7 +7,6 @@ export default class CustomDocument extends Document {
         const initialProps = await Document.getInitialProps(context);
         const sheet = new ServerStyleSheet();
         const page = await context.renderPage((App) => (props) => sheet.collectStyles(<App {...props} />));
-        // console.log(page, "<<<<<<<<<<Asdfa");
         const styleTags = sheet.getStyleElement();
         return { ...initialProps, ...page, styleTags, host: context.req ? context.req.hostname ? context.req.hostname : "" : "" };
     }
@@ -16,14 +15,9 @@ export default class CustomDocument extends Document {
             <Html lang="en">
                 <Head>
                     <link rel="dns-prefetch" href="//fonts.googleapis.com" />
-                    <link rel="dns-prefetch" href="//www.googletagmanager.com" />
-                    <link rel="dns-prefetch" href="//www.google-analytics.com" />
-                    <link rel="dns-prefetch" href="//www.google.com" />
-                    <link rel="dns-prefetch" href="//www.google.co.in" />
-                    <link rel="dns-prefetch" href="//schema.org" />
                     <link rel="dns-prefetch" href={c.BASE_URL} />
                     <link rel="stylesheet" href={`${c.BASE_URL}/assets/styles/bootstrap.min.css`} />
-                    <link rel="stylesheet" href={`${c.BASE_URL}/assets/styles/slick.min.css`} />
+                    {/* <link rel="stylesheet" href={`${c.BASE_URL}/assets/styles/slick.min.css`} /> */}
                     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
                     <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no" />
                     <link rel="stylesheet" href={`${c.BASE_URL}/assets/styles/style.css`} />

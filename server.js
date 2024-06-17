@@ -3,29 +3,23 @@ const app = require("next")({dev});
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const Promise = require("bluebird");
-require("./scheduler/scheduler");
-Promise.promisifyAll(jwt);
+
 app.prepare().then(() => {
     const config = require("./config");
-
     if(!config.PORT){
         throw new Error("PORT is required in config File");
     }
     let http,io;
     const server = new express();
-    require("./routes/middleware")({server,app});
-    // server.use("/api",require("./routes/api"));
-    // server.use("/auth",require("./routes/auth"));
     server.use(express.static("express-static"));
     require("./routes/frontend")({server,app});
-
-    const PORT = config.PORT;
+    const PORT = process.env.PORT || config.PORT;
     http = require("http").Server(server);
     io = require("socket.io")(http);
     http.listen(PORT);
     const ENV = process.env.NODE_ENV || "dev";
     console.log("* * * * * * * * * * * *");
-    console.log("* ethlite project SSR Started  *");
+    console.log("* Suppkart SSR Started  *");
     console.log(`* PORT: ${PORT} ${" ".repeat(13 - PORT.toString().length)}*`);
     console.log(`* ENV : ${ENV} ${" ".repeat(13 - ENV.length)}*`);
     console.log("* * * * * * * * * * * *");

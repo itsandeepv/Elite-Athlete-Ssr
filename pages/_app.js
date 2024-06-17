@@ -4,9 +4,6 @@ import ErrorBoundary from "@components/ErrorBoundary";
 import '@splidejs/react-splide/css';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-// import "../express-static/assets/styles/style.css"
-// import "../express-static/assets/styles/responsive.css"
-// import "../express-static/assets/styles/loader.css"
 import { Provider } from "react-redux";
 import { persistor, store } from "../redux/store";
 import { PersistGate } from 'redux-persist/integration/react';

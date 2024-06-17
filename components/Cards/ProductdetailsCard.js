@@ -10,6 +10,7 @@ import StarRating from "@components/StarRating";
 import { formatCurrency } from "@helpers/frontend";
 import { baseUrl } from "@utils/urls";
 import { useRouter } from "next/router";
+import { getAddToCart } from "@redux/actions/addToCartActions";
 
 
 function ProductdetailsCard({ products, productReviewCount, setData }) {

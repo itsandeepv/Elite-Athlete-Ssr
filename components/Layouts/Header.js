@@ -7,6 +7,11 @@ import { useRouter } from 'next/router';
 import Login from '@components/Modal/Login';
 import { getCartListCount } from '@redux/actions/CartListCountActions';
 import { getUserdata } from '@redux/actions/userDataActions';
+import { baseUrl } from '@utils/urls';
+import { fetchSuccess } from '@redux/actions/userAuthActions';
+import { showPopup } from '@redux/actions/popupActions';
+import SignUp from '@components/Modal/SignUp';
+import ResetPassword from '@components/Modal/ResetPassword';
 
 function Header() {
   const router = useRouter();
@@ -23,6 +28,7 @@ function Header() {
   const [serachKeyName, setserachKeyName] = useState();
   const { popUpData } = useSelector((state) => state)
 
+  console.log("popUpData" , popUpData);
   const handleProductChange = (event) => {
     const selectedValue = event.target.value;
     window.location = `/all-product?type=category&id=${selectedValue}`;
@@ -35,7 +41,6 @@ function Header() {
     }
     if (Cookies.get('cartLength')) {
       setCartCount(Cookies.get('cartLength'))
-      // console.log(cartCount, Cookies.get('cartLength'));
     }
 
   }, [loading, cartCount]);
@@ -48,7 +53,6 @@ function Header() {
     console.log(searchvalue, e.target.value);
     if (e.target.value.length >= 2) {
       await axios.get(`${baseUrl}/api/suggest-product?query=${e.target.value}`).then((res) => {
-        // console.log("res?.data>>>>>>>>", res?.data);
         if (res?.status == 200) {
           setsearchSuggestions(res?.data?.data)
           setserachKeyName(res?.data?.name)
@@ -77,7 +81,6 @@ function Header() {
       }
     });
   };
-  // console.log(userData2, "<<<<<userData2");
 
   return (
     <React.Fragment>
@@ -133,10 +136,7 @@ function Header() {
                 // navigate("/cart")
                 window.location = "/cart"
               } else {
-
-                // navigate(`${window.location?.pathname+window.location?.search}`, {
-                //   state: { popName: "Sigin" }
-                // })
+                dispatch(showPopup({},"Signin" , true))
               }
             }}>
               <i className="fa-solid fa-cart-shopping"></i>
@@ -151,9 +151,7 @@ function Header() {
               if (userData.token) {
                 window.location = "/wish-list"
               } else {
-                // handleNavigation("Sigin")
-                // window.location = "/Sigin"
-                setShowpopup(true)
+                dispatch(showPopup({},"Signin" , true))
               }
             }}>
               <i className="fa-solid fa-heart"></i>
@@ -166,10 +164,8 @@ function Header() {
                 setShowprofile(!showProfile)
               }} className="sign-in"><i className="fa-solid fa-user"></i> <i className="fa-solid fa-chevron-down"></i></a> :
               <a onClick={() => {
-                setShowpopup(true)
-                // navigate(`${window.location?.pathname+window.location?.search}`, {
-                //   state: { popName: "Sigin" }
-                // })
+                // setShowpopup(true)
+                dispatch(showPopup({},"Signin" , true));
               }} className="sign-in"><i className="fa-solid fa-user"></i> </a>
             }
           </div>
@@ -183,11 +179,7 @@ function Header() {
           </div>
           <div className="items">
             <a href="/wish-list"><img src="assets/icons/menu1.svg" alt="img" /> Wishlist</a>
-            <a href='#' onClick={() => {
-              // navigate("/user-dashboard", {
-              //   state: "Purchase History"
-              // })
-            }} ><img src="assets/icons/menu2.svg" alt="img" /> Order</a>
+            <a href='/order-history' ><img src="assets/icons/menu2.svg" alt="img" /> Order</a>
             <a href="/user-dashboard"><img src="assets/icons/menu3.svg" alt="img" /> Edit Profile</a>
             <a href="#"
               onClick={() => {
@@ -200,16 +192,16 @@ function Header() {
         <div className="blank"></div>
       </header>
       {
-        ( showPop && !userData.token) &&
+        ( popUpData.popUpName == "Signin" && !userData.token) &&
         <Login setShowpopup={setShowpopup} />
       }
-      {/* {
-        (state?.popName == "Signup" && !userData.token) &&
+       {
+        (popUpData.popUpName == "Signup" && !userData.token) &&
         <SignUp setShowpopup={setShowpopup} />}
       {
-        state?.popName == "forgotPassword" &&
+        popUpData.popUpName == "forgotPassword" &&
         <ResetPassword setShowpopup={setShowpopup} />
-      } */}
+      } 
 
     </React.Fragment>
   );

@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import ReCAPTCHA from 'react-google-recaptcha'
-import { handlePopup } from '../../redux/actions/popupActions';
 import { useDispatch } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { baseUrl } from '../../utils/urls';
 import { toast } from 'react-toastify';
 import LoaderSmall from './LoaderSmall';
 import { hasValidationError, validatedFields, validationError } from '../../helpers/frontend';
 import { userLogin } from '../../redux/actions/userAuthActions';
+import { showPopup } from '@redux/actions/popupActions';
 
 function ResetPassword({ setShowpopup }) {
     const [otpsend, setotpsend] = useState("pass")
@@ -18,10 +16,9 @@ function ResetPassword({ setShowpopup }) {
     const [isloading, setloading] = useState(false);
 
     const [isPassText, setIsPassText] = useState(false);
-    const navigate = useNavigate()
-    const { state } = useLocation()
+    const state  = {}
     const [formData, setFormData] = useState({
-        phone: state?.userData?.phone || "",
+        phone:  "",
     })
     const [passformData, setpassFormData] = useState({
         password: "",
@@ -81,22 +78,22 @@ function ResetPassword({ setShowpopup }) {
     const verifyOtp = async () => {
         setloading(true)
         await axios.post(`${baseUrl}/api/verify-otp?phone=${formData?.phone}&otp=${otpvalue}`).then((res) => {
-            console.log(state?.userData ,"<<<<state?.userData");
+            // console.log(state?.userData ,"<<<<state?.userData");
             if (res.data?.responseCode == 200) {
                 setloading(false)
                 // toast.success(res.data?.message)
                 if (state?.newRegister) {
                     dispatch(userLogin("/api/login",{phone: state?.userData?.phone , password:state?.userData?.password}))
-                    navigate(`${window.location?.pathname + window.location?.search}`, {replace:true })
+                    // navigate(`${window.location?.pathname + window.location?.search}`, {replace:true })
                 }
                 else {
                     setshowforgotPass(true)
                     setloading(false)
                     if(state?.genrateOtp && state?.userData?.phone){
                         dispatch(userLogin("/api/login",{phone: state?.userData?.phone , password:state?.userData?.password}))
-                        navigate(`${window.location?.pathname + window.location?.search}`, {replace:true })
+                        // navigate(`${window.location?.pathname + window.location?.search}`, {replace:true })
                     }else{
-                        navigate("/", { state: { popName: "forgotPassword", setnewPassword: true } })
+                        // navigate("/", { state: { popName: "forgotPassword", setnewPassword: true } })
                     }
                 }
                 // setotpsend("otp")
@@ -135,7 +132,7 @@ function ResetPassword({ setShowpopup }) {
         ).then((res) => {
             if (res.data?.responseCode == 200) {
                 // toast.success(res.data?.message)
-                navigate(`${window.location?.pathname + window.location?.search}`, { state: { popName: "Sigin", userData: { email: state?.enteredEmail } } })
+                // navigate(`${window.location?.pathname + window.location?.search}`, { state: { popName: "Sigin", userData: { email: state?.enteredEmail } } })
                 // setotpsend("otp")
                 setloading(false)
             } else {
@@ -175,8 +172,9 @@ function ResetPassword({ setShowpopup }) {
                 {isloading && <LoaderSmall />}
                 <span className='cross-icon cursor-pointer'>
                     <svg width="25" height="25" viewBox="0 0 25 25" fill="none" onClick={() => {
-                        navigate(`${window.location?.pathname + window.location?.search}`, { replace: true });
-                        setShowpopup(false)
+                        // navigate(`${window.location?.pathname + window.location?.search}`, { replace: true });
+                        dispatch(showPopup({},"" , false))
+                        
                     }} >
                         <circle cx="12.5" cy="12.5" r="12.5" fill="#424242" />
                         <path d="M6.07504 18.9243C5.92007 18.7693 5.83301 18.5591 5.83301 18.3399C5.83301 18.1207 5.92007 17.9105 6.07504 17.7554L11.3358 12.4947L6.07504 7.23393C5.92446 7.07802 5.84114 6.86921 5.84302 6.65247C5.8449 6.43572 5.93184 6.22839 6.08511 6.07513C6.23837 5.92186 6.44571 5.83492 6.66245 5.83304C6.87919 5.83116 7.088 5.91448 7.24391 6.06506L12.5047 11.3258L17.7654 6.06506C17.9213 5.91448 18.1301 5.83116 18.3469 5.83304C18.5636 5.83492 18.771 5.92186 18.9242 6.07513C19.0775 6.22839 19.1644 6.43572 19.1663 6.65247C19.1682 6.86921 19.0849 7.07802 18.9343 7.23393L13.6735 12.4947L18.9343 17.7554C19.0849 17.9113 19.1682 18.1202 19.1663 18.3369C19.1644 18.5536 19.0775 18.761 18.9242 18.9142C18.771 19.0675 18.5636 19.1544 18.3469 19.1563C18.1301 19.1582 17.9213 19.0749 17.7654 18.9243L12.5047 13.6636L7.24391 18.9243C7.08889 19.0793 6.87867 19.1663 6.65947 19.1663C6.44028 19.1663 6.23006 19.0793 6.07504 18.9243Z" fill="white" />
@@ -187,8 +185,9 @@ function ResetPassword({ setShowpopup }) {
                         <div className="img">
                             <img src="assets/icons/logo.svg" alt="" onClick={() => {
                                 setShowpopup(false)
-                                navigate("/", { state: { popName: "" } })
-                                window.location = "/"
+                                dispatch(showPopup({},"" , false))
+                                // navigate("/", { state: { popName: "" } })
+                                // window.location = "/"
                             }
                             } />
                         </div>
@@ -315,7 +314,8 @@ function ResetPassword({ setShowpopup }) {
 
                                 <div className="not-acc">
                                     <a onClick={() => {
-                                        navigate(`${window.location?.pathname + window.location?.search}`, { state: { popName: "Sigin" } })
+                                         dispatch(showPopup({},"Sigin" , true))
+                                        // navigate(`${window.location?.pathname + window.location?.search}`, { state: { popName: "Sigin" } })
                                         // dispatch(handlePopup({ test: "data" }, "Sigin", true))
                                     }}>Login</a>
                                 </div>
@@ -381,7 +381,8 @@ function ResetPassword({ setShowpopup }) {
                                     <button type='button' onClick={() => { handleSubmit() }}>Send  OTP</button>
                                     <div className="not-acc">
                                         <a onClick={() => {
-                                            navigate("/", { state: { popName: "Sigin" } })
+                                            dispatch(showPopup({},"Sigin" , true))
+                                            // navigate("/", { state: { popName: "Sigin" } })
                                             // dispatch(handlePopup({ test: "data" }, "Sigin", true))
                                         }}>Login</a>
                                     </div>

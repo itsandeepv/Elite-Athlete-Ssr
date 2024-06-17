@@ -58,7 +58,6 @@ function UserAdList() {
         })
     }
 
-    // console.log(userDetails ,"<<<<<<<<<<<<userDetails");
     return (
         <React.Fragment>
             <div className='section-details p-1'>

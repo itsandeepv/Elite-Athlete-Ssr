@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import Header from './Header'
 import Footer from './Footer'
-import ProductSlide from '../ProductContent/ProductSlide'
 import WriteReviews from '../Modal/WriteReviews'
 import { useSelector } from 'react-redux'
 import TrackOrder from '../Modal/TrackOrder'

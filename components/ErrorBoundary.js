@@ -11,7 +11,7 @@ class ErrorBoundary extends React.Component
         }
     }
     static getDerivedStateFromError(error){
-        return {hasError: true}
+        return {hasError: true ,errormessage:error}
     }
     componentDidCatch(error,errorInfo){
     }
@@ -22,10 +22,12 @@ class ErrorBoundary extends React.Component
         const {hasError } = this.state;
         if(hasError){
             return (
-                <div className="d-flex w-100 h-100 align-items-center jusitfy-content-center flex-column position-absolute">
+                <div className="d-flex " style={{alignItems:"center" ,justifyContent:"center" ,width:"100%" , height:"100vh"}}>
+                    <div>
                     <h2 className="py-2">Oops, something went wrong!</h2>
-                    {/* <p>{errormessage}</p> */}
+                    <p>{errormessage}</p>
                     <button type="btn btn-primary " style={{background:"blue" ,color:"#fff"}} onClick={this.handlerButton}>Try again?</button>
+                    </div>
                 </div>
             )
         }
