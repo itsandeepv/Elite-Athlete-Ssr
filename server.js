@@ -1,10 +1,7 @@
 const dev = process.env.NODE_ENV !== "production";
 const app = require("next")({dev});
 const express = require("express");
-const jwt = require("jsonwebtoken");
-const Promise = require("bluebird");
 
-const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
     const config = require("./config");
