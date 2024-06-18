@@ -12,6 +12,7 @@ import { fetchSuccess } from '@redux/actions/userAuthActions';
 import { showPopup } from '@redux/actions/popupActions';
 import SignUp from '@components/Modal/SignUp';
 import ResetPassword from '@components/Modal/ResetPassword';
+import { openModal, showModal } from '@redux/actions/modalActions';
 
 function Header() {
   const router = useRouter();
@@ -26,9 +27,9 @@ function Header() {
   const { cartWishListCountData } = useSelector((state) => state?.cartWishListCountData)
   const [loading, setLoading] = useState(false);
   const [serachKeyName, setserachKeyName] = useState();
-  const { popUpData } = useSelector((state) => state)
+  const { modalData } = useSelector((state) => state)
 
-  console.log("popUpData" , popUpData);
+  // console.log("popUpData" ,modalData );
   const handleProductChange = (event) => {
     const selectedValue = event.target.value;
     window.location = `/all-product?type=category&id=${selectedValue}`;
@@ -164,8 +165,7 @@ function Header() {
                 setShowprofile(!showProfile)
               }} className="sign-in"><i className="fa-solid fa-user"></i> <i className="fa-solid fa-chevron-down"></i></a> :
               <a onClick={() => {
-                // setShowpopup(true)
-                dispatch(showPopup({},"Signin" , true));
+                dispatch(openModal('Signin', {}));
               }} className="sign-in"><i className="fa-solid fa-user"></i> </a>
             }
           </div>
@@ -192,14 +192,14 @@ function Header() {
         <div className="blank"></div>
       </header>
       {
-        ( popUpData.popUpName == "Signin" && !userData.token) &&
+        ( modalData.modalName == "Signin" && !userData.token) &&
         <Login setShowpopup={setShowpopup} />
       }
        {
-        (popUpData.popUpName == "Signup" && !userData.token) &&
+        (modalData.modalName == "Signup" && !userData.token) &&
         <SignUp setShowpopup={setShowpopup} />}
       {
-        popUpData.popUpName == "forgotPassword" &&
+        modalData.modalName == "forgotPassword" &&
         <ResetPassword setShowpopup={setShowpopup} />
       } 
 

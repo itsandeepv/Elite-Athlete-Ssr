@@ -1,18 +1,18 @@
 import { hasValidationError, validatedFields, validationError } from "@helpers/frontend";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
 import LoaderSmall from "./LoaderSmall";
 import { userLogin } from "@redux/actions/userAuthActions";
 import { showPopup } from "@redux/actions/popupActions";
+import { closeModal, openModal, showModal, updateMetadata } from "@redux/actions/modalActions";
 
 function Login({ setShowpopup }) {
-  const { userData } = useSelector((state) => state);
+  const { modalData } = useSelector((state) => state)
+  const { error } = useSelector((state) => state?.userData);
   const [isloading, setloading] = useState(false);
   const [errors, setErrors] = useState([]);
   const [isPassText, setIsPassText] = useState(false);
   const dispatch = useDispatch();
-  const { error } = useSelector((state) => state?.userData);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -35,7 +35,7 @@ function Login({ setShowpopup }) {
       }));
     }
   };
-  const navigate = () => { };
+
   const onSubmit = (e) => {
     const fomatedDAta = /^\d+$/.test(formData.phone)
       ? { phone: formData.phone, password: formData?.password }
@@ -44,16 +44,15 @@ function Login({ setShowpopup }) {
       return;
     }
     dispatch(
-      userLogin("/api/login", fomatedDAta, navigate, setloading)
+      userLogin("/api/login", fomatedDAta, setloading)
     );
   };
 
   setTimeout(() => {
     if (error?.result || error?.response?.data?.errors) {
-      dispatch(fetchFailure({}))
+      dispatch(updateMetadata({}))
     }
   }, 3000);
-  // console.log( error, "<<<<<<<<message");
 
   return (
     <form className="login-details">
@@ -62,7 +61,7 @@ function Login({ setShowpopup }) {
         <span
           className="cross-icon"
           onClick={() => {
-            dispatch(showPopup({}, "", false))
+            dispatch(closeModal());
           }}
         >
           <svg
@@ -164,14 +163,7 @@ function Login({ setShowpopup }) {
         <p
           className="text-center mt-2 mb-5"
           onClick={() => {
-            dispatch(showPopup({},"forgotPassword" , true))
-            // if (formData?.email != "") {
-            // navigate("/", {
-            //   state: {
-            //     popName: "forgotPassword",
-            //     enteredEmail: formData?.email,
-            //   },
-            // });
+            dispatch(openModal('forgotPassword', {enteredEmail: formData?.email}))
           }}
         >
           Forgot Password?
@@ -180,7 +172,8 @@ function Login({ setShowpopup }) {
           <p>Don’t have an account?</p>
           <a
             onClick={() => {
-              dispatch(showPopup({},"Signup" , true))
+              dispatch(openModal('Signup', {}));
+              // dispatch(showPopup({},"Signup" , true))
             }}
           >
             Sign Up Now

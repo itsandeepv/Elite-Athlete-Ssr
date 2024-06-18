@@ -3,14 +3,12 @@ import { hasValidationError, validatedFields, validationError } from '../../help
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchFailure, userRegister } from '../../redux/actions/userAuthActions';
 import LoaderSmall from './LoaderSmall';
-import { showPopup } from '@redux/actions/popupActions';
+import { closeModal, openModal } from '@redux/actions/modalActions';
 
 function SignUp({ setShowpopup }) {
     const [errors, setErrors] = useState([]);
     const dispatch = useDispatch()
-    const navigate = ()=>{ 
-        dispatch(showPopup({},"" , true))
-    }
+   
     const [isPassText, setIsPassText] = useState(false);
     const [isPassText2, setIsPassText2] = useState(false);
     const [isloading, setloading] = useState(false);
@@ -39,7 +37,7 @@ function SignUp({ setShowpopup }) {
         if (!validatedFields(formData, validateInput, setErrors)) {
             return;
         }
-        dispatch(userRegister("/api/resgister-user", formData, navigate, setloading))
+        dispatch(userRegister("/api/resgister-user", formData, setloading))
     }
 
     setTimeout(() => {
@@ -56,10 +54,8 @@ function SignUp({ setShowpopup }) {
                     <LoaderSmall />
                 } */}
                 <span className='cross-icon' onClick={() => {
-                    // navigate("/", { state: { popName: "" } })
-                    dispatch(showPopup({}, "", false))
+                    dispatch(closeModal())
                     // navigate(`${window.location?.pathname + window.location?.search}`, { replace: true });
-
                 }}>
                     <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <circle cx="12.5" cy="12.5" r="12.5" fill="#424242" />
@@ -118,8 +114,7 @@ function SignUp({ setShowpopup }) {
                 <button type='submit'>REGISTER</button>
                 <div className="not-acc">
                     <a onClick={() => {
-                         dispatch(showPopup({},"Sigin" , true))
-                        // navigate(`${window.location?.pathname + window.location?.search}`, { state: { popName: "Sigin" } })
+                        dispatch(openModal('Signin', {}))
                     }}
 
                     >Login</a>

@@ -6,6 +6,8 @@ import { baseUrl } from '../../utils/urls';
 import { getAddToCart } from './addToCartActions';
 import Cookies from 'js-cookie';
 import { getUserdata } from './userDataActions';
+import { showPopup } from './popupActions';
+import { closeModal, openModal, updateMetadata } from './modalActions';
 
 export const fetchRequest = () => ({
     type: Pending,
@@ -26,7 +28,7 @@ export const fetchFailure = (error) => ({
 });
 
 
-export const userRegister = (endpoint, data, navigate, setloading) => {
+export const userRegister = (endpoint, data, setloading) => {
     return (dispatch) => {
         dispatch(fetchRequest());
         setloading(true)
@@ -35,19 +37,19 @@ export const userRegister = (endpoint, data, navigate, setloading) => {
             .then((response) => {
                 if (response.data?.responseCode == 200) {
                     toast.success(response.data?.message)
-                    navigate("/", { state: { popName: "forgotPassword", userData: {...response.data.result,password:data?.password}, newRegister: true } })
+                    dispatch(openModal('forgotPassword', {...response.data.result, password: data?.password , newRegister: true}))
+                    // dispatch(showPopup({metaDate:{...response.data.result, password: data?.password , newRegister: true}},"forgotPassword" , true))
                     setloading(false)
                 } else {
                     setloading(false)
                     dispatch(fetchFailure(response.data));
-                    // toast.error(response.data?.result)
+                    toast.error(response.data?.result)
                 }
-                // dispatch(fetchSuccess(response.data));
             })
             .catch((error) => {
-                console.log(error);
+                // console.log(error);
                 setloading(false)
-                // toast.error(error?.response?.data?.error)
+                toast.error(error?.response?.data?.error)
                 dispatch(fetchFailure(error));
             });
     };
@@ -58,25 +60,23 @@ const clearCartCookies = () => {
     Cookies.remove('cartLength');
 };
 
-export const userLogin = (endpoint, data, navigate, setloading) => {
+export const userLogin = (endpoint, data, setloading) => {
     return (dispatch) => {
         dispatch(fetchRequest());
-        if(setloading) {setloading(true)}
-        // setMessage("process")
+        if (setloading) { setloading(true) }
         axios.post(`${baseUrl}${endpoint}`, data).then((response) => {
+            // console.log("response>>>>>>" ,response);
             if (response?.status == 200) {
                 if (response?.data?.status == false) {
-                    dispatch(fetchFailure(response?.data))
-                    // setMessage(response?.data?.result)
-                    if(setloading) {setloading(false)}
+                    // dispatch(fetchFailure(response?.data))
+                    dispatch(updateMetadata(response?.data));
+                    if (setloading) { setloading(false) }
                 } else {
                     toast.success(response?.data?.message)
-                    // setShowpopup(false)
-                    if(navigate){ navigate("/", { state: { popName: "" } })}
+                    dispatch(closeModal());
                     dispatch(fetchSuccess(response?.data?.result))
                     dispatch(getUserdata(response?.data?.result.token))
-
-                    if(setloading) {setloading(false)}
+                    if (setloading) { setloading(false) }
                     var cookieValue = (Cookies.get('addToCartData'));
                     var addToCartData = JSON.parse(cookieValue);
                     if (addToCartData) {
@@ -112,7 +112,7 @@ export const userLogin = (endpoint, data, navigate, setloading) => {
 
                 }
             } else {
-                if(setloading) {setloading(false)}
+                if (setloading) { setloading(false) }
                 toast.error("Please check your email !")
             };
 
@@ -120,17 +120,19 @@ export const userLogin = (endpoint, data, navigate, setloading) => {
             .catch((error) => {
                 // console.log(error , ">>>");
                 dispatch(fetchFailure(error));
-                if(setloading) {setloading(false)}
-                if(error?.response?.data?.data){
-                    navigate("/", {
-                        state: {
-                          popName: "forgotPassword",
-                          genrateOtp:"true",
-                          userData:{...error?.response?.data?.data ,password:data?.password},
-                        },
-                      });
+                dispatch(updateMetadata(error));
+                if (setloading) { setloading(false) }
+                if (error?.response?.data?.data) {
+                    // dispatch(showPopup({
+                    //     metaDate: {
+                    //         genrateOtp: "true",
+                    //         ...error?.response?.data?.data, password: data?.password ,
+                    //     }
+                    // }, "forgotPassword", true))
+                    dispatch(openModal('forgotPassword', {genrateOtp: "true",
+                        ...error?.response?.data?.data, password: data?.password ,}));
                 }
-                console.log(error , "<<<<<<<<<Adfsaf");
+                // console.log(error, "<<<<<<<<<Adfsaf");
                 toast.error(error?.response?.data?.errors)
             });
     };

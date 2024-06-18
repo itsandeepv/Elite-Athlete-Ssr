@@ -17,10 +17,12 @@ import getUserOrderByIdReduccer from './getUserOrderIdReduccer';
 import removeToWishListReduccer from './removeToWishListReduccer';
 import productReduccer from './productReduccer';
 import userDataReducer from './userDataReducer';
+import modalReduccer from './modalReduccer';
 
 const rootReducer = combineReducers({
   // Add your reducers here
   popUpData: popupsReduccer,
+  modalData:modalReduccer,
   userData: authReducer,
   userData2: userDataReducer,
   categoryData: categoryReduccer,
