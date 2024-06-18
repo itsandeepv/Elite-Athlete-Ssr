@@ -1,7 +1,7 @@
 {
     "PORT": 4003,
-    "BASE": "https://suppkartssr.gocoolcare.com",
-    "BUCKET_URL": "https://suppkartssr.gocoolcare.com/",
+    "BASE": "https://eanfront.gocoolcare.com/",
+    "BUCKET_URL": "https://eanfront.gocoolcare.com",
     "APP_NAME": "Elite-Athlete-Nutrition",
     "DB": {
         "connectionLimit": 1000,

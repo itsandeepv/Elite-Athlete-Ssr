@@ -4,6 +4,8 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const Promise = require("bluebird");
 
+const handle = app.getRequestHandler();
+
 app.prepare().then(() => {
     const config = require("./config");
     if(!config.PORT){
