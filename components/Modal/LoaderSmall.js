@@ -2,7 +2,7 @@ import React from "react";
 // import "../../styles/loader.css";
 
 function LoaderSmall({background}) {
-  console.log(background  , "<<<<background");
+  // console.log(background  , "<<<<background");
   return (
     <div id="custom-loader" style={background =="transparent" ? {top:"0" ,left:"0"}: {top:"0" ,left:"0"}}>
       <div className="inner">

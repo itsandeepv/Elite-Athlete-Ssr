@@ -2,7 +2,6 @@ import Layout from '@components/Layouts/Layout';
 import React, { useEffect, useState } from 'react'
 
 function PaymentSuccess({ }) {
-
     useEffect(() => {
         localStorage.removeItem('order_id');
     }, []);

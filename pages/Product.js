@@ -10,8 +10,11 @@ import LoaderSmall from '@components/Modal/LoaderSmall';
 import ProductCard from '@components/Cards/ProductCard';
 import Loader from '@components/Modal/Loader';
 import Head from 'next/head';
+import PropTypes from 'prop-types';
 
-function Product({pageProps}) {
+
+function Product({  productData ,productDataForFi }) {
+    console.log("pageProps",  productData ,productDataForFi);
     const { userData } = useSelector((state) => state);
     const dispatch = useDispatch();
     const urlParams = new URLSearchParams(window.location.search);
@@ -162,7 +165,7 @@ function Product({pageProps}) {
 
     return (
         <React.Fragment>
-             <Head>
+            <Head>
                 <meta charset="utf-8" />
                 <title>{c.APP_NAME}</title>
                 <meta name="description" content={"all product"} />
@@ -318,19 +321,49 @@ function Product({pageProps}) {
     )
 }
 
+Product.propTypes = {
+    pagename: PropTypes,
+};
+
 
 export async function getServerSideProps(context) {
     const { query } = context;
     const pagename = query.pagename || '';
-    var pageProps={};
-    await axios.get(baseUrl + "/api/get-all-pages").then((res) => {
-        if (res.data?.responseCode == 200) {
-            pageDataS = res.data?.result?.find((item) => item?.slug == pagename)  
+    console.log("query", query);
+    var pageProps = {};
+    var productData =[]
+    var productDataForFi =[]
+    if(query.type == 'category'){
+        const postdata = new FormData();
+        // postdata.append("brand_id", brandIds?.join(','));
+        postdata.append("category_id", query.id);
+        // postdata.append("type", brandIds?.length > 0 && `"brand"`);
+        let response = await axios.post(`${baseUrl}/api/get-product-by-category`, postdata);
+        if (response.data.responseCode === 200) {
+            productData = response.data.result
+            productDataForFi = response.data.result?.products
+        } 
+    }
+    if(query.type == 'brand'){
+        const brand_id = { brand_id: query.id };
+        response = await axios.post(`${baseUrl}/api/get-product-by-brand`, brand_id);
+        if (response.data.responseCode === 200) {
+            // console.log(response.data.result);
+            productData = response.data.result
+            productDataForFi = response.data.result?.products
         }
-    }).catch((err) => {
-        console.log(err);
-    })
-        return { props: { pageProps } }
+    }
+    if(query.type == 'product'){
+        const product_id = { product_id: query.id };
+        response = await axios.post(`${baseUrl}/api/get-product-by-product-id`, product_id);
+        if (response.data.responseCode === 200) {
+            productData = response.data.result
+            productDataForFi = response.data.result?.products
+        }
+    }
+   
+
+    return { props: { productData ,productDataForFi } }
 }
 
 

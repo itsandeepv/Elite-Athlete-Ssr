@@ -2377,6 +2377,23 @@ img {
     z-index: 3;
     /* backdrop-filter: brightness(0.5); */
 }
+#custom-loader-ssr {
+        display: none;
+        z-index: 99999;
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        background: #00000026;
+    }
+
+    #custom-loader-ssr .inner {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+    }
 
 .qty-load {
     position: absolute;

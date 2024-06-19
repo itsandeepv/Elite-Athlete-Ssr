@@ -137,7 +137,7 @@ function Header() {
                 // navigate("/cart")
                 window.location = "/cart"
               } else {
-                dispatch(showPopup({},"Signin" , true))
+                dispatch(openModal('Signin', {}));
               }
             }}>
               <i className="fa-solid fa-cart-shopping"></i>
@@ -152,7 +152,7 @@ function Header() {
               if (userData.token) {
                 window.location = "/wish-list"
               } else {
-                dispatch(showPopup({},"Signin" , true))
+                dispatch(openModal('Signin', {}));
               }
             }}>
               <i className="fa-solid fa-heart"></i>

@@ -11,6 +11,8 @@ import { formatCurrency } from "@helpers/frontend";
 import { baseUrl } from "@utils/urls";
 import { useRouter } from "next/router";
 import { getAddToCart } from "@redux/actions/addToCartActions";
+import { openModal } from "@redux/actions/modalActions";
+import PhotoSlider from "@components/Modal/PhotoSlider";
 
 
 function ProductdetailsCard({ products, productReviewCount, setData }) {
@@ -100,9 +102,10 @@ function ProductdetailsCard({ products, productReviewCount, setData }) {
         );
       }
     } else {
-      navigate(`${window.location?.pathname + window.location?.search}`, {
-        state: { popName: "Sigin" },
-      });
+      dispatch(openModal('Signin', {}));
+      // navigate(`${window.location?.pathname + window.location?.search}`, {
+      //   state: { popName: "Sigin" },
+      // });
     }
   };
 
@@ -137,9 +140,10 @@ function ProductdetailsCard({ products, productReviewCount, setData }) {
         }
         setShowAddToCartListContent("Go To Cart");
         if (showAddToCartListContent === "Go To Cart") {
-          navigate(`${window.location?.pathname + window.location?.search}`, {
-            state: { popName: "Sigin" },
-          });
+          dispatch(openModal('Signin', {}));
+          // navigate(`${window.location?.pathname + window.location?.search}`, {
+          //   state: { popName: "Sigin" },
+          // });
         }
       } else {
         const cartDataArray = [cartData];
@@ -147,9 +151,8 @@ function ProductdetailsCard({ products, productReviewCount, setData }) {
         Cookies.set("cartLength", cartDataArray.length.toString());
         setShowAddToCartListContent("Go To Cart");
         if (showAddToCartListContent === "Go To Cart") {
-          navigate(`${window.location?.pathname + window.location?.search}`, {
-            state: { popName: "Sigin" },
-          });
+          dispatch(openModal('Signin', {}));
+       
         }
       }
     }
@@ -475,9 +478,9 @@ function ProductdetailsCard({ products, productReviewCount, setData }) {
               </Slider>
             }
           </div>
-          {/* {isVisible && (
+          {isVisible && (
             <PhotoSlider setIsVisible={setIsVisible} isVisible={isVisible} />
-          )} */}
+          )}
           <div className="min-slider-container product-det-slider">
             {details?.images && details.images.split(",").length > 1 ? (
               <Slider {...settings}>

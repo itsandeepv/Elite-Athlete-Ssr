@@ -17,7 +17,7 @@ function ResetPassword({ setShowpopup }) {
     const [isloading, setloading] = useState(false);
     const {modalName ,metaData  } = useSelector((state) => state.modalData)
 
-    console.log("metaData>>>>>>" , metaData ,modalName);
+    // console.log("metaData>>>>>>" , metaData ,modalName);
 
     const [isPassText, setIsPassText] = useState(false);
     const navigate = ()=>{}
@@ -88,14 +88,10 @@ function ResetPassword({ setShowpopup }) {
                     setloading(false)
                     if (metaData?.genrateOtp && metaData?.phone) {
                         dispatch(userLogin("/api/login", { phone: metaData?.phone, password: metaData?.password }))
-                        
                         dispatch(closeModal())
-                        // navigate(`${window.location?.pathname + window.location?.search}`, { replace: true })
                     } else {
                         dispatch(openModal('forgotPassword', {setnewPassword: true}))
-                        // dispatch(showPopup({metaDate:{setnewPassword: true}},"forgotPassword" , false))
-                        // navigate("/", { state: { popName: "forgotPassword", setnewPassword: true } })
-                    }
+                          }
                 }
                 // setotpsend("otp")
             } else {
@@ -103,7 +99,6 @@ function ResetPassword({ setShowpopup }) {
                 seterrorMessage(res.data?.result)
                 setTimeout(() => {
                     seterrorMessage()
-
                 }, 4000);
                 // toast.error(res.data?.message)
             }
@@ -132,12 +127,7 @@ function ResetPassword({ setShowpopup }) {
 
         ).then((res) => {
             if (res.data?.responseCode == 200) {
-                // toast.success(res.data?.message)
-                // console.log("res.data" ,res.data);
                 dispatch(openModal('Signin', {email: metaData?.enteredEmail}))
-                // dispatch(showPopup({metaDate:{email: metaData?.enteredEmail,}},"Signin" , true))
-                // navigate(`${window.location?.pathname + window.location?.search}`, { state: { popName: "Sigin", userData: { email: state?.enteredEmail } } })
-                // setotpsend("otp")
                 setloading(false)
             } else {
                 toast.error(res.data?.message)

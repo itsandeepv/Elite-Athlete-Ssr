@@ -1,35 +1,50 @@
 import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import c from "@constants/Common";
-import colors from '@constants/Colors';
 import ShopebyGoal from '@components/ShopebyGoal';
 import TopdealSection from '@components/TopdealSection';
-import ShopebySports from '@components/ShopebySports';
 import ProductSlide from '@components/ProductContent/ProductSlide';
 import TopBrandsSection from '@components/TopBrandsSection';
-import TopStarsSection from '@components/TopStarsSection';
 import Layout from '@components/Layouts/Layout';
 import { baseUrl } from '@utils/urls';
 import HomeBanner from '@components/ProductContent/HomeBanner';
 import axios from 'axios';
 import TopBrands from '@components/Modal/TopBrands';
-
 const HomePage = ({ topdealdata, homeBannerdata, shopbydata ,starsdata }) => {
     useEffect(() => {
         window.scrollTo(0, 0);
+        // MySwal.fire({
+        //     title: 'Custom Alert',
+        //     text: 'This is a custom alert with a custom icon!',
+        //     iconHtml: '<img src="/path/to/your/icon.png" alt="Custom Icon" style="width: 40px; height: 40px;" />',
+        //     showCloseButton: true,
+        //     showCancelButton: true,
+        //     focusConfirm: false,
+        //     confirmButtonText: 'Confirm',
+        //     cancelButtonText: 'Cancel',
+        //     customClass: {
+        //       icon: 'no-border'
+        //     }
+        // });
     }, []);
 
-    // console.log(starsdata, "<<<<<<<<<<productSection");
     const [productSection, setProductSection] = useState(shopbydata || []);
     const [loading, setLoading] = useState(true);
     const fetchData = async () => {
+        document.getElementById("custom-loader-ssr").style.display = "block";
         try {
             const res = await axios.get(`${baseUrl}/api/get-product-sections-with-item-count`);
             if (res.status === 200) {
                 setProductSection(res.data.result);
                 setLoading(false);
             }
+            setTimeout(() => {
+                document.getElementById("custom-loader-ssr").style.display = "none";
+            }, 3000);
         } catch (err) {
+            setTimeout(() => {
+                document.getElementById("custom-loader-ssr").style.display = "none";
+            }, 3000);
             console.log(err);
         }
     };
@@ -94,6 +109,7 @@ export async function getServerSideProps() {
         console.log(err);
     }
     // console.log(productSection ,res , "<<<<<<<productSection");
+    // getServerProps(context,{taskTypes: taskTypes});
     return { props: { homeBannerdata, topdealdata, shopbydata ,starsdata } }
 }
 

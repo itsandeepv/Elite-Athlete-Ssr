@@ -9,6 +9,7 @@ import { getCartListCount } from "@redux/actions/CartListCountActions";
 import { getAddToCart } from "@redux/actions/addToCartActions";
 import StarRating from "@components/StarRating";
 import { formatCurrency } from "@helpers/frontend";
+import { openModal } from "@redux/actions/modalActions";
 
 function ProductCard({pLength, product, setLoading, hidebutton, setisLoading }) {
   const { getCartListData } = useSelector((state) => state);
@@ -103,9 +104,10 @@ function ProductCard({pLength, product, setLoading, hidebutton, setisLoading }) 
         Cookies.set("cartLength", cartDataArray.length.toString());
         setShowAddToCartListContent("Go To Cart");
         if (showAddToCartListContent === "Go To Cart") {
-          navigate(`${window.location?.pathname + window.location?.search}`, {
-            state: { popName: "Sigin" },
-          });
+          dispatch(openModal('Signin', {}));
+          // navigate(`${window.location?.pathname + window.location?.search}`, {
+          //   state: { popName: "Sigin" },
+          // });
         }
       } else {
         const cartDataArray = [cartData];
@@ -114,9 +116,10 @@ function ProductCard({pLength, product, setLoading, hidebutton, setisLoading }) 
         setShowAddToCartListContent("Go To Cart");
       }
       if (showAddToCartListContent === "Go To Cart") {
-        navigate(`${window.location?.pathname + window.location?.search}`, {
-          state: { popName: "Sigin" },
-        });
+        dispatch(openModal('Signin', {})); 
+        // navigate(`${window.location?.pathname + window.location?.search}`, {
+        //   state: { popName: "Sigin" },
+        // });
       }
     }
   };
@@ -139,10 +142,11 @@ function ProductCard({pLength, product, setLoading, hidebutton, setisLoading }) 
         )
       );
     } else {
+      dispatch(openModal('Signin', {}));
       // console.log(window.location , "<<<<<<<<<setShowWishListContent");
-      navigate(`${window.location?.pathname + window.location?.search}`, {
-        state: { popName: "Sigin" },
-      });
+      // navigate(`${window.location?.pathname + window.location?.search}`, {
+      //   state: { popName: "Sigin" },
+      // });
     }
   };
 
@@ -428,7 +432,8 @@ function ProductCard({pLength, product, setLoading, hidebutton, setisLoading }) 
                 onClick={() => {
                   if (userData?.token) {
                     if (checkCartExist) {
-                      navigate("/cart");
+                      // navigate("/cart");
+                      window.location = "/cart"
                     } else {
                       addToCartItem();
                     }

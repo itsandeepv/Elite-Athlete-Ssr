@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { baseUrl } from "../../utils/urls";
 import { TransformWrapper , TransformComponent } from "react-zoom-pan-pinch";
+import { baseUrl } from "@utils/urls";
 const PhotoSlider = ({ setIsVisible, isVisible }) => {
   const [isHidden, setIsHidden] = useState(true);
   const settings = {

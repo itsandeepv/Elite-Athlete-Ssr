@@ -7,7 +7,8 @@ import { baseUrl } from '@utils/urls';
 import { getUserOrderById } from '@redux/actions/getUserOrderByIdActions';
 
 function VerifyPayment() {
-    const location = ()=>{};
+    const location = window.location || {};
+    console.log(window.location);
     const dispatch = useDispatch()
     const { userData } = useSelector((state) => state)
     const { userOrderDataById } = useSelector((state) => state.userOrderDataById)
