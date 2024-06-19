@@ -229,7 +229,7 @@ function ProductDetailsPage({ productdetails, relatedProduct, productVarintdetai
                 <meta property="og:url" content={c.BASE_URL} />
                 <meta property="og:site_name" content={c.APP_NAME} />
                 <meta property="og:image" content={`${baseUrl}${data?.meta_image}`} />
-                <link rel="shortcut icon" href={`${baseUrl}/${data.thumbnail || "favicon.png"}`} />
+                <link rel="shortcut icon" href={`${baseUrl}/${"favicon.png"}`} />
                 <link rel="canonical" href={`${c.BASE_URL}`} />
             </Head>
             <Layout>

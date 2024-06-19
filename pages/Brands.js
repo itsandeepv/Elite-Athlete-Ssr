@@ -2,6 +2,7 @@ import Breadcrums from '@components/Breadcrums/Breadcrums';
 import Layout from '@components/Layouts/Layout';
 import Loader from '@components/Modal/Loader';
 import { getbrand } from '@redux/actions/brandActions';
+import Head from 'next/head';
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -38,6 +39,11 @@ function Brand()
 
     return (
         <React.Fragment>
+            <Head>
+                <meta charset="utf-8" />
+                <title>Suppkart</title>
+                <link rel="canonical" href={`${baseUrl}`} />
+            </Head>
         <Layout>
       {loading ? (
           <Loader />
