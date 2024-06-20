@@ -16,10 +16,9 @@ function WriteReviews() {
     const [images, setimages] = useState([])
     const [rating, setRating] = useState(0);
 
-    const { userData } = useSelector((state) => state)
+    const { userData ,userData2 } = useSelector((state) => state)
     const popMetaData = useSelector((state) => state.popUpData?.popupdata)
-
-    // console.log(popMetaData , "<<<<<<popMetaData");
+    // console.log(userData.userDetails  , "<<<<<<popMetaData");
     const dispatch = useDispatch()
     const onchange = (e) => {
         const { name, value } = e.target
@@ -44,11 +43,10 @@ const [isloading ,setisLoading] = useState(false)
         try {
             const formData = new FormData()
             formData.append("product_id", popMetaData?.product_id)
-            formData.append("user_id", popMetaData?.order_details?.user_id)
-            formData.append("customer_name", popMetaData?.order_details?.name)
+            formData.append("user_id", userData.userDetails?.id)
+            formData.append("customer_name", userData.userDetails?.name)
             formData.append("rating", rating)
             formData.append("review", formDataCl?.userReview)
-            // console.log(images, "<<<<<<<images");
             images?.map((item)=>{ formData.append("image[]", item)})
             if (userData && userData.token) {
                 const response = await axios.post(`${baseUrl}/api/add-product-review`, formData, {

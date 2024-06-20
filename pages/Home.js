@@ -31,7 +31,7 @@ const HomePage = ({ topdealdata, homeBannerdata, shopbydata ,starsdata }) => {
     const [productSection, setProductSection] = useState(shopbydata || []);
     const [loading, setLoading] = useState(true);
     const fetchData = async () => {
-        document.getElementById("custom-loader-ssr").style.display = "block";
+        // document.getElementById("custom-loader-ssr").style.display = "block";
         try {
             const res = await axios.get(`${baseUrl}/api/get-product-sections-with-item-count`);
             if (res.status === 200) {
@@ -39,11 +39,11 @@ const HomePage = ({ topdealdata, homeBannerdata, shopbydata ,starsdata }) => {
                 setLoading(false);
             }
             setTimeout(() => {
-                document.getElementById("custom-loader-ssr").style.display = "none";
+                // document.getElementById("custom-loader-ssr").style.display = "none";
             }, 3000);
         } catch (err) {
             setTimeout(() => {
-                document.getElementById("custom-loader-ssr").style.display = "none";
+                // document.getElementById("custom-loader-ssr").style.display = "none";
             }, 3000);
             console.log(err);
         }

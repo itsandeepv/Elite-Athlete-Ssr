@@ -13,6 +13,7 @@ import { showPopup } from '@redux/actions/popupActions';
 import SignUp from '@components/Modal/SignUp';
 import ResetPassword from '@components/Modal/ResetPassword';
 import { openModal, showModal } from '@redux/actions/modalActions';
+import Link from 'next/link';
 
 function Header() {
   const router = useRouter();
@@ -71,18 +72,6 @@ function Header() {
     }
   }, [])
 
-  const handleNavigation = (path) => {
-    const { pathname, search } = window.location;
-    const query = new URLSearchParams(search);
-    router.push({
-      pathname,
-      query: {
-        ...Object.fromEntries(query.entries()),
-        popName: path
-      }
-    });
-  };
-
   return (
     <React.Fragment>
       {openSidebar && <Sidebar setopenSidebar={setopenSidebar} />}
@@ -113,14 +102,11 @@ function Header() {
                     {
                       searchSuggestionsData?.length > 0 ?
                         searchSuggestionsData?.map((item, index) => {
-                          // console.log(item , "<<<<<");
                           return (
                             <li className='cursor-pointer' onClick={() => {
                               window.location = `/all-product?type=${serachKeyName}&id=${item?.id}`
-
                             }} >
                               <p> {item?.name || ""}</p>
-                              {/* <small>{item?.short_description?.substring(3,30)+"..."}</small> */}
                             </li>
                           )
                         }) : <li>Item Not found</li>
@@ -132,9 +118,9 @@ function Header() {
           </div>
 
           <div className="right">
+         
             <a  onClick={() => {
               if (userData.token) {
-                // navigate("/cart")
                 window.location = "/cart"
               } else {
                 dispatch(openModal('Signin', {}));
@@ -161,7 +147,7 @@ function Header() {
               ) : ""}
             </a>
             {userData.token ?
-              <a href="#" onClick={() => {
+              <a  onClick={() => {
                 setShowprofile(!showProfile)
               }} className="sign-in"><i className="fa-solid fa-user"></i> <i className="fa-solid fa-chevron-down"></i></a> :
               <a onClick={() => {
@@ -178,9 +164,10 @@ function Header() {
             <p>+91 {userData2?.data?.phone}</p>
           </div>
           <div className="items">
-            <a href="/wish-list"><img src="assets/icons/menu1.svg" alt="img" /> Wishlist</a>
-            <a href='/order-history' ><img src="assets/icons/menu2.svg" alt="img" /> Order</a>
-            <a href="/user-dashboard"><img src="assets/icons/menu3.svg" alt="img" /> Edit Profile</a>
+
+            <Link href="/wish-list"><img src="assets/icons/menu1.svg" alt="img" /> Wishlist</Link>
+            <Link href='/order-history' ><img src="assets/icons/menu2.svg" alt="img" /> Order</Link>
+            <Link href="/user-dashboard"><img src="assets/icons/menu3.svg" alt="img" /> Edit Profile</Link>
             <a href="#"
               onClick={() => {
                 dispatch(fetchSuccess({ user: "", token: "" }))

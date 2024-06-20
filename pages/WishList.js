@@ -9,6 +9,7 @@ import Breadcrums from '@components/Breadcrums/Breadcrums';
 import LoaderSmall from '@components/Modal/LoaderSmall';
 import ProductCard from '@components/Cards/ProductCard';
 import Head from 'next/head';
+import { baseUrl } from '@utils/urls';
 
 function WishList() {
     const { getWishListData } = useSelector((state) => state)
@@ -39,6 +40,9 @@ function WishList() {
 
     ]
 
+    document.getElementById("custom-loader-ssr").style.display = loading? "block": "none";
+
+
     return (
         <React.Fragment>
             <Head>
@@ -46,9 +50,10 @@ function WishList() {
                 <title>Suppkart</title>
                 <link rel="canonical" href={`${baseUrl}`} />
             </Head>
-            <Layout> {loading ? (
+            <Layout>
+                 {/* {loading ? (
                 <Loader />
-            ) : (
+            ) : ( */}
                 <div className='container-fluid'>
                     <div className='row'>
                         <div className='col'>
@@ -75,7 +80,7 @@ function WishList() {
 
                     </div>
                 </div>
-            )}
+            {/* // )} */}
             </Layout>
         </React.Fragment>
     )

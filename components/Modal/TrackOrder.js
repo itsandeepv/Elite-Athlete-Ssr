@@ -7,14 +7,14 @@ import { baseUrl } from '../../utils/urls'
 import { useEffect } from 'react'
 import { formatCurrency } from '../../helpers/frontend'
 import LoaderSmall from './LoaderSmall'
+import { toast } from 'react-toastify'
+import { getUserOrder } from '../../redux/actions/getUserOrderActions'
 
 function TrackOrder() {
     const dispatch = useDispatch()
     const { popUpData } = useSelector((state) => state)
     const userdetail = useSelector((state) => state?.userData)
     const [orderData, setOrderData] = useState()
-    // console.log(popUpData?.popupdata?.productDetials,"<<<<<");
-
     const trackorderData = async (id) => {
         // console.log(id , "<ADSFASDF");
         const formData = new FormData()
@@ -43,7 +43,34 @@ function TrackOrder() {
         trackorderData(popUpData?.productDetials?.id)
     }, [])
 
-    console.log(orderData, "<<<<<<<<orderData")
+    const cancelOrder = async (orId) => {
+        let data = new FormData()
+        data.append('order_id', orId);
+        const config = {
+            method: "post",
+            url: `${baseUrl}/api/cancel-order-by-user`,
+            token: userdetail?.token,
+            headers: {
+                Authorization: `Bearer ${userdetail?.token}`,
+            },
+            data: data
+        };
+        await axios.request(config).then((res) => {
+            // console.log(res , "<<<<<<<Sdf");
+            if (res.status == 200) {
+                toast.success(res.data?.message)
+                dispatch(getUserOrder(`/api/get-user-orders`, userdetail?.token))
+                dispatch(handlePopup({ data: "test" }, "Add_Review", false))
+            }
+        }).catch((err) => {
+            console.log(err);
+        })
+
+    }
+
+    const checkCancel = orderData?.order_items?.find((ot)=> ot.order_status == "0")
+
+    // console.log(orderData, "<<<<<<<<orderData" ,checkCancel)
 
     return (
         <div className='model-container '>
@@ -59,79 +86,112 @@ function TrackOrder() {
                     </div>
                 }
                 {
-                    orderData?.order_items?.filter((e) => e?.id == popUpData?.popupdata?.productDetials?.selectedItem_id)?.map((item, index) => {
-                        // console.log(item , "<<<<<<");
-                        return (
-                            <React.Fragment>
-                                <div className='d-flex gap-3 align-items-center' onClick={() => {
-                                    window.location.href = `/product-details?id=${item?.product_id}`
-                                }}>
-                                    <div className='purchase-image p-3'>
-                                        <img src={baseUrl + "/" + item?.product_image} className='img-fluid' />
-                                    </div>
-                                    <div className='d-flex flex-column gap-2 '>
-                                        <p className='gray'><b> {item?.product_name?.substring(0, 35)}... </b> {item?.variant_name || ""} </p>
-                                        <p className='commen-text ' style={{ textAlign: "start" }}>Price: {item?.product_price}</p>
-                                        {/* <p className='commen-text'>Coupon: 1 coupon applied</p> */}
+                    orderData ?
+                        <>
+                            {
+                                orderData?.order_items?.map((item, index) => {
+                                    // console.log(item , "<<<<<<");
+                                    const checkReview = item?.product_reviews?.find((itemr) => itemr?.product_id == item?.product_id)
+                                    return (
+                                        <React.Fragment>
+                                            <div className='d-flex gap-3 align-items-center' key={index} >
+                                                <div className='purchase-image p-3' onClick={() => {
+                                                    window.location.href = `/product-details?id=${item?.product_id}${item?.variant_name ? "&vrN=" + item?.variant_name : ""}`
+                                                }} >
+                                                    <img src={baseUrl + "/" + item?.product_image} className='img-fluid' />
+                                                </div>
+                                                <div className='d-flex flex-column gap-2 '>
+                                                    <p className='gray'><b> {item?.product_name?.substring(0, 35)}... </b> </p>
+                                                    <p>{item?.variant_name || ""}</p>
+                                                    <p className='commen-text ' style={{ textAlign: "start" }}>Price: {item?.product_price}</p>
+                                                    {/* <p className='commen-text'>Coupon: 1 coupon applied</p> */}
+                                                    <div className='d-flex justify-content-between align-items-center all-stars'>
+                                                        {
+                                                            checkReview &&
+                                                            <span className='py-1'>
+                                                                {[...Array(5)].map((_, index) => {
+                                                                    const starValue = index + 1;
+                                                                    return (
+                                                                        <span
+                                                                            key={index}
+                                                                            // onClick={() => setRating(starValue)}
+                                                                            style={{ cursor: 'pointer', color: starValue <= Number(checkReview?.rating) ? 'gold' : 'gray', fontSize: "30px" }}
+                                                                        >
+                                                                            ★
+                                                                        </span>
+                                                                    );
+                                                                })}
+                                                            </span>
+                                                        }
+                                                        {
+                                                          checkReview ? "" :
+                                                          item.order_status == "6" ?  <button className='btn border-none bg-white ' onClick={() => { dispatch(handlePopup({ ...item }, "Add_Review", true)) }}><b>Write Review</b></button>:""
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                                <div>
+                                                    <b>Tracking</b>
+                                                    <ProgressBar tracking={item?.trackings} />
+                                                </div>
+                                        </React.Fragment>
+
+                                    )
+                                })
+                            }
+                            <div className='row border-bottom-g'>
+                                <div className='col-lg-6 p-3 d-flex flex-column gap-2'>
+                                    <p> <b>Shipping Details</b>  </p>
+                                    <p className='gray bold-600'>{orderData?.address} </p>
+                                    <p className='gray bold-600 '>{orderData?.city} <br />
+                                        {orderData?.city} ,({orderData?.pincode}) -{orderData?.state} , {orderData?.country}
+                                        {/* Sector 8, Noida, Uttar Pradesh, India, 110010 */}
+                                    </p>
+
+                                </div>
+                                <div className='col-lg-6 p-3 d-flex flex-column gap-2'>
+                                    <p> <b>Payment Methods</b>  </p>
+                                    <p className='gray bold-600 '>
+                                        {
+                                            orderData?.payment_method == "cod" ? "Cash on Dilivery" : orderData?.payment_method
+                                        }
+                                        {/* == "cod" ? "Cash on Dilivery" :
+                                    "Via Visa Card ending with 1889" */}
+                                    </p>
+                                </div>
+                            </div>
+                            <div className='row'>
+                                <div className='col-lg-4'>
+                                    <div className='order-summery pt-1'>
+                                        <h5>Order Summary </h5>
+                                        <p className='d-flex justify-content-between py-1' ><b className='gray'>{orderData?.order_items?.length} Item(s) Subtotal:</b>{formatCurrency(Number(orderData?.subtotal),)} </p>
+                                        <p className='d-flex justify-content-between py-1' ><b className='gray'>Shipping:</b> {orderData?.shipping_charges == "0" ? <span style={{ color: "green" }}> Free</span> : formatCurrency(Number(orderData?.shipping_charges),)}  </p>
+                                        {
+                                            orderData?.coupon_amount &&
+                                            <>
+                                                <p className='d-flex justify-content-between py-1' ><b className='gray'>Coupon Amount:</b> <span style={{ color: "green" }}> - {formatCurrency(Number(orderData?.coupon_amount),)} </span></p>
+                                                {/* <p className='d-flex justify-content-between py-1' ><b className='gray'>Grand Total:</b>{formatCurrency(Number(orderData?.subtotal),)}</p> */}
+                                            </>
+                                        }
+                                        <p className='d-flex justify-content-between py-1' ><b className='gray'>Total:</b>{formatCurrency(Number(orderData?.grand_total),)} </p>
                                     </div>
                                 </div>
-                                {/* {
-                                    item?.order_status == "6" &&
-                                    <div>
-                                        <b>Tracking</b>
-                                        <ProgressBar itemData={item} />
-                                    </div>
 
-                                } */}
-                            </React.Fragment>
+                            </div>
+                            <div className='d-flex justify-content-end gap-3'>
+                                {
+                                    // orderData?.order_items?.filter((e) => e?.id == popUpData?.popupdata?.productDetials?.selectedItem_id)[0]?.order_status == "0" &&
+                                   checkCancel &&  <button className='c-btn bg-voilet text-light' onClick={() => {
+                                        cancelOrder(orderData?.id)
+                                        // console.log(orderData, "<<<<<<orderData");
+                                        // dispatch(handlePopup({ data: "test" }, "Add_Review", false)) 
+                                    }}>Cancel Order</button>
+                                }
+                            </div>
 
-                        )
-                    })
+                        </> :
+                        ""
                 }
-                <div className='row border-bottom-g'>
-                    <div className='col-lg-6 p-3 d-flex flex-column gap-2'>
-                        <p> <b>Shipping Details</b>  </p>
-                        <p className='gray bold-600'>{orderData?.address} </p>
-                        <p className='gray bold-600 '>{orderData?.city} <br />
-                            {orderData?.city} ,({orderData?.pincode}) -{orderData?.state} , {orderData?.country}
-                            {/* Sector 8, Noida, Uttar Pradesh, India, 110010 */}
-                        </p>
-
-                    </div>
-                    <div className='col-lg-6 p-3 d-flex flex-column gap-2'>
-                        <p> <b>Payment Methods</b>  </p>
-                        <p className='gray bold-600 '>
-                            {
-                                orderData?.payment_method == "cod" ? "Cash on Dilivery" : orderData?.payment_method
-                            }
-                            {/* == "cod" ? "Cash on Dilivery" :
-                                    "Via Visa Card ending with 1889" */}
-                        </p>
-                    </div>
-                </div>
-                <div className='row'>
-                    <div className='col-lg-4'>
-                        <div className='order-summery pt-1'>
-                            <h5>Order Summary </h5>
-                            <p className='d-flex justify-content-between py-1' ><b className='gray'>{orderData?.order_items?.length} Item(s) Subtotal:</b>{formatCurrency(Number(orderData?.subtotal),)} </p>
-                            <p className='d-flex justify-content-between py-1' ><b className='gray'>Shipping:</b> {orderData?.shipping_charges == "0" ? <span style={{ color: "green" }}> Free</span> : formatCurrency(Number(orderData?.shipping_charges),)}  </p>
-                            {
-                                orderData?.coupon_amount &&
-                                <>
-                                    <p className='d-flex justify-content-between py-1' ><b className='gray'>Coupon Amount:</b> <span style={{ color: "green" }}> - {formatCurrency(Number(orderData?.coupon_amount),)} </span></p>
-                                    {/* <p className='d-flex justify-content-between py-1' ><b className='gray'>Grand Total:</b>{formatCurrency(Number(orderData?.subtotal),)}</p> */}
-                                </>
-                            }
-                            <p className='d-flex justify-content-between py-1' ><b className='gray'>Total:</b>{formatCurrency(Number(orderData?.grand_total),)} </p>
-
-                            {/* <button className='c-btn bg-voilet w-100 mt-3 text-light '>Proceed to Payment</button> */}
-                        </div>
-                    </div>
-
-                </div>
-                <div className='d-flex justify-content-end gap-3'>
-                    <button className='c-btn bg-voilet text-light' onClick={() => { dispatch(handlePopup({ data: "test" }, "Add_Review", false)) }}>Back To Order History</button>
-                </div>
             </div>
         </div>
     )

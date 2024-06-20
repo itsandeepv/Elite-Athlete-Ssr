@@ -351,7 +351,7 @@ function ProductCard({pLength, product, setLoading, hidebutton, setisLoading }) 
         >
           {product?.brand_name?.name &&<p className="head"> {product?.brand_name?.name}</p>}
           
-           <p className=" gray bold">{product?.product_name}</p>
+           <p className=" gray bold">{product?.product_name?.substring(0,35)}</p>
 
         </a>
 

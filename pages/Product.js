@@ -14,7 +14,9 @@ import PropTypes from 'prop-types';
 
 
 function Product({  productData ,productDataForFi }) {
-    console.log("pageProps",  productData ,productDataForFi);
+
+    // console.log("pageProps",  productData ,productDataForFi);
+
     const { userData } = useSelector((state) => state);
     const dispatch = useDispatch();
     const urlParams = new URLSearchParams(window.location.search);
@@ -105,7 +107,6 @@ function Product({  productData ,productDataForFi }) {
         })
 
         setData((preS) => ({ ...preS, products: filteredData }))
-        // console.log(dataForFi, type, "<<<<<<filteredData", filteredData2);
 
     }
 
@@ -124,7 +125,6 @@ function Product({  productData ,productDataForFi }) {
             if (res.data.responseCode === 200) {
                 setBrandData(res.data.result.brands);
                 setLoading(false);
-                // console.log(res.data , "<<<<<<<res.data.result.data");
             }
         } catch (error) {
             console.log(error);
@@ -157,7 +157,6 @@ function Product({  productData ,productDataForFi }) {
             data?.products?.sort((a, b) => {
                 const attLengthB = b?.product_attributes.length > 0 ? parseInt(b?.product_attributes[0]?.price) : parseInt(b.price)
                 const attLengthA = a?.product_attributes.length > 0 ? parseInt(a?.product_attributes[0]?.price) : parseInt(a.price)
-                // console.log(">>>>>>>.", attLengthB ,attLengthA);
                 return e == "desc" ? attLengthB - attLengthA : attLengthA - attLengthB
             });
         }
@@ -328,16 +327,12 @@ Product.propTypes = {
 
 export async function getServerSideProps(context) {
     const { query } = context;
-    const pagename = query.pagename || '';
-    console.log("query", query);
     var pageProps = {};
     var productData =[]
     var productDataForFi =[]
     if(query.type == 'category'){
         const postdata = new FormData();
-        // postdata.append("brand_id", brandIds?.join(','));
         postdata.append("category_id", query.id);
-        // postdata.append("type", brandIds?.length > 0 && `"brand"`);
         let response = await axios.post(`${baseUrl}/api/get-product-by-category`, postdata);
         if (response.data.responseCode === 200) {
             productData = response.data.result
@@ -346,16 +341,15 @@ export async function getServerSideProps(context) {
     }
     if(query.type == 'brand'){
         const brand_id = { brand_id: query.id };
-        response = await axios.post(`${baseUrl}/api/get-product-by-brand`, brand_id);
+        let response = await axios.post(`${baseUrl}/api/get-product-by-brand`, brand_id);
         if (response.data.responseCode === 200) {
-            // console.log(response.data.result);
             productData = response.data.result
             productDataForFi = response.data.result?.products
         }
     }
     if(query.type == 'product'){
         const product_id = { product_id: query.id };
-        response = await axios.post(`${baseUrl}/api/get-product-by-product-id`, product_id);
+       let response = await axios.post(`${baseUrl}/api/get-product-by-product-id`, product_id);
         if (response.data.responseCode === 200) {
             productData = response.data.result
             productDataForFi = response.data.result?.products
