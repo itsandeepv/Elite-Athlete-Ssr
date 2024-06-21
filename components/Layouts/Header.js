@@ -93,7 +93,11 @@ function Header() {
                 ))}
               </select>
               <div className='sugges_search' >
-                <input type="search" onChange={(e) => {
+                <input type="search"  onKeyPress={(e)=>{
+                  if(e.key == "Enter" && searchSuggestionsData.length > 0){
+                    window.location = `/all-product?type=${serachKeyName}&id=${searchSuggestionsData[0]?.id}`
+                  }
+                }} onChange={(e) => {
                   searchSuggestions(e)
                 }} placeholder="I’m shopping for..." />
                 {
@@ -168,7 +172,7 @@ function Header() {
             <Link href="/wish-list"><img src="assets/icons/menu1.svg" alt="img" /> Wishlist</Link>
             <Link href='/order-history' ><img src="assets/icons/menu2.svg" alt="img" /> Order</Link>
             <Link href="/user-dashboard"><img src="assets/icons/menu3.svg" alt="img" /> Edit Profile</Link>
-            <a href="#"
+            <a 
               onClick={() => {
                 dispatch(fetchSuccess({ user: "", token: "" }))
                 window.location = "/"

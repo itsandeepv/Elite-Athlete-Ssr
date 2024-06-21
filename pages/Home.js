@@ -10,41 +10,25 @@ import { baseUrl } from '@utils/urls';
 import HomeBanner from '@components/ProductContent/HomeBanner';
 import axios from 'axios';
 import TopBrands from '@components/Modal/TopBrands';
-const HomePage = ({ topdealdata, homeBannerdata, shopbydata ,starsdata }) => {
-    useEffect(() => {
-        window.scrollTo(0, 0);
-        // MySwal.fire({
-        //     title: 'Custom Alert',
-        //     text: 'This is a custom alert with a custom icon!',
-        //     iconHtml: '<img src="/path/to/your/icon.png" alt="Custom Icon" style="width: 40px; height: 40px;" />',
-        //     showCloseButton: true,
-        //     showCancelButton: true,
-        //     focusConfirm: false,
-        //     confirmButtonText: 'Confirm',
-        //     cancelButtonText: 'Cancel',
-        //     customClass: {
-        //       icon: 'no-border'
-        //     }
-        // });
-    }, []);
-
+const HomePage = ({ topdealdata, homeBannerdata, shopbydata, starsdata }) => {
     const [productSection, setProductSection] = useState(shopbydata || []);
     const [loading, setLoading] = useState(true);
+    useEffect(() => {
+        document.getElementById("custom-loader-ssr").style.display = "block";
+        window.scrollTo(0, 0);
+    }, []);
+
     const fetchData = async () => {
-        // document.getElementById("custom-loader-ssr").style.display = "block";
+        document.getElementById("custom-loader-ssr").style.display = "block";
         try {
             const res = await axios.get(`${baseUrl}/api/get-product-sections-with-item-count`);
             if (res.status === 200) {
                 setProductSection(res.data.result);
                 setLoading(false);
             }
-            setTimeout(() => {
-                // document.getElementById("custom-loader-ssr").style.display = "none";
-            }, 3000);
+            document.getElementById("custom-loader-ssr").style.display = "none";
         } catch (err) {
-            setTimeout(() => {
-                // document.getElementById("custom-loader-ssr").style.display = "none";
-            }, 3000);
+            document.getElementById("custom-loader-ssr").style.display = "none";
             console.log(err);
         }
     };
@@ -66,18 +50,22 @@ const HomePage = ({ topdealdata, homeBannerdata, shopbydata ,starsdata }) => {
                 <meta property="og:url" content={c.BASE_URL} />
                 <meta property="og:site_name" content={c.APP_NAME} />
                 <meta property="og:image" content={`${c.BASE_URL}/assets/images/logo.png`} />
-                <link rel="canonical" href={`${baseUrl}`} />
+                <link rel="canonical" href={`${c.BASE_URL}`} />
             </Head>
             <Layout>
-                <HomeBanner homeBannerdata={homeBannerdata} />
-                <TopdealSection topdealdata={topdealdata} />
-                <ShopebyGoal productSection={productSection[0]} />
-                <ProductSlide />
-                {productSection.slice(1).map((item) => (
-                    <ShopebyGoal key={item.id} productSection={item} />
-                ))}
-                <TopBrandsSection starsdata={starsdata} />
-                <TopBrands />
+                {homeBannerdata && topdealdata && productSection && starsdata ?
+                    <React.Fragment>
+                        <HomeBanner homeBannerdata={homeBannerdata} />
+                        <TopdealSection topdealdata={topdealdata} />
+                        <ShopebyGoal productSection={productSection[0]} />
+                        <ProductSlide />
+                        {productSection.slice(1).map((item) => (
+                            <ShopebyGoal key={item.id} productSection={item} />
+                        ))}
+                        <TopBrandsSection starsdata={starsdata} />
+                        <TopBrands />
+                    </React.Fragment> : ""
+                }
             </Layout>
         </React.Fragment>
     );
@@ -91,26 +79,25 @@ export async function getServerSideProps() {
     let starsdata;
     await axios.get(`${baseUrl}/api/get-slider`).then((res) => {
         if (res.status == 200) {
-            homeBannerdata = res.data.result
+            homeBannerdata = res.data.result||[]
         }
     }).catch((err) => { console.log(err) })
     await axios.get(`${baseUrl}/api/get-all-products-by-top-deal`).then((res) => {
-        topdealdata = res.data.result
+        topdealdata = res.data.result||[]
     }).catch((err) => { console.log(err); })
     await axios.get(`${baseUrl}/api/get-sport-stars`).then((res) => {
-        starsdata = res.data.result
+        starsdata = res.data.result ||[]
     }).catch((err) => { console.log(err); })
     try {
         const res = await axios.get(`${baseUrl}/api/get-product-sections-with-item-count`);
         if (res.status === 200) {
-            shopbydata = res.data.result
+            shopbydata = res.data.result || []
         }
     } catch (err) {
         console.log(err);
     }
-    // console.log(productSection ,res , "<<<<<<<productSection");
-    // getServerProps(context,{taskTypes: taskTypes});
-    return { props: { homeBannerdata, topdealdata, shopbydata ,starsdata } }
+   
+    return { props: { homeBannerdata, topdealdata, shopbydata, starsdata } }
 }
 
 

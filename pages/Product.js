@@ -14,9 +14,6 @@ import PropTypes from 'prop-types';
 
 
 function Product({  productData ,productDataForFi }) {
-
-    // console.log("pageProps",  productData ,productDataForFi);
-
     const { userData } = useSelector((state) => state);
     const dispatch = useDispatch();
     const urlParams = new URLSearchParams(window.location.search);
@@ -67,7 +64,7 @@ function Product({  productData ,productDataForFi }) {
                 }
 
             }
-            // console.log(brandIds , "<<<<<<<brandIds");
+
             if (type === 'brand' || (type === 'product' && brandIds?.length > 0)) {
                 const brand_id = { brand_id: brandIds?.join(',') };
                 response = await axios.post(`${baseUrl}/api/get-product-by-brand`, brand_id);
@@ -171,7 +168,8 @@ function Product({  productData ,productDataForFi }) {
                 <meta name="author" content={c.APP_NAME} />
                 <meta property="og:url" content={c.BASE_URL} />
                 <meta property="og:site_name" content={c.APP_NAME} />
-                <link rel="shortcut icon" href={`${baseUrl}/favicon.png`} />
+                <link rel="shortcut icon" href={`${c.BASE_URL}/favicon.png`} />
+                <link rel="icon" href="/footer-logo.svg"/>
                 <link rel="canonical" href={`${c.BASE_URL}`} />
             </Head>
             <Layout>

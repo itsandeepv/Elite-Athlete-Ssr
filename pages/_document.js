@@ -17,14 +17,14 @@ export default class CustomDocument extends Document {
                     <link rel="dns-prefetch" href="//fonts.googleapis.com" />
                     <link rel="dns-prefetch" href={c.BASE_URL} />
                     <link rel="stylesheet" href={`${c.BASE_URL}/assets/styles/bootstrap.min.css`} />
-                    {/* <link rel="stylesheet" href={`${c.BASE_URL}/assets/styles/slick.min.css`} /> */}
+                    <link rel="stylesheet" href={`${c.BASE_URL}/assets/styles/slick.min.css`} />
                     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-                    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no" />
+                    {/* <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no" /> */}
                     <link rel="stylesheet" href={`${c.BASE_URL}/assets/styles/style.css`} />
                     <link rel="stylesheet" href={`${c.BASE_URL}/assets/styles/responsive.css`} />
                     <link rel="stylesheet" href={`${c.BASE_URL}/assets/styles/loader.css`} />
                     <link rel="shortcut icon" href={`${c.BASE_URL}/favicon.png`} />
-                    <meta name="viewport" content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no,user-scalable=no,viewport-fit=cover" />
+                    {/* <meta name="viewport" content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no,user-scalable=no,viewport-fit=cover" /> */}
                 </Head>
                 <body>
                     {this.props.styleTags}

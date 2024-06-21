@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { baseUrl } from '../../utils/urls';
+import Link from 'next/link';
 
 
 function Footer() {
@@ -115,18 +116,6 @@ function Footer() {
                 )
               })
             }
-            {/* <a href="#">
-              <i className="fa-brands fa-twitter"></i>
-            </a>
-            <a href="#">
-              <i className="fa-brands fa-linkedin"></i>
-            </a> */}
-            {/* <a href="#">
-              <i className="fa-brands fa-pinterest"></i>
-            </a>
-            <a href="#">
-              <i className="fa-brands fa-instagram"></i>
-            </a> */}
           </div>
         </div>
 
@@ -140,7 +129,7 @@ function Footer() {
               pageData?.filter((item) => item?.page_type == "information")?.map((item, index) => {
                 return (
                   <li key={index}>
-                    <a href={`/pages?pagename=${item?.slug}`}>{item?.title}</a>
+                    <Link href={`/pages?pagename=${item?.slug}`}>{item?.title}</Link>
                   </li>
                 )
               })

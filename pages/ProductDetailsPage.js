@@ -19,20 +19,21 @@ import ProductdetailsCard from '@components/Cards/ProductdetailsCard';
 
 function ProductDetailsPage({ productdetails, relatedProduct, productVarintdetails }) {
 
-    // console.log("pageDataS", productdetails);
-    const [data, setData] = useState(productdetails || []);
-    const [loading, setLoading] = useState(false);
-    const [catProductData, setCatProductData] = useState(relatedProduct.products || []);
+    console.log("pageDataS", productdetails);
     const { ProductByVarientData } = useSelector((state) => state);
+    const dispatch = useDispatch()
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+    const [data, setData] = useState(productdetails || {});
+    const [loading, setLoading] = useState(false);
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+    const [catProductData, setCatProductData] = useState(relatedProduct.products || []);
     const [productReviewCount, setProductReviewCount] = useState([]);
     const [productReviewData, setProductReviewData] = useState([]);
     const { userData } = useSelector((state) => state)
     const [productLoading, setProductLoading] = useState(false);
     const [catProductLoading, setCatProductLoading] = useState(false);
-    const dispatch = useDispatch()
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get('id');
-    console.log(params, id, "<<<<<<<<<userData");
+
     useEffect(() => {
         if (userData?.token) {
             dispatch(getCartListCount(`/api/get-cart-list`, userData?.token, "CartListSuccess"));
@@ -145,9 +146,9 @@ function ProductDetailsPage({ productdetails, relatedProduct, productVarintdetai
         // fetchCateProductData();
     }, [data]);
 
-    useEffect(() => {
-        setData({ ...data, ...ProductByVarientData.ProductByVarientData });
-    }, [ProductByVarientData.ProductByVarientData]);
+    // useEffect(() => {
+    //     setData({ ...data, ...ProductByVarientData.ProductByVarientData });
+    // }, [ProductByVarientData.ProductByVarientData]);
 
     const [tabs, setTabs] = useState(1);
 
@@ -168,11 +169,7 @@ function ProductDetailsPage({ productdetails, relatedProduct, productVarintdetai
             path: "/"
         },
     ]
-    // console.log(data);
 
-
-
-    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     useEffect(() => {
         const handleResize = () => {
             setWindowWidth(window.innerWidth);
@@ -229,7 +226,8 @@ function ProductDetailsPage({ productdetails, relatedProduct, productVarintdetai
                 <meta property="og:url" content={c.BASE_URL} />
                 <meta property="og:site_name" content={c.APP_NAME} />
                 <meta property="og:image" content={`${baseUrl}${data?.meta_image}`} />
-                <link rel="shortcut icon" href={`${baseUrl}/${"favicon.png"}`} />
+                <link rel="shortcut icon" href={`${c.BASE_URL}/favicon.png`} />
+                <link rel="icon" href="/footer-logo.svg"/>
                 <link rel="canonical" href={`${c.BASE_URL}`} />
             </Head>
             <Layout>
@@ -401,7 +399,6 @@ ProductDetailsPage.propTypes = {
 
 export async function getServerSideProps(context) {
     const { query } = context;
-    const pagename = query.pagename || '';
     var productdetails = {}
     var productVarintdetails = {}
     if (query.vrN) {
@@ -415,7 +412,6 @@ export async function getServerSideProps(context) {
             }
         }).catch((err) => {
             console.log(err);
-            // toast.error("asdf")
         })
 
         await axios.request({
@@ -423,20 +419,21 @@ export async function getServerSideProps(context) {
             url: `${baseUrl}/api/get-single-product-variant`,
             data: dataFor,
         }).then((response) => {
-            // console.log("response>>>>>>>", response.data);
             if (response.data.responseCode === 200) {
-                productdetails = { ...productVarintdetails, ...response.data.result }
+                let resultData = response.data.result
+                let formatedData = { ...productVarintdetails  , ...resultData ,images: resultData.images ? resultData.images: productVarintdetails.images}
+                // console.log("productVarintdetails>>>>>>>", productVarintdetails.images ,formatedData, resultData.images  );
+                productdetails = formatedData
+                // { ...productVarintdetails  , ...response.data.result ,images: productVarintdetails.images}
             }
         }).catch((err) => {
             console.log(err);
         })
 
     } else {
-        const product_id = { product_id: query.id || "48" };
+        
         await axios.post(`${baseUrl}/api/get-single-product`, { product_id: query.id }).then((response) => {
-            console.log("response>>>>>>>", response.data);
             if (response.data.responseCode === 200) {
-                // setData(response.data.result);
                 productdetails = response.data.result
             }
         }).catch((err) => {
@@ -455,8 +452,7 @@ export async function getServerSideProps(context) {
     }).catch((err) => {
         console.log(err);
     })
-    // console.log("response>>>>>>>", productVarintdetails);
-    // console.log(query, "<<<<<<<pagename");
+    
     return { props: { productdetails, productVarintdetails, relatedProduct } }
 }
 export default ProductDetailsPage

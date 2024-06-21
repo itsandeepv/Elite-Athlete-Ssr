@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { baseUrl } from '../utils/urls'
 import axios from 'axios'
 import Layout from '@components/Layouts/Layout';
 import Breadcrums from '@components/Breadcrums/Breadcrums';
 import PropTypes from 'prop-types';
 import c from "@constants/Common";
 import Head from 'next/head';
+import { baseUrl } from '@utils/urls';
 
 function PrivacyPolicy({ pageDataS }) {
-    const urlParams = new URLSearchParams(window.location.search);
-    const pagename = urlParams.get('pagename');
     const [pageData, setpageData] = useState(pageDataS || {})
-    // console.log(pageDataS, "<<<<<window.pageDataS" ,pageData);
     const breadcumsDetails = [
         {
             title: "Home",
@@ -31,7 +28,8 @@ function PrivacyPolicy({ pageDataS }) {
                 <meta name="author" content={c.APP_NAME} />
                 <meta property="og:url" content={c.BASE_URL} />
                 <meta property="og:site_name" content={c.APP_NAME} />
-                <link rel="shortcut icon" href={`${baseUrl}/favicon.png`} />
+                <link rel="shortcut icon" href={`/favicon.png`} />
+                <link rel="icon" href="/footer-logo.svg"/>
                 <link rel="canonical" href={`${c.BASE_URL}`} />
             </Head>
             <Layout>

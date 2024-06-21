@@ -1,9 +1,7 @@
 import React from 'react'
-// import "../../styles/loader.css";
-
 function Loader() {
     return (
-        <div className='all-load'>
+        <div id='all-load' className='all-load'>
         <div className="loader-main">
             <div className="spinning">
                 <img src="/assets/images/gainer.png" alt="" className="one" />

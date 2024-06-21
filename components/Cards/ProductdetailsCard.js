@@ -16,18 +16,18 @@ import PhotoSlider from "@components/Modal/PhotoSlider";
 
 
 function ProductdetailsCard({ products, productReviewCount, setData }) {
-  const [details, setDetails] = useState({...products});
-  const [selectedAttribute, setSelectedAttribute] = useState();
-  const navigate = ()=>{}
   const router = useRouter();
-
-  const [selectedImage, setSelectedImage] = useState("");
-  const [showModal, setShowModal] = useState(false);
-  const [showShare, setshowShare] = useState("false");
-
+  const { userData } = useSelector((state) => state);
+  const { getCartListData } = useSelector((state) => state.getCartListData);
+  const { getWishListData } = useSelector((state) => state.getWishListData);
   const params = new URLSearchParams(window.location.search);
   const productID = params.get("id");
   const vrNID = params.get("vrN");
+  const [details, setDetails] = useState({...products});
+  const [selectedAttribute, setSelectedAttribute] = useState();
+  const [selectedImage, setSelectedImage] = useState("");
+  const [showShare, setshowShare] = useState("false");
+
  
   const [isLoading, setisLoading] = useState(false);
   const [showWishListContent, setShowWishListContent] = useState();
@@ -38,7 +38,6 @@ function ProductdetailsCard({ products, productReviewCount, setData }) {
   const [isVisible, setIsVisible] = useState();
   const [quntity, setQuantity] = useState(1);
   const dispatch = useDispatch();
-  const { userData } = useSelector((state) => state);
   var settings = {
     dots: false,
     speed: 500,
@@ -47,9 +46,7 @@ function ProductdetailsCard({ products, productReviewCount, setData }) {
     slidesToShow: 4,
     slidesToScroll: 1,
   };
-  const { getCartListData } = useSelector((state) => state.getCartListData);
-  const { getWishListData } = useSelector((state) => state.getWishListData);
-
+ 
   const selectAndShowSliderImage = (imageUrl) => {
     setSelectedImage(imageUrl);
   };
@@ -103,9 +100,6 @@ function ProductdetailsCard({ products, productReviewCount, setData }) {
       }
     } else {
       dispatch(openModal('Signin', {}));
-      // navigate(`${window.location?.pathname + window.location?.search}`, {
-      //   state: { popName: "Sigin" },
-      // });
     }
   };
 
@@ -158,10 +152,6 @@ function ProductdetailsCard({ products, productReviewCount, setData }) {
     }
   };
 
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
-
   const showProductByVarient = (data) => {
     setisLoading(true)
     const dataFor = new FormData()
@@ -180,22 +170,19 @@ function ProductdetailsCard({ products, productReviewCount, setData }) {
         if (setisLoading) { setisLoading(false) }
         if (response.data?.responseCode === 200) {
           let data = response.data.result
-          setDetails((preS) => ({ ...preS, ...data}))
+          // console.log(details , "<<<<<<<images" ,data);
           setData((preS) => ({
-            ...preS, ...data ,images: (data?.images === '' || data?.images === null) ? preS?.galleryImg:data?.images +  (preS?.galleryImg ? "," + preS?.galleryImg : "")
+            ...preS, ...data , images:  data?.images ? data?.images +  (details?.images ? "," + details?.images : "") : details?.images
           }))
+          //priya's cond ...preS, ...data ,images: (data?.images === '' || data?.images === null) ? preS?.galleryImg:data?.images +  (preS?.galleryImg ? "," + preS?.galleryImg : "")
+          setDetails((preS) => ({ ...preS, ...data ,images:  data?.images ? data?.images +  (details?.images ? "," + details?.images : "") : details?.images}))
           ProductByVarientData.ProductByVarientData = response.data.result
-        } else {
-          // dispatch(fetchSuccess({result:"Not found"}));
-        }
+        } 
       })
       .catch((error) => {
         if (setisLoading) { setisLoading(false) }
         toast.error('An error occurred. Please try again.');
       });
-
-
-
   };
 
   useEffect(() => {
@@ -394,12 +381,6 @@ function ProductdetailsCard({ products, productReviewCount, setData }) {
   }
 
   const silderRef = useRef(null)
-  // let arrayOld = [...details?.images?.split(",")]
-  // let thumbnailN = details?.thumbnail
-  // let arraynew = [...details?.images?.split(",")]
-  // let productImagesArr = details?.images && details?.thumbnail ? [thumbnailN, ...arrayOld] : details?.thumbnail ? [thumbnailN, ...arrayOld] : []
-  // console.log(productImagesArr, productReviewCount, "<<<<<productImagesArr");
-
   useEffect(()=>{
     const timeoutId = setTimeout(() => {
       var activeItem = document.querySelector('.wrapped-label .activeForS');
@@ -427,7 +408,6 @@ function ProductdetailsCard({ products, productReviewCount, setData }) {
             {
               details.images?.length == 0 || !details?.images ?
               <Slider {...settings2} ref={silderRef}>
-                {/* {[details?.thumbnail ,...details?.images?.split(",")]?.map((imageUrl, index) => { */}
                 {details?.thumbnail?.split(",").map((imageUrl, index) => {
                   // console.log(imageUrl, "<<<<<<<imageUrl");
                   return (
@@ -435,9 +415,8 @@ function ProductdetailsCard({ products, productReviewCount, setData }) {
                       <img
                         style={{ maxHeight: "400px" }}
                         onClick={() => {
-                          const findimgArr = details.images
-                            .split(",")
-                            ?.map((item) => item?.trim());
+                          // console.log("details" ,details);
+                          const findimgArr = details.thumbnail.split(",")?.map((item) => item?.trim());
                           moveElementToFront(findimgArr, imageUrl);
                           setIsVisible(moveElementToFront(findimgArr, imageUrl));
                           // console.log("asdfasdf", details.images ,moveElementToFront(findimgArr, imageUrl));
@@ -615,10 +594,7 @@ function ProductdetailsCard({ products, productReviewCount, setData }) {
                           //   `${item?.title}_attr_val${indexV}`
                           // ] === attribute.attr_val ?{border: "2px solid #5a0563 !important;"}:{}
                           // }
-                          className={`quantity-btn ${attribute?.quantity == "0" ? " btn-disabled " : " "} ${vrNID == attribute.attribute_name
-                            ? "active"
-                            : ""
-                            }`}
+                          className={`quantity-btn ${attribute?.quantity == "0" ? " btn-disabled " : " "} ${vrNID == attribute.attribute_name ? "active" : "" }`}
                           onClick={() => {
                             // window.location = `/product-details?id=${productID}&vrN=${attribute?.attribute_name}`
                             router.push({

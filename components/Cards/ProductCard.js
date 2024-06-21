@@ -420,10 +420,11 @@ function ProductCard({pLength, product, setLoading, hidebutton, setisLoading }) 
           </div>
         )}
         {
-          ((product.product_attributes?.length > 0 && (product.product_attributes[0]?.price == null || product.product_attributes[0]?.price == "0.00"))
-            || (product?.price == "null" || product?.price == "0.00")) || (
+          ((product.product_attributes?.length > 0 &&
+             (product.product_attributes[0]?.price == null || product.product_attributes[0]?.price == "0.00"))
+            ||  (product.product_attributes?.length == "0" && (product?.price == "null" || product?.price == "0.00"))) || (
               (product.product_attributes?.length > 0 && (product.product_attributes[0]?.quantity == null || product.product_attributes[0]?.quantity == "0"))
-              || (product?.quantity == "null" || product?.quantity == "0")
+              || (product.product_attributes?.length == "0" &&(product?.quantity == "null" || product?.quantity == "0"))
             ) ?
             "" :
             <div className="hover-btn">
