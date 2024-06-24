@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
 import Head from 'next/head';
-import styled from "styled-components";
 import c from "@constants/Common";
-import colors from '@constants/Colors';
 import Layout from '@components/Layouts/Layout';
 
 const Landing = () => {
