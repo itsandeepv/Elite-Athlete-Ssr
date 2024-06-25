@@ -15,15 +15,9 @@ function UserDashboard() {
     const pathN = window.location.pathname
     const [sidebartabs, setsidebartabs] = useState(pathN == "/order-history" ? "Purchase History": "Profile");
     const [showProfs, setshowProfs] = useState("false");
-    const [userUpdatedDetails, setuserUpdatedDetails] = useState();
-    // const details = useParams()
-      console.log(window.location.pathname , "<<<<<<<< /order-history");
-    
+    const [userUpdatedDetails, setuserUpdatedDetails] = useState();    
     useEffect(() => {
         dispatch(getUserOrder(`/api/get-user-orders`, userData?.token));
-        // if (state) {
-        //     setsidebartabs(state);
-        // }
     }, []);
 
     return (

@@ -28,14 +28,12 @@ function UserProfile({setuserUpdatedDetails}) {
         id: 12,
         image: null,
         name: "",
-        // otp: "",
         phone: ""
     })
 
     const dispatch = useDispatch()
    
     useEffect(() => {
-        // getUserDetails()
         if(userData?.token){
             dispatch(getUserdata(userData?.token))
         }
@@ -114,19 +112,6 @@ function UserProfile({setuserUpdatedDetails}) {
                         }}>Change Number</button>
                     </div>
                     </div>
-                    {/* <div className='d-flex align-items-center justify-content-between border-v p-lg-3' style={{ borderTop: "none" }}>
-                        <div className='col-lg-'>
-                            <div className="form-contr">
-                                <label htmlFor="email">Email*</label>
-                                <input type="email" id='email' disabled={true} name='email' value={formdata?.email} onChange={(e) => handleChange(e)} placeholder='Enter your email' />
-                            </div>
-                        </div>
-                        <button className='c-btn bg-light text-dark' onClick={()=>{
-                            setShowpopup({
-                                isOpen:true
-                            })
-                        }} >Change Email</button>
-                    </div> */}
                 </div>
                 <div className='row py-lg-2 mt-lg-3'>
                     <div className='col-lg-6'>
@@ -155,12 +140,6 @@ function UserProfile({setuserUpdatedDetails}) {
                             <input type="text" id='email' name='alternate_number' value={formdata?.alternate_number} onChange={(e) => handleChange(e)} placeholder='Enter your Alternate Mobile Number' maxLength={10}/>
                         </div>
                     </div>
-                    {/* <div className='col-lg-6'>
-                    <div className="form-contr">
-                        <label htmlFor="email">Profile Image</label>
-                        <input type="file" id='email' name='image'  onChange={(e)=>handleChange(e)}  />
-                    </div>
-                </div> */}
                 </div>
 
                 <div className='pt-3'>

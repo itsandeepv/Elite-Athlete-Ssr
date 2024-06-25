@@ -21,7 +21,6 @@ function UpdateProfile({ details, setShowpopup }) {
         setloading(true)
         await axios.post(`${baseUrl}/api/generate-otp`, formData).then((res) => {
             if (res.data?.responseCode == 200) {
-                // toast.success(res.data?.message)
                 setotpsend("otp")
                 setloading(false)
                 startTimer()
@@ -53,10 +52,7 @@ function UpdateProfile({ details, setShowpopup }) {
             },
             data: data
         };
-        // data.append("old_number":"")
-
         await axios.request(config).then((res) => {
-            // console.log(res);
             if (res.data?.responseCode == 200) {
                 toast.success(res.data?.message)
                 setotpsend("otp")
@@ -175,12 +171,6 @@ function UpdateProfile({ details, setShowpopup }) {
 
                         </React.Fragment>
                 }
-
-
-
-
-
-
             </div>
         </form>
     )

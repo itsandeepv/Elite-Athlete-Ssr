@@ -34,9 +34,11 @@ export const getUserOrder = (endpoint,token) => {
                 if(response?.data.responseCode == 200){
                     dispatch(fetchSuccess(response?.data.result));
                 }
+                document.getElementById("custom-loader-ssr").style.display = "none";
                 // console.log(response?.data.result , "<<<<<<<<<<userOrderData");
             })
             .catch((error) => {
+                document.getElementById("custom-loader-ssr").style.display = "none";
                 dispatch(fetchFailure(error));
             });
     };

@@ -7,7 +7,7 @@ import { baseUrl } from '@utils/urls';
 import LoaderSmall from './LoaderSmall';
 import { showPopup } from '@redux/actions/popupActions';
 import { userLogin } from '@redux/actions/userAuthActions';
-import { closeModal } from '@redux/actions/modalActions';
+import { closeModal, openModal } from '@redux/actions/modalActions';
 
 function ResetPassword({ setShowpopup }) {
     const [otpsend, setotpsend] = useState("pass")

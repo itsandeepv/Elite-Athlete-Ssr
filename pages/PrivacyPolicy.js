@@ -9,6 +9,7 @@ import { baseUrl } from '@utils/urls';
 
 function PrivacyPolicy({ pageDataS }) {
     const [pageData, setpageData] = useState(pageDataS || {})
+    
     const breadcumsDetails = [
         {
             title: "Home",
@@ -19,6 +20,9 @@ function PrivacyPolicy({ pageDataS }) {
             path: "#"
         },
     ]
+    useEffect(()=>{
+        document.getElementById("custom-loader-ssr").style.display = pageData? "none":"block"
+    },[])
 
     return (
         <React.Fragment>

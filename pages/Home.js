@@ -14,7 +14,7 @@ const HomePage = ({ topdealdata, homeBannerdata, shopbydata, starsdata }) => {
     const [productSection, setProductSection] = useState(shopbydata || []);
     const [loading, setLoading] = useState(true);
     useEffect(() => {
-        document.getElementById("custom-loader-ssr").style.display = "block";
+        // document.getElementById("custom-loader-ssr").style.display = "block";
         window.scrollTo(0, 0);
     }, []);
 

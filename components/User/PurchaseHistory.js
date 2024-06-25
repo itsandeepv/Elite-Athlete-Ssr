@@ -16,10 +16,6 @@ function PurchaseHistory({ setshowPopup, userOrderData }) {
     }).flat()
 
     const [searchInput, setsearchInput] = useState("")
-
-    // console.log("userOrderData", userOrderData,);
-
-
     return (
         <React.Fragment>
             <div className='section-details p-1'>
