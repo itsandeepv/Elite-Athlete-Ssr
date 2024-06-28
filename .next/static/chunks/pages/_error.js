@@ -21,7 +21,7 @@ eval(__webpack_require__.ts("\n    (window.__NEXT_P = window.__NEXT_P || []).pus
 },
 /******/ function(__webpack_require__) { // webpackRuntimeModules
 /******/ var __webpack_exec__ = function(moduleId) { return __webpack_require__(__webpack_require__.s = moduleId); }
-/******/ __webpack_require__.O(0, ["vendors-node_modules_next_dist_pages__error_js","vendors-node_modules_next_dist_pages__app_js","vendors-node_modules_next_app_js-node_modules_splidejs_react-splide_dist_css_splide_min_css-n-9501f1","pages/_app","vendors-node_modules_next_dist_client_dev_fouc_js-node_modules_next_dist_client_dev_on-demand-377e62","vendors-node_modules_next_dist_client_next-dev_js","_506d","main"], function() { return __webpack_exec__("./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?absolutePagePath=private-next-pages%2F_error&page=%2F_error!"); });
+/******/ __webpack_require__.O(0, ["vendors-node_modules_next_dist_shared_lib_head_js","vendors-node_modules_next_dist_pages__error_js","vendors-node_modules_next_dist_pages__app_js","vendors-node_modules_next_app_js-node_modules_splidejs_react-splide_dist_css_splide_min_css-n-9501f1","pages/_app","vendors-node_modules_next_dist_client_dev_fouc_js-node_modules_next_dist_client_dev_on-demand-377e62","vendors-node_modules_next_dist_client_next-dev_js","_506d","main"], function() { return __webpack_exec__("./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?absolutePagePath=private-next-pages%2F_error&page=%2F_error!"); });
 /******/ var __webpack_exports__ = __webpack_require__.O();
 /******/ _N_E = __webpack_exports__;
 /******/ }

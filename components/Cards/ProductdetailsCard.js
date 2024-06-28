@@ -423,7 +423,8 @@ function ProductdetailsCard({ products, productReviewCount, setData }) {
                         }}
                         src={baseUrl + "/" + imageUrl.trim()}
                         className="img-fluid"
-                        alt={`Image ${index + 1}`}
+                        
+                        alt={details?.product_name}
                       />
                     </div>
 
@@ -448,7 +449,7 @@ function ProductdetailsCard({ products, productReviewCount, setData }) {
                         }}
                         src={baseUrl + "/" + imageUrl.trim()}
                         className="img-fluid"
-                        alt={`Image ${index + 1}`}
+                        alt={details?.product_name}
                       />
                     </div>
 
@@ -476,7 +477,7 @@ function ProductdetailsCard({ products, productReviewCount, setData }) {
                             silderRef.current.slickGoTo(index)
                           }
                           }
-                          alt={`Image ${index + 1}`}
+                          alt={details?.product_name}
                         />
                       </div>
                     </div>

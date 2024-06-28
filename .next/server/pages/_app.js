@@ -350,7 +350,7 @@ module.exports = import("redux-thunk");;
 var __webpack_require__ = require("../webpack-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = __webpack_require__.X(0, ["vendors-node_modules_react_jsx-dev-runtime_js","vendors-node_modules_swc_helpers_cjs__interop_require_default_cjs","vendors-node_modules_next_app_js-node_modules_splidejs_react-splide_dist_css_splide_min_css-n-4743e7","components_Modal_Loader_js"], () => (__webpack_exec__("./node_modules/next/dist/build/webpack/loaders/next-route-loader.js?page=%2F_app&absolutePagePath=private-next-pages%2F_app&preferredRegion=!")));
+var __webpack_exports__ = __webpack_require__.X(0, ["vendors-node_modules_react_jsx-dev-runtime_js","vendors-node_modules_swc_helpers_cjs__interop_require_default_cjs","vendors-node_modules_slick-carousel_slick_slick-theme_css-node_modules_slick-carousel_slick_s-402d66","vendors-node_modules_next_app_js-node_modules_splidejs_react-splide_dist_css_splide_min_css-n-0f7adf","components_Modal_Loader_js"], () => (__webpack_exec__("./node_modules/next/dist/build/webpack/loaders/next-route-loader.js?page=%2F_app&absolutePagePath=private-next-pages%2F_app&preferredRegion=!")));
 module.exports = __webpack_exports__;
 
 })();

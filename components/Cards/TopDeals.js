@@ -56,7 +56,7 @@ function TopdealsCard({ details }) {
         </div>
         <div className="right">
           <div className="bg"></div>
-          <img src={baseUrl + "/" + details?.thumbnail} alt="img" />
+          <img src={baseUrl + "/" + details?.thumbnail} alt={details?.product_name} />
         </div>
       </div>
     </div>

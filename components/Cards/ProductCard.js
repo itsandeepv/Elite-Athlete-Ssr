@@ -316,7 +316,7 @@ function ProductCard({pLength, product, setLoading, hidebutton, setisLoading }) 
                   <img
                     src={`${baseUrl}/${imageUrl.trim()}`}
                     className="img-fluid category-image"
-                    alt={`Image ${index + 1}`}
+                    alt={product?.product_name}
                   />
                 </a>
               </div>
@@ -330,7 +330,7 @@ function ProductCard({pLength, product, setLoading, hidebutton, setisLoading }) 
             <img
               src={`${baseUrl}/${product.thumbnail}`}
               className="img-fluid category-image"
-              alt="Product Image"
+              alt={product?.product_name}
             />
           </a>
         )}
