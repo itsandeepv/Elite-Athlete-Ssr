@@ -13,5 +13,13 @@ module.exports = {
             automaticNameDelimiter: '-',
         };
         return config
-    }
+    },
+    async rewrites() {
+        return [
+          {
+            source: '/(.*)',
+            destination: '/',
+          },
+        ];
+      },
 }
