@@ -18,15 +18,53 @@
   ],
   "rootMainFiles": [],
   "pages": {
+    "/NotFound": [
+      "static/chunks/webpack.js",
+      "static/chunks/vendors-node_modules_next_dist_client_dev_fouc_js-node_modules_next_dist_client_dev_on-demand-377e62.js",
+      "static/chunks/vendors-node_modules_next_dist_client_next-dev_js.js",
+      "static/chunks/_506d.js",
+      "static/chunks/main.js",
+      "static/chunks/vendors-node_modules_moment_moment_js-node_modules_next_link_js-node_modules_next_router_js-n-551d9c.js",
+      "static/chunks/components_Layouts_Layout_js.js",
+      "static/chunks/pages/NotFound.js"
+    ],
+    "/Product": [
+      "static/chunks/webpack.js",
+      "static/chunks/vendors-node_modules_next_dist_client_dev_fouc_js-node_modules_next_dist_client_dev_on-demand-377e62.js",
+      "static/chunks/vendors-node_modules_next_dist_client_next-dev_js.js",
+      "static/chunks/_506d.js",
+      "static/chunks/main.js",
+      "static/chunks/vendors-node_modules_moment_moment_js-node_modules_next_link_js-node_modules_next_router_js-n-551d9c.js",
+      "static/chunks/vendors-node_modules_next_dist_shared_lib_head_js.js",
+      "static/chunks/vendors-node_modules_next_head_js-node_modules_prop-types_index_js-node_modules_react-slick_l-4347a2.js",
+      "static/chunks/components_Layouts_Layout_js.js",
+      "static/chunks/components_Breadcrums_Breadcrums_js-components_StarRating_js-constants_Common_js.js",
+      "static/chunks/pages/Product.js"
+    ],
     "/ProductDetailsPage": [
       "static/chunks/webpack.js",
       "static/chunks/vendors-node_modules_next_dist_client_dev_fouc_js-node_modules_next_dist_client_dev_on-demand-377e62.js",
       "static/chunks/vendors-node_modules_next_dist_client_next-dev_js.js",
       "static/chunks/_506d.js",
       "static/chunks/main.js",
+      "static/chunks/vendors-node_modules_moment_moment_js-node_modules_next_link_js-node_modules_next_router_js-n-551d9c.js",
       "static/chunks/vendors-node_modules_next_dist_shared_lib_head_js.js",
-      "static/chunks/vendors-node_modules_form-data_lib_browser_js-node_modules_moment_moment_js-node_modules_next-e2faac.js",
+      "static/chunks/vendors-node_modules_next_head_js-node_modules_prop-types_index_js-node_modules_react-slick_l-4347a2.js",
+      "static/chunks/vendors-node_modules_form-data_lib_browser_js-node_modules_react-zoom-pan-pinch_dist_index_esm_js.js",
+      "static/chunks/components_Layouts_Layout_js.js",
+      "static/chunks/components_Breadcrums_Breadcrums_js-components_StarRating_js-constants_Common_js.js",
       "static/chunks/pages/ProductDetailsPage.js"
+    ],
+    "/UserDashboard": [
+      "static/chunks/webpack.js",
+      "static/chunks/vendors-node_modules_next_dist_client_dev_fouc_js-node_modules_next_dist_client_dev_on-demand-377e62.js",
+      "static/chunks/vendors-node_modules_next_dist_client_next-dev_js.js",
+      "static/chunks/_506d.js",
+      "static/chunks/main.js",
+      "static/chunks/vendors-node_modules_moment_moment_js-node_modules_next_link_js-node_modules_next_router_js-n-551d9c.js",
+      "static/chunks/vendors-node_modules_next_dist_compiled_babel_runtime_helpers_esm_slicedToArray_js.js",
+      "static/chunks/components_Layouts_Layout_js.js",
+      "static/chunks/pages/UserDashboard.js"
     ],
     "/_app": [
       "static/chunks/webpack.js",

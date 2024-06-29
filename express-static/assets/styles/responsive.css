@@ -474,11 +474,12 @@
 
     .card-itm.item .hover-icons {
         right: 2px;
+        background-color: transparent;
 
     }
 
     .card-itm.item .hover-btn {
-        margin-top: 7px;
+        margin-top: 30px;
         position: absolute;
         top: 116px;
     }
@@ -489,7 +490,7 @@
     }
 
     .svg-img-icon {
-        background-color: #f7f7f7;
+        background-color: transparent;
         padding: 7px 9px 11px 11px;
         z-index: 4;
     }

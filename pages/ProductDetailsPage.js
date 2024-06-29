@@ -139,7 +139,7 @@ function ProductDetailsPage({ productdetails, relatedProduct, productVarintdetai
 
     useEffect(() => {
         // fetchData();
-        fetchProductReviewData();
+        // fetchProductReviewData();
     }, []);
 
     useEffect(() => {
@@ -264,7 +264,9 @@ function ProductDetailsPage({ productdetails, relatedProduct, productVarintdetai
                                                                     data?.nutrition && data?.nutrition != "" &&
                                                                     <li className={`light-gray bold-600 ${isSectionActive(2)}`} onClick={() => handleTabClick(2)}>Nutrition</li>
                                                                 }
-                                                                <li className={`light-gray bold-600 ${isSectionActive(3)}`} onClick={() => handleTabClick(3)}>Review ({productReviewCount ? productReviewCount : 0})</li>
+                                                                <li className={`light-gray bold-600 ${isSectionActive(3)}`} onClick={() => {
+                                                                    fetchProductReviewData()
+                                                                    handleTabClick(3)}}>Review ({productReviewCount ? productReviewCount : 0})</li>
                                                             </ul>
                                                         </div>
                                                     </div>
