@@ -4,7 +4,7 @@ const express = require("express");
 
 const cors = require("cors")
 
-app.use(cors({origin:"*"}))
+
 
 
 app.prepare().then(() => {
@@ -14,6 +14,7 @@ app.prepare().then(() => {
     }
     let http,io;
     const server = new express();
+    server.use(cors({origin:"*"}))
     server.use(express.static("express-static"));
     require("./routes/frontend")({server,app});
     const PORT = process.env.PORT || config.PORT;
