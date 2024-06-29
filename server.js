@@ -2,6 +2,10 @@ const dev = process.env.NODE_ENV !== "production";
 const app = require("next")({dev});
 const express = require("express");
 
+const cors = require("cors")
+
+app.use(cors({origin:"*"}))
+
 
 app.prepare().then(() => {
     const config = require("./config");

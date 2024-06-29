@@ -1,7 +1,7 @@
 {
     "PORT": 4003,
-    "BASE": "https://elite-athlete-ssr.vercel.app",
-    "BUCKET_URL": "https://elite-athlete-ssr.vercel.app",
+    "BASE": "https://eanfront.gocoolcare.com/",
+    "BUCKET_URL": "https://eanfront.gocoolcare.com",
     "APP_NAME": "Elite-Athlete-Nutrition",
     "DB": {
         "connectionLimit": 1000,

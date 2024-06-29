@@ -1,6 +1,6 @@
 {
     "PORT": 4003,
-    "BASE": "https://elite-athlete-ssr.vercel.app",
+    "BASE": "http://localhost:4003",
     "BUCKET_URL": "http://localhost:4003",
     "APP_NAME": "Elite-Athlete-Nutrition",
     "DB": {
