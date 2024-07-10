@@ -794,6 +794,8 @@
     .home-banner .goals-card img {
         height: fit-content;
         max-height: 220px;
+        min-height: 210px;
+        object-fit: contain;
     }
 
     .home-sections {

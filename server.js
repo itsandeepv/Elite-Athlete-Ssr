@@ -4,9 +4,6 @@ const express = require("express");
 
 const cors = require("cors")
 
-
-
-
 app.prepare().then(() => {
     const config = require("./config");
     if(!config.PORT){
