@@ -1,9 +1,9 @@
 const path = require('path');
 module.exports = {
-    images: {
-        domains: ['https://api.suppkart.com'],
-        deviceSizes: [320, 420, 768, 1024, 1200],
-    },
+    // images: {
+    //     domains: ['api.suppkart.com'],
+    //     deviceSizes: [320, 420, 768, 1024, 1200],
+    // },
     compress: true,
     webpack: config => {
         config.optimization.splitChunks = {
