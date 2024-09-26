@@ -40,7 +40,7 @@ function WishList() {
 
     ]
 
-    document.getElementById("custom-loader-ssr").style.display = loading? "block": "none";
+    // document.getElementById("custom-loader-ssr").style.display = loading? "block": "none";
 
 
     return (

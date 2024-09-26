@@ -2,7 +2,7 @@ const config = require("./../config");
 // https://suppkart.com/
 module.exports = {
     APP_NAME: "Suppkart",
-    BASE_URL: "http://localhost:4003",
+    BASE_URL: "https://suppkart.com",
     APP_LOGO : `https://suppkart.com/assets/images/logo.png`,
     SITE_EMAIL: "customercare@suppkart.com",
     FILE_SIZES: {
