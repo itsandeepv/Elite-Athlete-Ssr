@@ -23,8 +23,7 @@ export default class CustomDocument extends Document {
                     <link rel="stylesheet" href={`${c.BASE_URL}/assets/styles/style.css`} />
                     <link rel="stylesheet" href={`${c.BASE_URL}/assets/styles/responsive.css`} />
                     <link rel="stylesheet" href={`${c.BASE_URL}/assets/styles/loader.css`} />
-                    <link rel="shortcut icon" href={`${c.BASE_URL}/favicon.png`} />
-                    {/* <meta name="viewport" content="minimum-scale=1,initial-scale=1,width=device-width,shrink-to-fit=no,user-scalable=no,viewport-fit=cover" /> */}
+                    <link rel="shortcut icon" href={`${c.BASE_URL}/assets/images/iconf.png`} />
                 </Head>
                 <body>
                     {this.props.styleTags}

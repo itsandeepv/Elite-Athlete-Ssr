@@ -1,20 +1,23 @@
 import React, { useState } from 'react'
-import { handlePopup } from '../../redux/actions/popupActions'
 import { useDispatch, useSelector } from 'react-redux'
-import ProgressBar from './ProgressBar'
 import axios from 'axios'
-import { baseUrl } from '../../utils/urls'
 import { useEffect } from 'react'
-import { formatCurrency } from '../../helpers/frontend'
-import LoaderSmall from './LoaderSmall'
 import { toast } from 'react-toastify'
-import { getUserOrder } from '../../redux/actions/getUserOrderActions'
+import { getUserOrder } from '@redux/actions/getUserOrderActions'
+import { handlePopup } from '@redux/actions/popupActions'
+import LoaderSmall from './LoaderSmall'
+import { baseUrl } from '@utils/urls'
+import ProgressBar from './ProgressBar'
+import { formatCurrency } from '@helpers/frontend'
 
 function TrackOrder() {
     const dispatch = useDispatch()
     const { popUpData } = useSelector((state) => state)
     const userdetail = useSelector((state) => state?.userData)
     const [orderData, setOrderData] = useState()
+
+    // console.log(popUpData?.popupdata?.productDetials,"<<<<<");
+
     const trackorderData = async (id) => {
         // console.log(id , "<ADSFASDF");
         const formData = new FormData()
@@ -90,7 +93,6 @@ function TrackOrder() {
                         <>
                             {
                                 orderData?.order_items?.map((item, index) => {
-                                    // console.log(item , "<<<<<<");
                                     const checkReview = item?.product_reviews?.find((itemr) => itemr?.product_id == item?.product_id)
                                     return (
                                         <React.Fragment>

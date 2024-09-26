@@ -115,7 +115,7 @@ function PurchaseHistory({ setshowPopup, userOrderData }) {
                                             <div className='py-2'>
                                                 <p><span>Order Number :</span> {ord.order_details?.receipt_no} </p>
                                                 <p><span>Total Cost :</span> {formatCurrency(Number(ord.order_details?.grand_total))} </p>
-                                                <p><span>Order Date :</span> {moment(ord.order_details?.date).calendar()} </p>
+                                                <p><span>Order Date :</span> {moment(ord.order_items[0]?.order_date || ord.order_details?.date).calendar()} </p>
                                             </div>
                                             <button className='c-btn bg-voilet text-light'
                                                 onClick={() => { dispatch(handlePopup({ productDetials: { order_id: ord.order_details.id } }, "trackorder", true)) }}>

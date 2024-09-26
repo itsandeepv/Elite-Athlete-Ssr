@@ -2,13 +2,10 @@ import React, { useEffect, useState } from 'react'
 import Slider from 'react-slick';
 import TopdealsCard from './Cards/TopDeals';
 import SectionsHeading from './Cards/SectionsHeading';
-import axios from 'axios';
-import { baseUrl } from '../utils/urls';
 
 function TopdealSection({topdealdata}) {
 
     const [data, setData] = useState(topdealdata ||[])
-    // console.log(topdealdata , "<<<<<<<topdealdata");
    
     var settings = {
         dots: false,
@@ -16,10 +13,6 @@ function TopdealSection({topdealdata}) {
         speed: 1000,
         slidesToShow: 3,
         autoplay: true,
-          // productSection?.categories?.length < 5 ? 3 :,
-        // className: "center",
-        // centerMode: true,
-        // centerPadding: "60px",
         slidesToScroll: 1,
         responsive: [
             {

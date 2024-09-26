@@ -73,9 +73,9 @@ const HomePage = ({ topdealdata, homeBannerdata, shopbydata, starsdata }) => {
 
 export async function getServerSideProps() {
 
-    let homeBannerdata;
-    let topdealdata;
-    let shopbydata;
+    let homeBannerdata ;
+    let topdealdata ;
+    let shopbydata ;
     let starsdata;
     await axios.get(`${baseUrl}/api/get-slider`).then((res) => {
         if (res.status == 200) {

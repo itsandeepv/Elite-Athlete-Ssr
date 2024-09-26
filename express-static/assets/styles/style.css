@@ -102,7 +102,7 @@ p {
 }
 
 .banner-container {
-    background: url("../images/aboutback.png");
+    background: url("../../public/assets/images/about-usimg.jpg");
     background-size: cover;
     min-height: 385px;
     display: flex;
@@ -461,7 +461,6 @@ p {
     align-items: center;
     justify-content: center;
     background: #fff;
-
 }
 
 .image-box2 img {
@@ -736,8 +735,8 @@ p {
     justify-content: start !important;
 }
 .imgsss img {
-    object-fit: cover;
-    }
+object-fit: cover;
+}
 .imgsss {
     display: flex;
     justify-content: center;
@@ -746,7 +745,7 @@ p {
 .imgsss img{
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
 }
 
 .quntity-arrow-btns {
@@ -1880,7 +1879,7 @@ header .middle input {
 
 .product-items .all-items img {
     height: 250px;
-    object-fit: contain;
+    object-fit: cover;
 }
 
 .product-items .all-items .second-sec svg {
@@ -1915,6 +1914,7 @@ header .middle input {
     overflow: hidden;
     box-shadow: 0px 0px 4px #ccc;
     max-height: 365px;
+
 }
 
 .card-itm.item:hover .hover-icons {
@@ -1974,13 +1974,13 @@ header .middle input {
     font-size: 14px;
 }
 
-
 .card-itm.item .img {
     background-color: #fff;
     padding-top: 10px;
     text-align: center;
     position: relative;
 }
+
 .card-itm.item .rate span {
     margin-left: 5px;
     color: #EF262C;
@@ -2388,16 +2388,6 @@ header .profile-menu .items img {
     margin-right: 10px;
 }
 
-#custom-loader-ssr {
-    display: none;
-    z-index: 99999;
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    background: #00000026;
-}
 .forgot-para {
     font-size: 14px;
     font-weight: 600;
@@ -2680,7 +2670,7 @@ ul {
 
 .slick-prev::before {
     content: '' !important;
-    background-image: url("../images/arrow-slider.png");
+    background-image: url(/public/assets/images/arrow-slider.png);
     color: #fff !important;
     padding: 0px 10px 7px;
     background-size: contain;
@@ -2695,7 +2685,7 @@ ul {
 .slick-next::before {
     content: '' !important;
     color: #fff !important;
-    background-image: url("../images/arrow-slider.png");
+    background-image: url(/public/assets/images/arrow-slider.png);
     padding: 0px 10px 7px;
     background-size: contain;
     background-repeat: no-repeat;
@@ -2747,7 +2737,7 @@ ul {
 
 .product-det-slider .slick-next::before,
 .product-det-slider .slick-prev::before {
-    background: url("../images/chevron-right.svg");
+    background: url(/public/assets/images/chevron-right.svg);
     background-repeat: no-repeat;
     background-size: contain;
     height: 20px !important;
