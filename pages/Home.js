@@ -10,25 +10,28 @@ import { baseUrl } from '@utils/urls';
 import HomeBanner from '@components/ProductContent/HomeBanner';
 import axios from 'axios';
 import TopBrands from '@components/Modal/TopBrands';
-const HomePage = ({ topdealdata, homeBannerdata, shopbydata, starsdata }) => {
+const HomePage = ({ topdealdata, homeBannerdata, shopbydata, starsdata ,isLoad }) => {
     const [productSection, setProductSection] = useState(shopbydata || []);
     const [loading, setLoading] = useState(true);
-    useEffect(() => {
+
+
+    useEffect(() => {        
         // document.getElementById("custom-loader-ssr").style.display = "block";
         window.scrollTo(0, 0);
     }, []);
 
     const fetchData = async () => {
-        document.getElementById("custom-loader-ssr").style.display = "block";
+        // document.getElementById("custom-loader-ssr").style.display = "block";
         try {
             const res = await axios.get(`${baseUrl}/api/get-product-sections-with-item-count`);
             if (res.status === 200) {
                 setProductSection(res.data.result);
                 setLoading(false);
             }
-            document.getElementById("custom-loader-ssr").style.display = "none";
+
+            // document.getElementById("custom-loader-ssr").style.display = "none";
         } catch (err) {
-            document.getElementById("custom-loader-ssr").style.display = "none";
+            // document.getElementById("custom-loader-ssr").style.display = "none";
             console.log(err);
         }
     };
@@ -77,11 +80,16 @@ export async function getServerSideProps() {
     let topdealdata ;
     let shopbydata ;
     let starsdata;
+    let isLoad = true;
     await axios.get(`${baseUrl}/api/get-slider`).then((res) => {
         if (res.status == 200) {
             homeBannerdata = res.data.result||[]
         }
-    }).catch((err) => { console.log(err) })
+        isLoad = false
+    }).catch((err) => { 
+        isLoad = false
+        console.log(err)
+     })
     await axios.get(`${baseUrl}/api/get-all-products-by-top-deal`).then((res) => {
         topdealdata = res.data.result||[]
     }).catch((err) => { console.log(err); })
@@ -97,7 +105,7 @@ export async function getServerSideProps() {
         console.log(err);
     }
    
-    return { props: { homeBannerdata, topdealdata, shopbydata, starsdata } }
+    return { props: { homeBannerdata, topdealdata, shopbydata, starsdata ,isLoad } }
 }
 
 

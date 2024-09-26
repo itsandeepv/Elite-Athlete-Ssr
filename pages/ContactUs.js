@@ -36,7 +36,7 @@ function Contact() {
 
 
     const submitData = async () => {
-        document.getElementById("custom-loader-ssr").style.display = "block";
+        // document.getElementById("custom-loader-ssr").style.display = "block";
 
         const checkoutConfig = {
             method: "post",
@@ -62,10 +62,10 @@ function Contact() {
             } else {
                 toast.error(Res?.data?.message)
             }
-            document.getElementById("custom-loader-ssr").style.display = "none";
+            // document.getElementById("custom-loader-ssr").style.display = "none";
         }).catch((err) => {
             toast.error(err?.message)
-            document.getElementById("custom-loader-ssr").style.display = "none";
+            // document.getElementById("custom-loader-ssr").style.display = "none";
             console.log(err, "<<<<<<");
         })
     }

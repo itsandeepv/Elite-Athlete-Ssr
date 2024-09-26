@@ -19,7 +19,6 @@ import ProductdetailsCard from '@components/Cards/ProductdetailsCard';
 
 function ProductDetailsPage({ productdetails, relatedProduct, productVarintdetails }) {
 
-    console.log("pageDataS", productdetails);
     const { ProductByVarientData } = useSelector((state) => state);
     const dispatch = useDispatch()
     const params = new URLSearchParams(window.location.search);
@@ -231,9 +230,9 @@ function ProductDetailsPage({ productdetails, relatedProduct, productVarintdetai
                 <link rel="canonical" href={`${c.BASE_URL}`} />
             </Head>
             <Layout>
-                {/* {productLoading ? (
+                {productLoading ? (
                     <Loader />
-                ) : ( */}
+                ) : (
                 <div className='container-fluid' style={{ overflowX: "hidden" }}>
                     <div className='row'>
                         <div className='col'>
@@ -385,7 +384,7 @@ function ProductDetailsPage({ productdetails, relatedProduct, productVarintdetai
                         }
                     </div>
                 </div>
-                {/* )} */}
+                )}
             </Layout>
         </React.Fragment>
     )

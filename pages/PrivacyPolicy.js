@@ -21,7 +21,7 @@ function PrivacyPolicy({ pageDataS }) {
         },
     ]
     useEffect(()=>{
-        document.getElementById("custom-loader-ssr").style.display = pageData? "none":"block"
+        // document.getElementById("custom-loader-ssr").style.display = pageData? "none":"block"
     },[])
 
     return (
