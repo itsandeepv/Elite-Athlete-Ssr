@@ -1,7 +1,7 @@
 import Document, { Html, Head, Main, NextScript } from "next/document";
 import { ServerStyleSheet } from "styled-components";
 import c from "@constants/Common";
-// import "../express-static/styles/styles.css"
+
 export default class CustomDocument extends Document {
     static async getInitialProps(context) {
         const initialProps = await Document.getInitialProps(context);
