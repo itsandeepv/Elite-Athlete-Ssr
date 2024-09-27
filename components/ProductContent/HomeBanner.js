@@ -136,7 +136,7 @@ function HomeBanner() {
               <div className="vertical-slide" ref={slideRef}>
                 {
                   isfeaturedCategory?.map((item, index) => {
-                    console.log(item );
+                    // console.log(item );
                     
                     return (
                       <div className="inner-items" key={index}>
