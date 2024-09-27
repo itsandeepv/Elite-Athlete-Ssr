@@ -5,7 +5,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 import { getCartListCount } from "@redux/actions/CartListCountActions";
-// import PhotoSlider from "@components/Modal/PhotoSlider";
 import StarRating from "@components/StarRating";
 import { formatCurrency } from "@helpers/frontend";
 import { baseUrl } from "@utils/urls";
@@ -17,12 +16,16 @@ import PhotoSlider from "@components/Modal/PhotoSlider";
 
 function ProductdetailsCard({ products, productReviewCount, setData }) {
   const router = useRouter();
+  const urlParam = router.query;
+
   const { userData } = useSelector((state) => state);
   const { getCartListData } = useSelector((state) => state.getCartListData);
   const { getWishListData } = useSelector((state) => state.getWishListData);
-  const params = new URLSearchParams(window.location.search);
-  const productID = params.get("id");
-  const vrNID = params.get("vrN");
+  const productID = urlParam?.id||""
+  const vrNID = urlParam?.vrN?.replace(/\+/g, ' ')||""
+  // console.log("pr" ,urlParam);
+  
+
   const [details, setDetails] = useState({...products});
   const [selectedAttribute, setSelectedAttribute] = useState();
   const [selectedImage, setSelectedImage] = useState("");
@@ -79,7 +82,8 @@ function ProductdetailsCard({ products, productReviewCount, setData }) {
   const addToWishListItem = () => {
     if (userData?.token) {
       if (showWishListContent === "Go To Wishlist") {
-        window.location.href = "wish-list";
+        window.location = "/wish-list";
+        // router.push("/wish-list")
       } else {
         const data = {
           product_id: details?.id,
@@ -117,7 +121,7 @@ function ProductdetailsCard({ products, productReviewCount, setData }) {
       );
       // setShowAddToCartListContent('Go To Cart');
       if (showAddToCartListContent === "Go To Cart") {
-        window.location.href = "cart";
+        window.location = "/cart";
       }
     } else {
       var cookieValueNew = Cookies?.get("addToCartData");
@@ -597,11 +601,7 @@ function ProductdetailsCard({ products, productReviewCount, setData }) {
                           // }
                           className={`quantity-btn ${attribute?.quantity == "0" ? " btn-disabled " : " "} ${vrNID == attribute.attribute_name ? "active" : "" }`}
                           onClick={() => {
-                            // window.location = `/product-details?id=${productID}&vrN=${attribute?.attribute_name}`
-                            router.push({
-                              pathname: '/product-details',
-                              query: { id:productID, vrN:attribute?.attribute_name },
-                            });
+                            window.location = `/product-details/${productID}/${attribute?.attribute_name}`
                             setSelectedAttribute(attribute?.attribute_name);
                           }}
                         >

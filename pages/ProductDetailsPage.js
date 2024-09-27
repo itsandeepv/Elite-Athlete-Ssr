@@ -18,11 +18,12 @@ import TopdealsCard from '@components/Cards/TopDeals';
 import ProductdetailsCard from '@components/Cards/ProductdetailsCard';
 
 function ProductDetailsPage({ productdetails, relatedProduct, productVarintdetails }) {
-
-    const { ProductByVarientData } = useSelector((state) => state);
     const dispatch = useDispatch()
     const params = new URLSearchParams(window.location.search);
     const id = params.get('id');
+    const vrn = params.get('vrN');
+    const [tabs, setTabs] = useState(1);
+    // console.log("params" ,vrn ,id ,productdetails, relatedProduct);
     const [data, setData] = useState(productdetails || {});
     const [loading, setLoading] = useState(false);
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -38,45 +39,16 @@ function ProductDetailsPage({ productdetails, relatedProduct, productVarintdetai
             dispatch(getCartListCount(`/api/get-cart-list`, userData?.token, "CartListSuccess"));
         }
     }, [])
-
-    const fetchData = async () => {
-        try {
-            setProductLoading(true);
-            const product_id = { product_id: id };
-            const response = await axios.post(`${baseUrl}/api/get-single-product`, product_id);
-            if (response.data.responseCode === 200) {
-                // setData(response.data.result);
-                setData({ ...response.data.result, galleryImg: response.data.result?.images });
-                setProductLoading(false);
-            } else {
-                setProductLoading(false);
-                toast.warning(response.data?.result)
-            }
-        } catch (error) {
-            setProductLoading(false);
-            console.log(error);
-        }
-    }
-
-    const fetchCateProductData = async () => {
-        try {
-            if (data && data.category_id) {
-                setCatProductLoading(true);
-                const category_id = { category_id: data.category_id };
-                const response = await axios.post(`${baseUrl}/api/get-product-by-category`, category_id);
-                if (response.data.responseCode === 200) {
-                    setCatProductData(response.data.result.products);
-                    setCatProductLoading(false);
-                } else {
-                    toast.error(response?.data?.result);
-                    setCatProductLoading(true);
-                }
-            }
-        } catch (error) {
-            console.log(error);
-            setCatProductLoading(false);
-        }
-    }
+    useEffect(() => {
+        const handleResize = () => {
+            setWindowWidth(window.innerWidth);
+        };
+        window.addEventListener('resize', handleResize);
+        // Cleanup event listener on component unmount
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
 
     const fetchProductReviewData = async () => {
         try {
@@ -90,21 +62,6 @@ function ProductDetailsPage({ productdetails, relatedProduct, productVarintdetai
                 setLoading(false);
             }
         } catch (error) {
-        }
-    }
-
-    const setProductReviewLike = async (type, review_id) => {
-        try {
-            if (type === 'like') {
-                const response = await axios.post(`${baseUrl}/api/add-product-review-like`, { review_id: review_id });
-                fetchProductReviewData();
-            }
-            if (type === 'dislike') {
-                const response = await axios.post(`${baseUrl}/api/add-product-review-dislike`, { review_id: review_id });
-                fetchProductReviewData();
-            }
-        } catch (error) {
-            console.log(error);
         }
     }
 
@@ -136,21 +93,6 @@ function ProductDetailsPage({ productdetails, relatedProduct, productVarintdetai
     }
 
 
-    useEffect(() => {
-        // fetchData();
-        // fetchProductReviewData();
-    }, []);
-
-    useEffect(() => {
-        // fetchCateProductData();
-    }, [data]);
-
-    // useEffect(() => {
-    //     setData({ ...data, ...ProductByVarientData.ProductByVarientData });
-    // }, [ProductByVarientData.ProductByVarientData]);
-
-    const [tabs, setTabs] = useState(1);
-
     const isSectionActive = (tabNumber) => {
         return tabNumber === tabs ? 'isSectionActive' : '';
     };
@@ -169,16 +111,7 @@ function ProductDetailsPage({ productdetails, relatedProduct, productVarintdetai
         },
     ]
 
-    useEffect(() => {
-        const handleResize = () => {
-            setWindowWidth(window.innerWidth);
-        };
-        window.addEventListener('resize', handleResize);
-        // Cleanup event listener on component unmount
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, []);
+   
 
 
 
@@ -400,14 +333,14 @@ ProductDetailsPage.propTypes = {
 
 export async function getServerSideProps(context) {
     const { query } = context;
+    // console.log("sdfa >>> ",  query ,query.vrN?.replace(/\+/g, ' ') ,query.id );
     var productdetails = {}
     var productVarintdetails = {}
     if (query.vrN) {
         const dataFor = new FormData()
         dataFor.append("product_id", query?.id)
-        dataFor.append("attribute_name[]", query.vrN)
+        dataFor.append("attribute_name[]", query.vrN?.replace(/\+/g, ' '))
         await axios.post(`${baseUrl}/api/get-single-product`, { product_id: query.id }).then((response) => {
-            // console.log("response>>>>>>>", response.data);
             if (response.data.responseCode === 200) {
                 productVarintdetails = response.data.result
             }
@@ -423,9 +356,7 @@ export async function getServerSideProps(context) {
             if (response.data.responseCode === 200) {
                 let resultData = response.data.result
                 let formatedData = { ...productVarintdetails  , ...resultData ,images: resultData.images ? resultData.images: productVarintdetails.images}
-                // console.log("productVarintdetails>>>>>>>", productVarintdetails.images ,formatedData, resultData.images  );
                 productdetails = formatedData
-                // { ...productVarintdetails  , ...response.data.result ,images: productVarintdetails.images}
             }
         }).catch((err) => {
             console.log(err);

@@ -644,12 +644,11 @@ function UserCart() {
                             <div className="col-lg-3 col-4">
                               <div className="cart-images ">
                                 <a
-                                  href={`/product-details?id=${
+                                  href={`/product-details/${
                                     item?.product_id
-                                  }${
+                                  }/${
                                     item?.product_attributes
-                                      ? "&vrN=" +
-                                        item?.product_attributes[0]
+                                      ? item?.product_attributes[0]
                                           ?.attribute_name
                                       : ""
                                   }`}

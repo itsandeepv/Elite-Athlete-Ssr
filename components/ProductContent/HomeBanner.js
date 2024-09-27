@@ -5,6 +5,7 @@ import { baseUrl } from '../../utils/urls';
 import { useDispatch, useSelector } from 'react-redux';
 import { getcategory } from '../../redux/actions/categoryActions';
 import Loader from '@components/Modal/Loader';
+import { BASE_URL } from '@constants/Common';
 function HomeBanner() {
 
   const dispatch = useDispatch()
@@ -104,15 +105,15 @@ function HomeBanner() {
               </Slider>
               <div className="under-slider">
                 <div className="one">
-                  <p><img src="assets/images/home-banner/shop.svg" alt="img" /> <span>Free Shipping</span></p>
+                  <p><img src={BASE_URL+ "/assets/images/home-banner/shop.svg"} alt="img" /> <span>Free Shipping</span></p>
                   <p>Free shipping for workout supplements on orders over ₹2000.</p>
                 </div>
                 <div className="one">
-                  <p><img src="assets/images/home-banner/shirt.png" alt="img" /> <span>Authenticity Guaranteed</span></p>
+                  <p><img src={BASE_URL+ "/assets/images/home-banner/shirt.png"} alt="img" /> <span>Authenticity Guaranteed</span></p>
                   <p>Guaranteed Authentic Supplements for Serious Fitness Enthusiasts.</p>
                 </div>
                 <div className="one">
-                  <p><img src="assets/images/home-banner/rs.svg" alt="img" /> <span>Secure Payment</span></p>
+                  <p><img src={BASE_URL+ "/assets/images/home-banner/rs.svg"} alt="img" /> <span>Secure Payment</span></p>
                   <p>Secure, fast, and reliable payment options .</p>
                 </div>
               </div>
@@ -130,14 +131,16 @@ function HomeBanner() {
 
             <div className="col-lg-1 slider-ver">
               <div className="arrow top-arrow" onClick={() => scrollPrev()}>
-                <img src="assets/images/home-banner/arrow.svg" alt="arrow" />
+                <img src={BASE_URL+ "/assets/images/home-banner/arrow.svg"} alt="arrow" />
               </div>
               <div className="vertical-slide" ref={slideRef}>
                 {
                   isfeaturedCategory?.map((item, index) => {
+                    console.log(item );
+                    
                     return (
                       <div className="inner-items" key={index}>
-                        <a href={`/all-product?type=category&id=${item?.id}`}>
+                        <a href={`/all-product/category/${item?.id}/${item?.name}`}>
                           <img src={baseUrl + "/" + item?.icon} alt="img" />
                           <p>{item?.name}</p>
                         </a>
@@ -147,7 +150,7 @@ function HomeBanner() {
                 }
               </div>
               <div className="arrow bottom-arrow" onClick={() => scrollNext()}>
-                <img src="assets/images/home-banner/arrow.svg" alt="arrow" />
+                <img src={BASE_URL+ "/assets/images/home-banner/arrow.svg"} alt="arrow" />
               </div>
             </div>
           </div>

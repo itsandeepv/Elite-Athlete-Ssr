@@ -10,46 +10,40 @@ import { baseUrl } from '@utils/urls';
 import HomeBanner from '@components/ProductContent/HomeBanner';
 import axios from 'axios';
 import TopBrands from '@components/Modal/TopBrands';
-const HomePage = ({ topdealdata, homeBannerdata, shopbydata, starsdata ,isLoad }) => {
+const HomePage = ({ topdealdata, homeBannerdata, shopbydata, starsdata }) => {
     const [productSection, setProductSection] = useState(shopbydata || []);
     const [loading, setLoading] = useState(true);
-
-
-    useEffect(() => {        
-        // document.getElementById("custom-loader-ssr").style.display = "block";
+    // console.log(topdealdata, homeBannerdata, shopbydata, starsdata);
+    useEffect(() => {
+        fetchData();
         window.scrollTo(0, 0);
     }, []);
-
+    
     const fetchData = async () => {
-        // document.getElementById("custom-loader-ssr").style.display = "block";
         try {
             const res = await axios.get(`${baseUrl}/api/get-product-sections-with-item-count`);
             if (res.status === 200) {
                 setProductSection(res.data.result);
-                setLoading(false);
             }
-
-            // document.getElementById("custom-loader-ssr").style.display = "none";
+            setLoading(false);
         } catch (err) {
-            // document.getElementById("custom-loader-ssr").style.display = "none";
+            setLoading(false);
             console.log(err);
         }
     };
 
-    useEffect(() => {
-        fetchData();
-    }, []);
+   
     return (
         <React.Fragment>
             <Head>
                 <meta charset="utf-8" />
                 <title>{`Home - ${c.APP_NAME}`}</title>
-                <meta name="description" content="Home" />
+                <meta name="description" content="Suppkart offers premium, 100% original gym supplements directly from global brands to customers in India. Shop top-quality supplements for bodybuilding, fitness, and endurance, guaranteed original and imported." />
                 <meta name="keywords" content="Home" />
                 <meta name="author" content={c.APP_NAME} />
                 <meta property="og:type" content="website" />
                 <meta property="og:title" content="Home" />
-                <meta property="og:description" content="Home Page" />
+                <meta property="og:description" content="Suppkart offers premium, 100% original gym supplements directly from global brands to customers in India. Shop top-quality supplements for bodybuilding, fitness, and endurance, guaranteed original and imported." />
                 <meta property="og:url" content={c.BASE_URL} />
                 <meta property="og:site_name" content={c.APP_NAME} />
                 <meta property="og:image" content={`${c.BASE_URL}/assets/images/logo.png`} />

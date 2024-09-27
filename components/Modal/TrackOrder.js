@@ -98,7 +98,7 @@ function TrackOrder() {
                                         <React.Fragment>
                                             <div className='d-flex gap-3 align-items-center' key={index} >
                                                 <div className='purchase-image p-3' onClick={() => {
-                                                    window.location.href = `/product-details?id=${item?.product_id}${item?.variant_name ? "&vrN=" + item?.variant_name : ""}`
+                                                    window.location.href = `/product-details/${item?.product_id}/${item?.variant_name ?item?.variant_name : ""}`
                                                 }} >
                                                     <img src={baseUrl + "/" + item?.product_image} className='img-fluid' />
                                                 </div>

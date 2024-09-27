@@ -1,3 +1,4 @@
+import { BASE_URL } from '@constants/Common';
 import { getCategoryBySection } from '@redux/actions/categoryBySectionActions';
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from "react-redux";
@@ -16,7 +17,7 @@ function Sidebar({ setopenSidebar }) {
     return (
         <div className="main-sidebar">
             <div className="logo" >
-                <img src="assets/icons/footer-logo.svg" alt="logo" className="logo-img" />
+                <img src={BASE_URL + "/assets/icons/footer-logo.svg"} alt="logo" className="logo-img" />
                 <i className="fa-solid fa-x" onClick={() => { setopenSidebar(false) }}></i>
             </div>
             <ul className="main-list">
@@ -25,7 +26,7 @@ function Sidebar({ setopenSidebar }) {
                     <a href="#" className='main-a'><span>Brands</span> <span><i className="fa-solid fa-chevron-down"></i></span></a>
                     {brandData?.brandData?.brands?.map((item, index) => (
                         <ul key={index} >
-                            <li><a href={`/all-product?type=brand&id=${item?.id}`}>{item.name}</a></li>
+                            <li><a href={`/all-product/brand/${item?.id}/${item.name}`}>{item.name}</a></li>
                         </ul>
                     ))}
                 </li>
@@ -33,7 +34,7 @@ function Sidebar({ setopenSidebar }) {
                     <a href="#" className='main-a'><span>Categories</span> <span><i className="fa-solid fa-chevron-down"></i></span></a>
                     {categoryData?.categoryData?.map((item, index) => (
                         <ul key={index} >
-                            <li><a href={`/all-product?type=category&id=${item?.id}`}>{item.name}</a></li>
+                            <li><a href={`/all-product/category/${item?.id}/${item.name}`}>{item.name}</a></li>
                         </ul>
                     ))}
                 </li>
@@ -50,7 +51,7 @@ function Sidebar({ setopenSidebar }) {
                         {item.categories?.map((cate, index) => (
                             <ul key={index}>
                                 <li>
-                                    <a href={`/all-product?type=category&id=${cate?.id}`}>
+                                    <a href={`/all-product/category/${cate?.id}/${cate?.name}`}>
                                         {cate.name}
                                     </a>
                                 </li>

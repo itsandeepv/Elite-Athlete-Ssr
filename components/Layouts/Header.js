@@ -14,6 +14,7 @@ import SignUp from '@components/Modal/SignUp';
 import ResetPassword from '@components/Modal/ResetPassword';
 import { openModal, showModal } from '@redux/actions/modalActions';
 import Link from 'next/link';
+import { BASE_URL } from '@constants/Common';
 
 function Header() {
   const router = useRouter();
@@ -32,8 +33,8 @@ function Header() {
 
   // console.log("popUpData" ,modalData );
   const handleProductChange = (event) => {
-    const selectedValue = event.target.value;
-    window.location = `/all-product?type=category&id=${selectedValue}`;
+    // const selectedValue = event.target.value;
+    window.location = `/all-product/category/${event?.id}/${event?.name}`;
   };
 
   useEffect(() => {
@@ -67,7 +68,7 @@ function Header() {
   }
 
   useEffect(() => {
-    if(userData?.token){
+    if (userData?.token) {
       dispatch(getUserdata(userData?.token))
     }
   }, [])
@@ -78,13 +79,21 @@ function Header() {
       <header className="py-2">
         <div className="container-fluid">
           <div className="left">
-            <a href="/"><img src="assets/icons/logo.svg" alt="logo" width={"72px"} /></a>
+            <a href="/"><img src={BASE_URL + "/assets/icons/logo.svg"} alt="logo" width={"72px"} /></a>
+
           </div>
           <div className="middle">
-            <img src="assets/icons/hamburger.svg" onClick={() => { setopenSidebar(true) }} alt="img" className="hamburger" />
+            <img src={BASE_URL + "/assets/icons/hamburger.svg"} onClick={() => { setopenSidebar(true) }} alt="img" className="hamburger" />
             <div className="search-container">
               <i className="fa-solid fa-magnifying-glass serchc"></i>
-              <select onChange={handleProductChange}>
+              <select onChange={(event) => {
+                const selectedItem = categoryData?.categoryData?.find(
+                  (item) => item.id === parseInt(event.target.value)
+                );
+                if (selectedItem) {
+                  handleProductChange(selectedItem);
+                }
+              }}>
                 <option value='' selected disabled>All Categories</option>
                 {categoryData?.categoryData?.map((item) => (
                   <option key={item?.id} value={item?.id}>
@@ -93,9 +102,9 @@ function Header() {
                 ))}
               </select>
               <div className='sugges_search' >
-                <input type="search"  onKeyPress={(e)=>{
-                  if(e.key == "Enter" && searchSuggestionsData.length > 0){
-                    window.location = `/all-product?type=${serachKeyName}&id=${searchSuggestionsData[0]?.id}`
+                <input type="search" onKeyPress={(e) => {
+                  if (e.key == "Enter" && searchSuggestionsData.length > 0) {
+                    window.location = `/all-product/${serachKeyName}/${searchSuggestionsData[0]?.id}/${searchSuggestionsData[0]?.name}`
                   }
                 }} onChange={(e) => {
                   searchSuggestions(e)
@@ -106,9 +115,11 @@ function Header() {
                     {
                       searchSuggestionsData?.length > 0 ?
                         searchSuggestionsData?.map((item, index) => {
+                          // console.log("categoryName" ,item);
                           return (
-                            <li className='cursor-pointer' onClick={() => {
-                              window.location = `/all-product?type=${serachKeyName}&id=${item?.id}`
+                            <li className='cursor-pointer' key={index} onClick={() => {
+                              // console.log(item, serachKeyName);
+                              window.location = `/all-product/${serachKeyName}/${item?.id}/${item?.name}`
                             }} >
                               <p> {item?.name || ""}</p>
                             </li>
@@ -122,8 +133,8 @@ function Header() {
           </div>
 
           <div className="right">
-         
-            <a  onClick={() => {
+
+            <a onClick={() => {
               if (userData.token) {
                 window.location = "/cart"
               } else {
@@ -134,7 +145,7 @@ function Header() {
               {userData.token && Number(cartListCountData) > 0 ? (
                 <span>{cartListCountData}</span>
               ) : (
-                Number(cartCount)> 0?  <span>{cartCount}</span> :""
+                Number(cartCount) > 0 ? <span>{cartCount}</span> : ""
               )}
             </a>
 
@@ -151,7 +162,7 @@ function Header() {
               ) : ""}
             </a>
             {userData.token ?
-              <a  onClick={() => {
+              <a onClick={() => {
                 setShowprofile(!showProfile)
               }} className="sign-in"><i className="fa-solid fa-user"></i> <i className="fa-solid fa-chevron-down"></i></a> :
               <a onClick={() => {
@@ -169,30 +180,30 @@ function Header() {
           </div>
           <div className="items">
 
-            <Link href="/wish-list"><img src="assets/icons/menu1.svg" alt="img" /> Wishlist</Link>
-            <Link href='/order-history' ><img src="assets/icons/menu2.svg" alt="img" /> Order</Link>
-            <Link href="/user-dashboard"><img src="assets/icons/menu3.svg" alt="img" /> Edit Profile</Link>
-            <a 
+            <Link href="/wish-list"><img src={BASE_URL + "/assets/icons/menu1.svg"} alt="img" /> Wishlist</Link>
+            <Link href='/order-history' ><img src={BASE_URL + "/assets/icons/menu2.svg"} alt="img" /> Order</Link>
+            <Link href="/user-dashboard"><img src={BASE_URL + "/assets/icons/menu3.svg"} alt="img" /> Edit Profile</Link>
+            <a
               onClick={() => {
                 dispatch(fetchSuccess({ user: "", token: "" }))
                 window.location = "/"
               }}
-            ><img src="assets/icons/menu4.svg" alt="img" /> Logout</a>
+            ><img src={BASE_URL + "/assets/icons/menu4.svg"} alt="img" /> Logout</a>
           </div>
         </div>
         <div className="blank"></div>
       </header>
       {
-        ( modalData.modalName == "Signin" && !userData.token) &&
+        (modalData.modalName == "Signin" && !userData.token) &&
         <Login setShowpopup={setShowpopup} />
       }
-       {
+      {
         (modalData.modalName == "Signup" && !userData.token) &&
         <SignUp setShowpopup={setShowpopup} />}
       {
         modalData.modalName == "forgotPassword" &&
         <ResetPassword setShowpopup={setShowpopup} />
-      } 
+      }
 
     </React.Fragment>
   );

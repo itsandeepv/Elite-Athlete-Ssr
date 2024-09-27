@@ -11,17 +11,19 @@ import ProductCard from '@components/Cards/ProductCard';
 import Loader from '@components/Modal/Loader';
 import Head from 'next/head';
 import PropTypes from 'prop-types';
+import { useRouter } from 'next/router';
 
 
 function Product({  productData ,productDataForFi }) {
     const { userData } = useSelector((state) => state);
+    const {query} = useRouter()
+    // console.log(query);
     const dispatch = useDispatch();
-    const urlParams = new URLSearchParams(window.location.search);
-    const type = urlParams.get('type');
+    const type = query?.type ||"";
+    const id = query?.id ||"";
     const [brandData, setBrandData] = useState([]);
     const [data, setData] = useState([]);
     const [dataForFi, setDataForFi] = useState([]);
-    const id = urlParams.get('id');
     const [brandIds, setBrandId] = useState(type === 'brand' ? [Number(id)] : []);
     const [brandname, setBrandName] = useState([]);
     const [disCount, setdisCount] = useState();
@@ -324,7 +326,7 @@ Product.propTypes = {
 
 
 export async function getServerSideProps(context) {
-    const { query } = context;
+    const { query } = context;    
     var pageProps = {};
     var productData =[]
     var productDataForFi =[]

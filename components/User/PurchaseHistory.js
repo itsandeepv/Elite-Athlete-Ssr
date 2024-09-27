@@ -54,7 +54,7 @@ function PurchaseHistory({ setshowPopup, userOrderData }) {
                                                             <div className='py-3 d-flex justify-content-center align-items-end ordered-items'>
                                                                 <div className='d-flex gap-3 align-items-center'>
                                                                     <div className='purchase-image p-3'>
-                                                                        <a href={`/product-details?id=${item?.product_id}`}>
+                                                                        <a href={`/product-details/${item?.product_id}`}>
                                                                             <img src={item?.product_image ? `${baseUrl}/${item?.product_image}` : 'assets/images/historyproduct.png'} className='img-fluid' />
                                                                         </a>
                                                                     </div>

@@ -6,6 +6,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { baseUrl } from '../../utils/urls';
 import Link from 'next/link';
+import { BASE_URL } from '@constants/Common';
 
 
 function Footer() {
@@ -180,7 +181,7 @@ function Footer() {
     </div>
     <div className="container-fluid copyright">
       <p>SuppKart {footerData?.result?.copyright ? footerData?.result?.copyright : "© 2024. All Rights Reserved"}</p>
-      <img src="assets/icons/payment-icon.png" alt="payment"  style={{maxWidth:"220px"}}/>
+      <img src={BASE_URL+"/assets/icons/payment-icon.png"} alt="payment"  style={{maxWidth:"220px"}}/>
     </div>
   </footer>
   );

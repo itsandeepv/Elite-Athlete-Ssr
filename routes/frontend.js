@@ -2,11 +2,22 @@
 module.exports = function ({ server, app }) {
     server.get("/", (req, res) => app.render(req, res, "/Home"));
     server.get("/pages", (req, res) => app.render(req, res, "/PrivacyPolicy" ,req.query));
-    server.get("/all-product", (req, res) => app.render(req, res, "/Product" ,req.query) );
-    server.get("/all-product/:productId", (req, res) => {
-        const { productId } = req.params;
-        return app.render(req, res, "/Product", { productId, ...req.query });
+
+    // Handle the new URL structure /all-product/:type/:id
+    server.get("/all-product/:type/:id/:name", (req, res) => {
+        const { type, id ,name } = req.params;
+        return app.render(req, res, "/Product", { type, id ,name });
     });
+    server.get("/product-details/:id/:vrN", (req, res) => {
+        const { id, vrN } = req.params;
+        return app.render(req, res, "/ProductDetailsPage", { id, vrN });
+    });
+    server.get("/product-details/:id", (req, res) => {
+        const { id } = req.params;
+        return app.render(req, res, "/ProductDetailsPage", { id });
+    });
+    server.get("/all-product", (req, res) => app.render(req, res, "/Product" ,req.query) );
+
     server.get("/product-details", (req, res) => app.render(req, res, "/ProductDetailsPage" ,req.query));
     server.get("/contact", (req, res) => app.render(req, res, "/ContactUs" ));
     server.get("/verify-payment", (req, res) => app.render(req, res, "/VerifyPayment" ));
@@ -21,6 +32,6 @@ module.exports = function ({ server, app }) {
     server.get("/fill-detials", (req, res) => app.render(req, res, "/CheckoutFillDetails"));
     server.get("/user-dashboard", (req, res) => app.render(req, res, "/UserDashboard"));
     server.get("/order-history", (req, res) => app.render(req, res, "/UserDashboard"));
-    server.all("/*", (req, res) => app.render(req, res, "/NotFound"));
+    server.get("/*", (req, res) => app.render(req, res, "/NotFound"));
 }
 

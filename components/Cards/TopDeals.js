@@ -50,7 +50,7 @@ function TopdealsCard({ details }) {
             }
             {/* <NavLink to={} */}
             <a onClick={() => {
-              window.location = `/product-details?id=${details?.id}${details?.product_attributes[0]?.attribute_name ? "&vrN=" + details?.product_attributes[0]?.attribute_name : ""}`
+              window.location = `/product-details/${details?.id}/${details?.product_attributes[0]?.attribute_name ? details?.product_attributes[0]?.attribute_name : ""}`
             }}
           >View Product <i className="fa-solid fa-arrow-right"></i></a>
         </div>

@@ -310,8 +310,8 @@ function ProductCard({pLength, product, setLoading, hidebutton, setisLoading }) 
             {product.thumbnail?.split(",").map((imageUrl, index) => (
               <div key={index}>
                 <a className="product-imgggg"
-                  href={`/product-details?id=${product?.id ? product.id : product?.product_id
-                    }${product?.product_attributes[0]?.attribute_name ? "&vrN="+product?.product_attributes[0]?.attribute_name:""}`}
+                  href={`/product-details/${product?.id ? product.id : product?.product_id
+                    }/${product?.product_attributes[0]?.attribute_name ? product?.product_attributes[0]?.attribute_name:""}`}
                 >
                   <img
                     src={`${baseUrl}/${imageUrl.trim()}`}
@@ -324,8 +324,8 @@ function ProductCard({pLength, product, setLoading, hidebutton, setisLoading }) 
           </Slider>
         ) : (
           <a
-            href={`/product-details?id=${product?.id ? product.id : product?.product_id
-              }${product?.product_attributes[0]?.attribute_name ? "&vrN="+product?.product_attributes[0]?.attribute_name:""}`}
+            href={`/product-details/${product?.id ? product.id : product?.product_id
+              }/${product?.product_attributes[0]?.attribute_name ? product?.product_attributes[0]?.attribute_name:""}`}
           >
             <img
               src={`${baseUrl}/${product.thumbnail}`}
@@ -346,8 +346,8 @@ function ProductCard({pLength, product, setLoading, hidebutton, setisLoading }) 
 
         }
         <a
-          href={`/product-details?id=${product?.id ? product.id : product?.product_id
-            }${product?.product_attributes[0]?.attribute_name ? "&vrN="+product?.product_attributes[0]?.attribute_name:""}`}
+          href={`/product-details/${product?.id ? product.id : product?.product_id
+            }/${product?.product_attributes[0]?.attribute_name ? product?.product_attributes[0]?.attribute_name:""}`}
         >
           {product?.brand_name?.name &&<p className="head"> {product?.brand_name?.name}</p>}
           
