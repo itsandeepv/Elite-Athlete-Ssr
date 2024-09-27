@@ -52,8 +52,8 @@ function Header() {
   const [searchvalue, setsearchvalue] = useState("")
   const searchSuggestions = async (e) => {
     setsearchvalue(e.target.value)
-    console.log(searchvalue, e.target.value);
-    if (e.target.value.length >= 2) {
+    // console.log(searchvalue, e.target.value);
+    if (e.target.value.length >= 1) {
       await axios.get(`${baseUrl}/api/suggest-product?query=${e.target.value}`).then((res) => {
         if (res?.status == 200) {
           setsearchSuggestions(res?.data?.data)

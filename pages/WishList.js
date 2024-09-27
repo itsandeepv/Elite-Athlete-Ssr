@@ -25,7 +25,6 @@ function WishList() {
 
     useEffect(() => {
         setData([...getWishListData.getWishListData])
-        // console.log(getWishListData , "<<<<<<<<loading");
     }, [loading, getWishListData])
 
     const breadcumsDetails = [
