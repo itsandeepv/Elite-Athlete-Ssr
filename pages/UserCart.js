@@ -345,6 +345,8 @@ function UserCart() {
       userDetails?.userAddress[0]?.is_default === "yes"
     ) {
       // setisLoading(true)
+      console.log(data , "<<<<<<<<");
+      
       let formData = {
         email: userData?.userDetails?.email,
         name: userData?.userDetails?.name,

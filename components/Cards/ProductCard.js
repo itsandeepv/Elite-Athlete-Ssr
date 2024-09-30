@@ -65,6 +65,7 @@ function ProductCard({pLength, product, setLoading, hidebutton, setisLoading }) 
         price: product?.product_attributes[0]?.price,
         qty: quntity,
         product_hcn: product?.product_hcn,
+        sku: product?.sku||"",
         variant_id: product?.product_attributes[0]?.id,
         old_price: product?.product_attributes[0]?.old_price,
         discount: product?.product_attributes[0]?.discount,
@@ -77,6 +78,7 @@ function ProductCard({pLength, product, setLoading, hidebutton, setisLoading }) 
         product_hcn: product?.product_hcn,
         discount: product?.discount,
         price: product?.price,
+        sku: product?.sku||"",
       };
     }
 

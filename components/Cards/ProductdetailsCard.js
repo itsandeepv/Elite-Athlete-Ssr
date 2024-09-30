@@ -60,6 +60,7 @@ function ProductdetailsCard({ products, productReviewCount, setData }) {
     product_name: details?.product_name,
     product_hcn: details?.product_hcn,
     product_image: details?.thumbnail,
+    sku: details?.sku||"",
     price: details?.price,
     qty: quntity,
     variant_id:
