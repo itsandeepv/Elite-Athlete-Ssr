@@ -71,7 +71,6 @@ function ProductdetailsCard({ products, productReviewCount, setData }) {
     discount: details?.discount,
   };
 
-  // console.log(details , "<<<<<<<<details");
   const config = {
     method: "post",
     token: userData?.token,
