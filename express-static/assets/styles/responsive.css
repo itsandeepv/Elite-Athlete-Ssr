@@ -235,6 +235,12 @@
     .left-contect .main-dv {
         margin-top: 15px;
     }
+    .search-icon {
+        top: 8px;
+    }
+    .card-itm.item{
+        max-height: fit-content;
+    }
 }
 
 @media screen and (max-width:768px) {
@@ -448,9 +454,7 @@
         margin: 15px 0;
     }
 
-    .search-icon {
-        top: 8px;
-    }
+
 
     .adress-popup .coupon-item {
         min-width: 90% !important;
