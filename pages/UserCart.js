@@ -15,11 +15,16 @@ import { getUserAddress } from "@redux/actions/userDetailsActions";
 import LoaderSmall from "@components/Modal/LoaderSmall";
 function UserCart() {
   // const [checkCartData, setCheckCartData] = useState(false);
-  const { userDetails, userData } = useSelector((state) => state);
+  const userData = useSelector((state) => state?.userData);
+  const userDetails = useSelector((state) => state?.userDetails);
   const { getCartListData } = useSelector((state) => state);
+
+  // console.log("datas" , datas);
+  
+
   const totalA = Number(getCartListData.getCartListData?.cart_total);
-  const { userOrderData } = useSelector((state) => state);
-  const { addCheckout } = useSelector((state) => state.addCheckout);
+ 
+
   const [coupon, setCoupon] = useState("");
   const [couponPrice, setCouponPrice] = useState();
   const [showCouponPopupFalse, setShowCouponPopupFalse] = useState({
