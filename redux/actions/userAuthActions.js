@@ -79,6 +79,8 @@ export const userLogin = (endpoint, data, setloading) => {
                     if (setloading) { setloading(false) }
                     var cookieValue = (Cookies.get('addToCartData'));
                     var addToCartData = JSON.parse(cookieValue);
+                    console.log("addToCartData" ,addToCartData);
+                    
                     if (addToCartData) {
                         const cartData = addToCartData?.map((citem) => {
                             return {
@@ -89,6 +91,7 @@ export const userLogin = (endpoint, data, setloading) => {
                                 price: citem?.price,
                                 qty: citem?.qty,
                                 variant_id: citem?.variant_id,
+                                product_hcn: citem?.product_hcn,
                                 old_price: citem?.old_price,
                                 discount: citem?.discount,
                             }
@@ -124,12 +127,6 @@ export const userLogin = (endpoint, data, setloading) => {
                 dispatch(updateMetadata(error));
                 if (setloading) { setloading(false) }
                 if (error?.response?.data?.data) {
-                    // dispatch(showPopup({
-                    //     metaDate: {
-                    //         genrateOtp: "true",
-                    //         ...error?.response?.data?.data, password: data?.password ,
-                    //     }
-                    // }, "forgotPassword", true))
                     dispatch(openModal('forgotPassword', {genrateOtp: "true",
                         ...error?.response?.data?.data, password: data?.password ,}));
                 }

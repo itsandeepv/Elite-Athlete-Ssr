@@ -22,7 +22,8 @@ function ProductdetailsCard({ products, productReviewCount, setData }) {
   const  getWishListData  = useSelector((state) => state.getWishListData?.getWishListData);
   const productID = urlParam?.id||""
   const vrNID = urlParam?.vrN?.replace(/\+/g, ' ')||""
-  // console.log("pr" ,urlParam);
+
+  console.log("pr details" ,details);
   
 
   const [details, setDetails] = useState({...products});
@@ -107,6 +108,9 @@ function ProductdetailsCard({ products, productReviewCount, setData }) {
   };
 
   const addToCartItem = () => {
+
+    // console.log(cartData , "<<<<<cartData");
+    
     if (userData?.token) {
       dispatch(
         getAddToCart(
