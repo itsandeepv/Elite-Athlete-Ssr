@@ -41,6 +41,7 @@ function Header() {
     if (Cookies.get('cartLength')) {
       setCartCount(Cookies.get('cartLength'))
     }
+    
 
   }, [loading, cartCount]);
 

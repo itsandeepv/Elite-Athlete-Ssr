@@ -5,6 +5,7 @@ import LoaderSmall from "./LoaderSmall";
 import { userLogin } from "@redux/actions/userAuthActions";
 import { showPopup } from "@redux/actions/popupActions";
 import { closeModal, openModal, showModal, updateMetadata } from "@redux/actions/modalActions";
+import { BASE_URL } from "@constants/Common";
 
 function Login({ setShowpopup }) {
   const error  = useSelector((state) => state?.userData.error);
@@ -78,7 +79,7 @@ function Login({ setShowpopup }) {
           </svg>
         </span>
         <div className="img">
-          <img src="assets/icons/logo.svg" alt="" />
+          <img src={BASE_URL+"/assets/icons/logo.svg"} alt="" />
         </div>
         <div className="form-contr">
           <label htmlFor="email">Enter Your Email/Number</label>

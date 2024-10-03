@@ -138,9 +138,7 @@ function ProductdetailsCard({ products, productReviewCount, setData }) {
         setShowAddToCartListContent("Go To Cart");
         if (showAddToCartListContent === "Go To Cart") {
           dispatch(openModal('Signin', {}));
-          // navigate(`${window.location?.pathname + window.location?.search}`, {
-          //   state: { popName: "Sigin" },
-          // });
+          
         }
       } else {
         const cartDataArray = [cartData];

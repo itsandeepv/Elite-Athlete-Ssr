@@ -85,6 +85,7 @@ export const userLogin = (endpoint, data, setloading) => {
                                 product_id: citem?.product_id,
                                 product_name: citem?.product_name,
                                 product_image: citem?.product_image,
+                                sku: citem?.sku,
                                 price: citem?.price,
                                 qty: citem?.qty,
                                 variant_id: citem?.variant_id,
