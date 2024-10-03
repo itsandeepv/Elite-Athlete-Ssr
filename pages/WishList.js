@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import axios from 'axios';
-import { toast } from 'react-toastify';
 import { getCartListCount } from '@redux/actions/CartListCountActions';
 import Layout from '@components/Layouts/Layout';
 import Loader from '@components/Modal/Loader';
@@ -12,20 +10,17 @@ import Head from 'next/head';
 import { baseUrl } from '@utils/urls';
 
 function WishList() {
-    const { getWishListData } = useSelector((state) => state)
-    const [data, setData] = useState(getWishListData.getWishListData);
+    const data  = useSelector((state) => state.getWishListData?.getWishListData)
     const dispatch = useDispatch()
     const [loading, setLoading] = useState(false);
-    const { userData } = useSelector((state) => state);
+    const userData  = useSelector((state) => state.userData);
     const [isLoading, setisLoading] = useState(false)
 
     useEffect(() => {
         dispatch(getCartListCount(`/api/get-user-wishlist`, userData?.token, "WishListSuccess"));
     }, [])
 
-    useEffect(() => {
-        setData([...getWishListData.getWishListData])
-    }, [loading, getWishListData])
+    
 
     const breadcumsDetails = [
         {
@@ -34,13 +29,10 @@ function WishList() {
         },
         {
             title: "Wish List",
-            path: "/"
+            path: "#"
         },
 
     ]
-
-    // document.getElementById("custom-loader-ssr").style.display = loading? "block": "none";
-
 
     return (
         <React.Fragment>
@@ -50,9 +42,6 @@ function WishList() {
                 <link rel="canonical" href={`${baseUrl}`} />
             </Head>
             <Layout>
-                 {/* {loading ? (
-                <Loader />
-            ) : ( */}
                 <div className='container-fluid'>
                     <div className='row'>
                         <div className='col'>
@@ -79,7 +68,6 @@ function WishList() {
 
                     </div>
                 </div>
-            {/* // )} */}
             </Layout>
         </React.Fragment>
     )

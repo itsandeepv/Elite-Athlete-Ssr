@@ -8,8 +8,9 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 function UserDashboard() {
-    const { userData, userData2 } = useSelector((state) => state);
-    const { userOrderData } = useSelector((state) => state.userOrderData);
+    const userData  = useSelector((state) => state?.userData);
+    const  userData2  = useSelector((state) => state?.userData2);
+    const userOrderData = useSelector((state) => state.userOrderData?.userOrderData);
     const dispatch = useDispatch();
     const [showpopup, setshowPopup] = useState(false);
     const pathN = window.location.pathname

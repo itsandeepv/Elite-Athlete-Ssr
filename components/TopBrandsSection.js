@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, {  useState } from 'react'
 import Slider from 'react-slick';
 import SectionsHeading from './Cards/SectionsHeading';
 import SportsCards from './Cards/SportsCards';
-import axios from 'axios';
-import { baseUrl } from '../utils/urls';
 
 function TopBrandsSection({starsdata}) {
 

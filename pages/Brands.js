@@ -2,6 +2,7 @@ import Breadcrums from '@components/Breadcrums/Breadcrums';
 import Layout from '@components/Layouts/Layout';
 import Loader from '@components/Modal/Loader';
 import { getbrand } from '@redux/actions/brandActions';
+import { baseUrl } from '@utils/urls';
 import Head from 'next/head';
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,23 +11,15 @@ function Brand()
 {
     const [loading, setLoading] = useState(true);
     const dispatch = useDispatch()
-    const [brands, setBrands] = useState([]);
-    const { brandData } = useSelector((state) => state)
+    const brands  = useSelector((state) => state.brandData?.brandData?.brands)
     const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
 
     useEffect(() => {
         dispatch(getbrand(`/api/get-brands?page=${currentPage}`))
-        setBrands(brandData?.brandData?.brands);
-        setTotalPages(brandData?.brandData?.last_page);
         setLoading(false)
     }, [currentPage]); 
 
-    const handlePageChange = (page) => {
-        setCurrentPage(page);
-      };
-   
-
+  
     const breadcumsDetails = [
         {
             title: "Home",
@@ -61,7 +54,7 @@ function Brand()
                     <div className="all-brands ">
                         {brands?.map((item, index) => (
                             <div key={index} className="img"> 
-                                <a href={`/all-product?type=brand&id=${item?.id}`}>
+                                <a href={`/all-product/brand/${item?.id}/${item?.name}`}>
                                     <img src={`${baseUrl}/${item?.logo}`} className='img-fluid' alt={item.name} />
                                 </a>
                             </div>

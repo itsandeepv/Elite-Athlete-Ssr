@@ -12,10 +12,10 @@ import { formatCurrency } from "@helpers/frontend";
 import { openModal } from "@redux/actions/modalActions";
 
 function ProductCard({pLength, product, setLoading, hidebutton, setisLoading }) {
-  const { getCartListData } = useSelector((state) => state);
-  const { getWishListData } = useSelector((state) => state);
-  const navigate =()=>{}
-  const { userData } = useSelector((state) => state);
+  const  getCartListData  = useSelector((state) => state.getCartListData);
+  const  getWishListData  = useSelector((state) => state.getWishListData);
+  const userData  = useSelector((state) => state.userData);
+  
   const dispatch = useDispatch();
   const [quntity, setQuantity] = useState(1);
   const [showWishListContent, setShowWishListContent] = useState(

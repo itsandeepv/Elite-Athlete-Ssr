@@ -8,7 +8,7 @@ import { hasValidationError, validatedFields, validationError } from '@helpers/f
 
 function AddAddress({ setshowPopup, metadata }) {
     const [errors, setErrors] = useState([]);
-    const { userData, userDetails } = useSelector((state) => state)
+    const userData = useSelector((state) => state.userData)
     const dispatch = useDispatch()
 
     const [formData, setFormData] = useState({

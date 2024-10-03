@@ -5,21 +5,17 @@ import { baseUrl } from '../../utils/urls';
 import { toast } from 'react-toastify';
 import UpdateProfile from '../Modal/UpdateProfile';
 import LoaderSmall from '../Modal/LoaderSmall';
-import {updateUserDetailsAction} from "../../redux/actions/userAuthActions"
 import { useDispatch } from "react-redux";
 import { getUserdata } from '../../redux/actions/userDataActions';
 
-function UserProfile({setuserUpdatedDetails}) {
-
-    const { userData,userData2 } = useSelector((state) => state)
+function UserProfile() {
+    const  userData = useSelector((state) => state.userData)
     const [formdataedit, setFormDataedit] = useState({})
     const [isLoading, setisLoading] = useState(false)
     const [showpopup, setShowpopup] = useState({
         isOpen: false,
         data: ""
     })
-    // console.log(userData2, "<<<<<userData2");
-
     const [formdata, setFormData] = useState({
         alternate_number: "",
         dob: "",

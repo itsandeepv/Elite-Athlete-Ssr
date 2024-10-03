@@ -11,11 +11,8 @@ import { BASE_URL } from '@constants/Common';
 
 function Footer() {
   const dispatch = useDispatch()
-  const [errors, setErrors] = useState([]);
-  const [NewsLetter, setNewsLetter] = useState([]);
-  const { newsLetterData } = useSelector((state) => state)
-
-  const [formData, setFormData] = useState({ email: "" })
+  const [errors, setErrors] = useState([]); 
+ const [formData, setFormData] = useState({ email: "" })
 
   const [pageData, setpageData] = useState()
   const fatchPageData = async () => {

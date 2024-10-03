@@ -8,11 +8,10 @@ import { closeModal, openModal } from '@redux/actions/modalActions';
 function SignUp({ setShowpopup }) {
     const [errors, setErrors] = useState([]);
     const dispatch = useDispatch()
-   
     const [isPassText, setIsPassText] = useState(false);
     const [isPassText2, setIsPassText2] = useState(false);
     const [isloading, setloading] = useState(false);
-    const { error } = useSelector((state) => state?.userData);
+    const error  = useSelector((state) => state?.userData.error);
 
     const [formData, setFormData] = useState({
         name: "",

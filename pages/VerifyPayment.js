@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import Layout from '@components/Layouts/Layout';
@@ -8,15 +8,8 @@ import { getUserOrderById } from '@redux/actions/getUserOrderByIdActions';
 
 function VerifyPayment() {
     const location = window.location || {};
-    console.log(window.location);
     const dispatch = useDispatch()
-    const { userData } = useSelector((state) => state)
-    const { userOrderDataById } = useSelector((state) => state.userOrderDataById)
-    const params = new URLSearchParams(window.location.search);
-    const razorpay_payment_link_status = params.get('razorpay_payment_link_status');
-
-
-
+    const userData  = useSelector((state) => state.userData)
     useEffect(() => {
         const searchParams = new URLSearchParams(window.location.search);
         if (location.search && location.search.includes('razorpay_payment_id') && location.search.includes('razorpay_payment_link_id') && location.search.includes('razorpay_payment_link_reference_id') && location.search.includes('razorpay_signature')) {

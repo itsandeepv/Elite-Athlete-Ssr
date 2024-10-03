@@ -14,10 +14,9 @@ import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
 
 
-function Product({  productData ,productDataForFi }) {
-    const { userData } = useSelector((state) => state);
+function Product() {
+    const  userData  = useSelector((state) => state?.userData);
     const {query} = useRouter()
-    // console.log(query);
     const dispatch = useDispatch();
     const type = query?.type ||"";
     const id = query?.id ||"";
@@ -71,7 +70,6 @@ function Product({  productData ,productDataForFi }) {
                 const brand_id = { brand_id: brandIds?.join(',') };
                 response = await axios.post(`${baseUrl}/api/get-product-by-brand`, brand_id);
                 if (response.data.responseCode === 200) {
-                    console.log(response.data.result);
                     setData(response.data.result);
                     setDataForFi(response.data.result?.products)
                     setProductLoading(false);

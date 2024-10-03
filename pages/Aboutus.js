@@ -7,8 +7,6 @@ import Breadcrums from '@components/Breadcrums/Breadcrums'
 import Head from 'next/head'
 
 function Aboutus() {
-
-    const [tabs, settabs] = useState(1)
     const breadcumsDetails = [
         { title: "Home", path: "/" },
         { title: "About us", path: "/" },
@@ -48,7 +46,6 @@ function Aboutus() {
             <Head>
                 <meta charset="utf-8" />
                 <title>About Us</title>
-                {/* <meta property="og:image" content={`${c.BASE_URL}/assets/images/logo.png`} /> */}
                 <link rel="canonical" href={`${baseUrl}`} />
             </Head>
            

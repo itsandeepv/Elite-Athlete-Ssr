@@ -16,7 +16,7 @@ function WriteReviews() {
     const [images, setimages] = useState([])
     const [rating, setRating] = useState(0);
 
-    const { userData ,userData2 } = useSelector((state) => state)
+    const userData  = useSelector((state) => state.userData);
     const popMetaData = useSelector((state) => state.popUpData?.popupdata)
     // console.log(userData.userDetails  , "<<<<<<popMetaData");
     const dispatch = useDispatch()

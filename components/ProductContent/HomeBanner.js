@@ -2,14 +2,13 @@ import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react'
 import Slider from 'react-slick';
 import { baseUrl } from '../../utils/urls';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { getcategory } from '../../redux/actions/categoryActions';
 import Loader from '@components/Modal/Loader';
 import { BASE_URL } from '@constants/Common';
 function HomeBanner() {
 
   const dispatch = useDispatch()
-  const { categoryData } = useSelector((state) => state)
   const [loading, setLoading] = useState(false);
   const [silderData, setSetsliderData] = useState([])
   const [silderleftData, setSetleftsliderData] = useState([])

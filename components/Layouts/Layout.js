@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 import TrackOrder from '../Modal/TrackOrder'
 
 function Layout({ children }) {
-  const { popUpData } = useSelector((state) => state)
+  const popUpData  = useSelector((state) => state.popUpData)
   return (
     <React.Fragment>
       {popUpData?.isOpen && popUpData?.popUpName == "trackorder" && <TrackOrder />}

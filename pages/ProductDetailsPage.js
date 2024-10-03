@@ -30,7 +30,7 @@ function ProductDetailsPage({ productdetails, relatedProduct, productVarintdetai
     const [catProductData, setCatProductData] = useState(relatedProduct.products || []);
     const [productReviewCount, setProductReviewCount] = useState([]);
     const [productReviewData, setProductReviewData] = useState([]);
-    const { userData } = useSelector((state) => state)
+    const userData  = useSelector((state) => state.userData)
     const [productLoading, setProductLoading] = useState(false);
     const [catProductLoading, setCatProductLoading] = useState(false);
 

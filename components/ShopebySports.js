@@ -7,8 +7,7 @@ import axios from 'axios';
 import { baseUrl } from '../utils/urls';
 
 function ShopebySports({productSection}) {
-
-    const { categoryData } = useSelector((state) => state)
+    const categoryData  = useSelector((state) => state.categoryData)
     const [sectionData, setsectionData] = useState([...categoryData?.categoryData?.filter((item) => {
         if (item?.product_section) {
             return item?.product_section?.product_section_name == "Shop by Sports"

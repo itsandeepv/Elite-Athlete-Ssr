@@ -12,7 +12,7 @@ import { formatCurrency } from '@helpers/frontend'
 
 function TrackOrder() {
     const dispatch = useDispatch()
-    const { popUpData } = useSelector((state) => state)
+    const popUpData  = useSelector((state) => state.popUpData)
     const userdetail = useSelector((state) => state?.userData)
     const [orderData, setOrderData] = useState()
 
@@ -72,8 +72,6 @@ function TrackOrder() {
     }
 
     const checkCancel = orderData?.order_items?.find((ot)=> ot.order_status == "0")
-
-    // console.log(orderData, "<<<<<<<<orderData" ,checkCancel)
 
     return (
         <div className='model-container '>

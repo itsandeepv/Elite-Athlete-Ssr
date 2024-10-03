@@ -14,14 +14,9 @@ import AddAddress from "@components/Modal/AddAddress";
 import { getUserAddress } from "@redux/actions/userDetailsActions";
 import LoaderSmall from "@components/Modal/LoaderSmall";
 function UserCart() {
-  // const [checkCartData, setCheckCartData] = useState(false);
   const userData = useSelector((state) => state?.userData);
   const userDetails = useSelector((state) => state?.userDetails);
   const { getCartListData } = useSelector((state) => state);
-
-  // console.log("datas" , datas);
-  
-
   const totalA = Number(getCartListData.getCartListData?.cart_total);
  
 

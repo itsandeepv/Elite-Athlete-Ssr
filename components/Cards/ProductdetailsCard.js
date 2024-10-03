@@ -17,10 +17,9 @@ import PhotoSlider from "@components/Modal/PhotoSlider";
 function ProductdetailsCard({ products, productReviewCount, setData }) {
   const router = useRouter();
   const urlParam = router.query;
-
-  const { userData } = useSelector((state) => state);
-  const { getCartListData } = useSelector((state) => state.getCartListData);
-  const { getWishListData } = useSelector((state) => state.getWishListData);
+  const userData = useSelector((state) => state.userData);
+  const  getCartListData  = useSelector((state) => state.getCartListData?.getCartListData);
+  const  getWishListData  = useSelector((state) => state.getWishListData?.getWishListData);
   const productID = urlParam?.id||""
   const vrNID = urlParam?.vrN?.replace(/\+/g, ' ')||""
   // console.log("pr" ,urlParam);

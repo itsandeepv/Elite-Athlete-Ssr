@@ -5,7 +5,6 @@ import { toast } from 'react-toastify';
 import { hasValidationError, validatedFields, validationError } from '@helpers/frontend';
 import { baseUrl } from '@utils/urls';
 import LoaderSmall from './LoaderSmall';
-import { showPopup } from '@redux/actions/popupActions';
 import { userLogin } from '@redux/actions/userAuthActions';
 import { closeModal, openModal } from '@redux/actions/modalActions';
 
@@ -15,10 +14,8 @@ function ResetPassword({ setShowpopup }) {
     const [showforgotPass, setshowforgotPass] = useState(false)
     const [errors, setErrors] = useState([]);
     const [isloading, setloading] = useState(false);
-    const {modalName ,metaData  } = useSelector((state) => state.modalData)
-
-    // console.log("metaData>>>>>>" , metaData ,modalName);
-
+    const metaData = useSelector((state) => state.modalData.metaData)
+    const modalName  = useSelector((state) => state.modalData.modalName)
     const [isPassText, setIsPassText] = useState(false);
     const navigate = ()=>{}
     const  state = {popName:""}

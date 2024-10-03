@@ -3,23 +3,21 @@ import { useDispatch, useSelector } from "react-redux";
 import Sidebar from "./Sidebar";
 import Cookies from 'js-cookie';
 import axios from 'axios';
-import { useRouter } from 'next/router';
 import Login from '@components/Modal/Login';
 import { getCartListCount } from '@redux/actions/CartListCountActions';
 import { getUserdata } from '@redux/actions/userDataActions';
 import { baseUrl } from '@utils/urls';
 import { fetchSuccess } from '@redux/actions/userAuthActions';
-import { showPopup } from '@redux/actions/popupActions';
 import SignUp from '@components/Modal/SignUp';
 import ResetPassword from '@components/Modal/ResetPassword';
-import { openModal, showModal } from '@redux/actions/modalActions';
+import { openModal } from '@redux/actions/modalActions';
 import Link from 'next/link';
 import { BASE_URL } from '@constants/Common';
 
 function Header() {
-  const router = useRouter();
-  const { userData, userData2 } = useSelector((state) => state)
-  const { categoryData } = useSelector((state) => state)
+  const  userData  = useSelector((state) => state?.userData);
+  const  userData2  = useSelector((state) => state?.userData2);
+  const  categoryData  = useSelector((state) => state?.categoryData);
   const dispatch = useDispatch()
   const [showPop, setShowpopup] = useState(false)
   const [cartCount, setCartCount] = useState()
@@ -31,9 +29,7 @@ function Header() {
   const [serachKeyName, setserachKeyName] = useState();
   const { modalData } = useSelector((state) => state)
 
-  // console.log("popUpData" ,modalData );
   const handleProductChange = (event) => {
-    // const selectedValue = event.target.value;
     window.location = `/all-product/category/${event?.id}/${event?.name}`;
   };
 
@@ -53,7 +49,6 @@ function Header() {
   const [searchvalue, setsearchvalue] = useState("")
   const searchSuggestions = async (e) => {
     setsearchvalue(e.target.value)
-    // console.log(searchvalue, e.target.value);
     if (e.target.value.length >= 1) {
       await axios.get(`${baseUrl}/api/suggest-product?query=${e.target.value}`).then((res) => {
         if (res?.status == 200) {

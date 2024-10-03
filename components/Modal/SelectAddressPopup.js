@@ -12,7 +12,7 @@ function SelectAddressPopup({
   setshowPopup,
 }) {
   const [showPopup, setShowPopup] = useState(true);
-  const { userData } = useSelector((state) => state);
+  const userData  = useSelector((state) => state.userData);
   const dispatch = useDispatch();
   const [userAddressD, setuserAddress] = useState(addressData?.find((item)=> item?.is_default == "yes"));
 

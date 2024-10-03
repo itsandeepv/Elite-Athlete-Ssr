@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
-import Loader from '../Modal/Loader'
 import { deleteUserAddress, getUserAddress } from '@redux/actions/userDetailsActions'
 import AddAddress from '@components/Modal/AddAddress'
 import { baseUrl } from '@utils/urls'
@@ -12,7 +11,8 @@ function UserAdList() {
         data: {}
     })
     const dispatch = useDispatch()
-    const { userDetails, userData } = useSelector((state) => state)
+    const  userDetails = useSelector((state) => state.userDetails)
+    const  userData = useSelector((state) => state.userData)
 
     let config = {
         method: 'get',

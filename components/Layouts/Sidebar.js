@@ -5,9 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 
 function Sidebar({ setopenSidebar }) {
     const dispatch = useDispatch()
-    const { brandData } = useSelector((state) => state)
-    const { categoryData } = useSelector((state) => state)
-    const { categoryBySectionData } = useSelector((state) => state)
+    const  brandData = useSelector((state) => state.brandData)
+    const  categoryData = useSelector((state) => state.categoryData)
+    const  categoryBySectionData = useSelector((state) => state.categoryBySectionData)
     const [showSidebar, setShowSidebar] = useState(false)
     const [showSidebar2, setShowSidebar2] = useState(false)
     const [showSidebar3, setShowSidebar3] = useState({})

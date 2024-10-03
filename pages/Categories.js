@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios';
 import { baseUrl } from '../utils/urls';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Layout from '@components/Layouts/Layout';
 import Loader from '@components/Modal/Loader';
 import Breadcrums from '@components/Breadcrums/Breadcrums';
@@ -9,7 +8,7 @@ import Breadcrums from '@components/Breadcrums/Breadcrums';
 
 function Category() {
     const [loading, setLoading] = useState(false);
-    const { categoryData } = useSelector((state) => state)
+    const categoryData  = useSelector((state) => state.categoryData)
     const breadcumsDetails = [
         {
             title: "Home",
@@ -44,14 +43,13 @@ function Category() {
                                     categoryData?.categoryData?.map((item, index) => {
                                         return (
                                             <div key={index} className='col-lg-3 col-md-4 p-3 col-6'>
-                                                <a href={`/all-product?type=category&id=${item?.id}`}>
+                                                <a href={`/all-product/category/${item?.id}/${item?.name}`}>
                                                     <div className='goals-card'>
                                                         <img src={baseUrl + "/" + item?.image || 'assets/images/stars.png'} className='img-fluid category-image' alt='img' />
                                                         <div className='card-content'>
                                                             <h3>
                                                                 {item?.name || "category name"}
                                                             </h3>
-                                                            {/* <p>210 Products</p> */}
                                                         </div>
                                                     </div>
                                                 </a>

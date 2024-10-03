@@ -7,8 +7,7 @@ import { showPopup } from "@redux/actions/popupActions";
 import { closeModal, openModal, showModal, updateMetadata } from "@redux/actions/modalActions";
 
 function Login({ setShowpopup }) {
-  const { modalData } = useSelector((state) => state)
-  const { error } = useSelector((state) => state?.userData);
+  const error  = useSelector((state) => state?.userData.error);
   const [isloading, setloading] = useState(false);
   const [errors, setErrors] = useState([]);
   const [isPassText, setIsPassText] = useState(false);

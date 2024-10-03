@@ -6,19 +6,12 @@ import { useDispatch, useSelector } from 'react-redux';
 
 function TopBrands() {
     const dispatch = useDispatch()
-    const [brands, setBrands] = useState([]);
-    const { brandData } = useSelector((state) => state)
+    const brandData  = useSelector((state) => state.brandData)
     const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
 
     useEffect(() => {
         dispatch(getbrand(`/api/get-brands?page=${currentPage}`))
-        setBrands(brandData?.brandData?.brands);
-        // setTotalPages(brandData?.brandData?.last_page);
-    }, []); 
-
-//    console.log(brandData , "<<<<brandData");
-   
+            }, []);    
 
     return (
         <div className="top-brands container-fluid">
@@ -26,7 +19,7 @@ function TopBrands() {
             <div className="all-brands ">
                 {brandData?.brandData?.brands?.map((item, index) => (
                     <div key={index} className="img"> 
-                        <a href={`/all-product?type=brand&id=${item?.id}`}>
+                        <a href={`/all-product/brand/${item?.id}/${item?.name}`}>
                             <img src={`${baseUrl}/${item?.logo}`} className='img-fluid' style={{border:"1px solid #ccc",maxWidth:"151px"}} alt={item.name} />
                         </a>
                     </div>

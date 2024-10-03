@@ -13,7 +13,7 @@ function UpdateProfile({ details, setShowpopup }) {
         phone: "",
     })
     const [otpsend, setotpsend] = useState("pass")
-    const { userData } = useSelector((state) => state);
+    const userData  = useSelector((state) => state.userData);
     const [errors, setErrors] = useState([]);
 
 
