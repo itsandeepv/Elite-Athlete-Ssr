@@ -14,6 +14,29 @@ function HomeBanner() {
   const [silderleftData, setSetleftsliderData] = useState([])
   const slideRef = useRef()
   const [currentIndex, setCurrentIndex] = useState(0);
+  useEffect(() => {
+    const fetchData = async () => {
+       setLoading(true);
+      await axios.get(`${baseUrl}/api/get-slider`).then((res) => {
+        if (res.status == 200) {
+          setSetsliderData(res.data.result)
+          setSetleftsliderData(res.data.result?.filter((item) => item.slider_position == "left"))
+          setLoading(false);
+        }
+      }).catch((err) => { console.log(err);setLoading(false); })
+    }
+    const fetchIconData = async () => {
+      setLoading(true);
+     await axios.get(`${baseUrl}/api/get-all-categories-by-feature`).then((res) => {
+       if (res.status === 200) {
+        setisfeaturedCategory(res.data.result?.filter((item) => item?.is_featured == "1"))
+       }
+     }).catch((err) => { console.log(err);})
+   }
+    dispatch(getcategory("/api/get-all-categories"))
+    fetchData()
+    fetchIconData()
+  }, [])
   const scrollPrev = () => {
     const container = slideRef.current;
     const innerItems = container.querySelectorAll('.inner-items'); // Adjust the selector
@@ -51,29 +74,7 @@ function HomeBanner() {
     arrows: false
   };
   const [isfeaturedCategory, setisfeaturedCategory] = useState()
-  useEffect(() => {
-    const fetchData = async () => {
-       setLoading(true);
-      await axios.get(`${baseUrl}/api/get-slider`).then((res) => {
-        if (res.status == 200) {
-          setSetsliderData(res.data.result)
-          setSetleftsliderData(res.data.result?.filter((item) => item.slider_position == "left"))
-          setLoading(false);
-        }
-      }).catch((err) => { console.log(err);setLoading(false); })
-    }
-    const fetchIconData = async () => {
-      setLoading(true);
-     await axios.get(`${baseUrl}/api/get-all-categories-by-feature`).then((res) => {
-       if (res.status === 200) {
-        setisfeaturedCategory(res.data.result?.filter((item) => item?.is_featured == "1"))
-       }
-     }).catch((err) => { console.log(err);})
-   }
-    dispatch(getcategory("/api/get-all-categories"))
-    fetchData()
-    fetchIconData()
-  }, [])
+ 
 
   return (
 

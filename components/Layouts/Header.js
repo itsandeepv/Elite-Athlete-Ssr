@@ -28,7 +28,11 @@ function Header() {
   const [loading, setLoading] = useState(false);
   const [serachKeyName, setserachKeyName] = useState();
   const { modalData } = useSelector((state) => state)
-
+  useEffect(() => {
+    if (userData?.token) {
+      dispatch(getUserdata(userData?.token))
+    }
+  }, [])
   const handleProductChange = (event) => {
     window.location = `/all-product/category/${event?.id}/${event?.name}`;
   };
@@ -63,11 +67,7 @@ function Header() {
     }
   }
 
-  useEffect(() => {
-    if (userData?.token) {
-      dispatch(getUserdata(userData?.token))
-    }
-  }, [])
+ 
 
   return (
     <React.Fragment>
@@ -99,8 +99,9 @@ function Header() {
               </select>
               <div className='sugges_search' >
                 <input type="search" onKeyPress={(e) => {
-                  if (e.key == "Enter" && searchSuggestionsData.length > 0) {
-                    window.location = `/all-product/${serachKeyName}/${searchSuggestionsData[0]?.id}/${searchSuggestionsData[0]?.name}`
+                  if (e.key == "Enter") {
+                    window.location = `/all-product/search/${searchvalue}`
+                    // window.location = `/all-product/${serachKeyName}/${searchSuggestionsData[0]?.id}/${searchSuggestionsData[0]?.name}`
                   }
                 }} onChange={(e) => {
                   searchSuggestions(e)

@@ -20,6 +20,9 @@ function Product() {
     const dispatch = useDispatch();
     const type = query?.type ||"";
     const id = query?.id ||"";
+
+    console.log("query" ,query);
+    
     const [brandData, setBrandData] = useState([]);
     const [data, setData] = useState([]);
     const [dataForFi, setDataForFi] = useState([]);
@@ -38,8 +41,8 @@ function Product() {
             path: "/"
         },
         {
-            title: `All Categories By ${type}`,
-            path: "/categories"
+            title: type == "search" ?   query?.queryText :`All Categories By ${type}`,
+            path:  type == "search" ? "#":"/categories"
         },
         {
             title: data?.category_name ?? data?.brand_names
@@ -50,12 +53,25 @@ function Product() {
         try {
             setProductLoading(true);
             let response;
+
             if (type === 'category' || (type === 'category' && brandIds?.length > 0)) {
                 const postdata = new FormData();
                 postdata.append("brand_id", brandIds?.join(','));
                 postdata.append("category_id", id);
                 postdata.append("type", brandIds?.length > 0 && `"brand"`);
                 response = await axios.post(`${baseUrl}/api/get-product-by-category`, postdata);
+                if (response.data.responseCode === 200) {
+                    setData(response.data.result);
+                    setDataForFi(response.data.result?.products)
+                    setProductLoading(false);
+                } else {
+                    setProductLoading(false);
+                }
+
+            }
+            if (type === 'search' || (type === 'search' && brandIds?.length > 0)) {
+
+                response = await axios.post(`${baseUrl}/api/get-product-by-query?product_name=${query?.queryText}${brandIds?.length > 0 ? "&brand_id="+brandIds?.join(',') :"" }`);
                 if (response.data.responseCode === 200) {
                     setData(response.data.result);
                     setDataForFi(response.data.result?.products)
@@ -111,7 +127,7 @@ function Product() {
         handleMultipleFilter(brandIds, disCount, priceRangeArr)
     }, [brandIds, disCount, priceRangeArr])
     useEffect(() => {
-        if (type == "brand" || type == 'product' || type == "category") { fetchData(brandIds) }
+        if (type == "brand" || type == 'product' || type == "category" || type == "search") { fetchData(brandIds) }
     }, [brandIds])
 
 
@@ -184,7 +200,11 @@ function Product() {
                     <div className="product-items" style={{ position: "relative" }}>
                         {loading && <LoaderSmall />}
                         <div className="container-fluid heading-main">
-                            <h3>{brandname?.length > 0 ? brandname.join(",") : data?.category_name ?? data?.brand_names}</h3>
+                            {
+                                type == "search"  ? 
+                                <h3>{brandname?.length > 0 ? brandname.join(",") : query?.queryText}</h3>
+                               : <h3>{brandname?.length > 0 ? brandname.join(",") : data?.category_name ?? data?.brand_names}</h3>
+                            }
                         </div>
                         <div className="container-fluid main-cont">
                             <img src="assets/icons/hamburger.svg" onClick={() => { setopenFilter(!openFilter) }} alt="img" className="hamburger filter-ham" />
@@ -211,20 +231,15 @@ function Product() {
                                             checked={brandIds?.find((itm) => itm == item?.id)}
                                             value={item?.id} onChange={(e) => {
                                                 if (e.target.checked && !brandIds?.find((itm) => itm == item?.id)) {
-                                                    // brandIds?.find((itm)=>itm == item?.id)
-                                                    // console.log(item);
                                                     setBrandId((pre) => ([...pre, item?.id]))
                                                     setBrandName((pre) => ([...pre, item?.name]))
-                                                    // fetchFilterData()
                                                 } else {
                                                     setBrandId((pre) => ([...pre.filter((elm) => elm != item?.id)]))
                                                     setBrandName((pre) => ([...pre.filter((elm) => elm != item?.name)]))
                                                 }
-                                                // console.log(e.target.checked,brandIds?.join(","),  "<<<<<<<<setBrandId");
 
                                             }} name="check1" id="check1" /> <span>
                                                 {item?.name}
-                                                {/* ({item?.totalBrandByProductCount || 0}) */}
                                             </span></label>
                                     </div>
                                 ))}
@@ -245,14 +260,6 @@ function Product() {
                                                 value={item?.id}
                                                 onChange={(e) => {
                                                     setpriceRangeArr(item)
-                                                    // console.log(item , );
-                                                    // if (e.target.checked && !priceRangeArr?.find((itm) => itm == item?.id)) {
-                                                    //     setpriceRangeArr((pre) => ([...pre, item]))
-                                                    // } else {
-                                                    //     setpriceRangeArr((pre) => ([...pre.filter((elm) => elm != item?.id)]))
-                                                    // }
-                                                    // console.log(e.target.checked, priceRangeArr?.join(","), "<<<<<<<<setBrandId");
-
                                                 }}
                                                 id="check4" /> <span>Rs. {item?.min} to Rs. {item?.max} </span></label>
                                         )
@@ -273,13 +280,6 @@ function Product() {
                                                 checked={dis == disCount}
                                                 onChange={(e) => {
                                                     setdisCount(dis)
-                                                    // if (e.target.checked && !disCount?.find((itm) => itm == dis)) {
-                                                    //     setdisCount((pre) => ([...pre, dis]))
-                                                    // } else {
-                                                    //     setdisCount((pre) => ([...pre.filter((elm) => elm != dis)]))
-                                                    // }
-                                                    // console.log(e.target.checked, disCount?.join(","), "<<<<<<<<setBrandId");
-
                                                 }} value={dis} name="discount" id="check7" /> <span>{dis}% and above</span></label>
                                         )
                                     })
@@ -295,7 +295,6 @@ function Product() {
                                         <option value="">Select</option>
                                         <option value="desc">High-to-low</option>
                                         <option value="asc">Low-to-high</option>
-                                        {/* <option value="Recommended3">Recommended3</option> */}
                                     </select>
                                 </div>
                                 <>
@@ -328,6 +327,9 @@ export async function getServerSideProps(context) {
     var pageProps = {};
     var productData =[]
     var productDataForFi =[]
+
+    // console.log("query" , query);
+    
     if(query.type == 'category'){
         const postdata = new FormData();
         postdata.append("category_id", query.id);
@@ -348,6 +350,17 @@ export async function getServerSideProps(context) {
     if(query.type == 'product'){
         const product_id = { product_id: query.id };
        let response = await axios.post(`${baseUrl}/api/get-product-by-product-id`, product_id);
+    //    console.log(".data " , response.data);
+        if (response.data.responseCode === 200) {
+            productData = response.data.result
+            productDataForFi = response.data.result?.products
+        }
+    }
+    if(query.type == 'search'){
+        // const product_id = { product_id: query.id };
+       let response = await axios.post(`${baseUrl}/api/get-product-by-query?product_name=${query?.queryText}`);
+    //    console.log(">response>>>>>>.data>" ,response.data);
+       
         if (response.data.responseCode === 200) {
             productData = response.data.result
             productDataForFi = response.data.result?.products

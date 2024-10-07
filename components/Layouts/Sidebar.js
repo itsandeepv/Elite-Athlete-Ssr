@@ -1,6 +1,6 @@
 import { BASE_URL } from '@constants/Common';
 import { getCategoryBySection } from '@redux/actions/categoryBySectionActions';
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 
 function Sidebar({ setopenSidebar }) {

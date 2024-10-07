@@ -23,14 +23,6 @@ function ProductSlide() {
                                 <img src={item?.banner_image ? baseUrl + "/" + item?.banner_image : "#"} alt={item?.alt_title} className=' img-fluid slider-banner-img' onClick={() => {
                                     window.location = item?.banner_url
                                 }} />
-                                {/* <div className="left">
-                                    <p className="red">Get  Ready To Fight</p>
-                                    <h5>TAKE ON THE DAY!</h5>
-                                    <p>Explore our Eco-Friendly Protein Collection for a best body building energy</p>
-                                </div>
-                                <div className="right">
-                                    <img src={baseUrl+"/"+item?.banner_image} alt="img" className='w-100' />
-                                </div> */}
                             </div>
                         )
                     })

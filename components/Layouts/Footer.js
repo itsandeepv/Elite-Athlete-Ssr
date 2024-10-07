@@ -12,9 +12,11 @@ import { BASE_URL } from '@constants/Common';
 function Footer() {
   const dispatch = useDispatch()
   const [errors, setErrors] = useState([]); 
- const [formData, setFormData] = useState({ email: "" })
-
+  const [formData, setFormData] = useState({ email: "" })
+  
   const [pageData, setpageData] = useState()
+  useEffect(() => { fatchfooterData() }, [])
+  useEffect(() => { fatchPageData() }, [])
   const fatchPageData = async () => {
     await axios.get(baseUrl + "/api/get-all-pages").then((res) => {
       if (res.data?.responseCode == 200) {
@@ -25,8 +27,6 @@ function Footer() {
     })
   }
 
-  // console.log(pageData, "<<<<<<<<<<pageData");
-  useEffect(() => { fatchPageData() }, [])
 
   const onChangeHandle = (e) => {
     const { name, value } = e.target
@@ -60,7 +60,6 @@ function Footer() {
       console.log(err);
     })
   }
-  useEffect(() => { fatchfooterData() }, [])
 
 
 
@@ -121,7 +120,7 @@ function Footer() {
           <h5>Information</h5>
           <ul>
             <li>
-              <a href="/aboutus">About us</a>
+              <Link href="/aboutus">About us</Link>
             </li>
             {
               pageData?.filter((item) => item?.page_type == "information")?.map((item, index) => {
@@ -141,13 +140,13 @@ function Footer() {
           <h5>Customer Service</h5>
           <ul>
                   <li>
-                    <a href={`/contact`}>Contact us</a>
+                    <Link href={`/contact`}>Contact us</Link>
                   </li>
             {
               pageData?.filter((item) => item?.page_type == "customer_service")?.map((item, index) => {
                 return (
                   <li key={index}>
-                    <a href={`/pages?pagename=${item?.slug}`}>{item?.title}</a>
+                    <Link href={`/pages?pagename=${item?.slug}`}>{item?.title}</Link>
                   </li>
                 )
               })

@@ -8,6 +8,10 @@ module.exports = function ({ server, app }) {
         const { type, id ,name } = req.params;
         return app.render(req, res, "/Product", { type, id ,name });
     });
+    server.get("/all-product/:type/:queryText", (req, res) => {
+        const { type, queryText } = req.params;
+        return app.render(req, res, "/Product", { type, queryText });
+    });
     server.get("/product-details/:id/:vrN", (req, res) => {
         const { id, vrN } = req.params;
         return app.render(req, res, "/ProductDetailsPage", { id, vrN });

@@ -28,18 +28,6 @@ function Aboutus() {
         }
     ]
     
-    const [pageData, setpageData] = useState()
-    const fatchPageData = async () => {
-        await axios.get(baseUrl + "/api/get-all-pages").then((res) => {
-            console.log(res);
-            if (res.data?.responseCode == 200) {
-                setpageData(res.data?.result)
-            }
-        }).catch((err) => {
-            console.log(err);
-        })
-    }
-    useEffect(() => { fatchPageData() }, [])
     
     return (
         <React.Fragment>

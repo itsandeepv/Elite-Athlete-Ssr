@@ -10,23 +10,24 @@ import { getAddToCart } from "@redux/actions/addToCartActions";
 import StarRating from "@components/StarRating";
 import { formatCurrency } from "@helpers/frontend";
 import { openModal } from "@redux/actions/modalActions";
+import LazyImage from "@components/ProductContent/LazyImage";
 
-function ProductCard({pLength, product, setLoading, hidebutton, setisLoading }) {
-  const  getCartListData  = useSelector((state) => state.getCartListData);
-  const  getWishListData  = useSelector((state) => state.getWishListData);
-  const userData  = useSelector((state) => state.userData);
-  
+function ProductCard({ pLength, product, setLoading, hidebutton, setisLoading }) {
+  const getCartListData = useSelector((state) => state.getCartListData);
+  const getWishListData = useSelector((state) => state.getWishListData);
+  const userData = useSelector((state) => state.userData);
+
   const dispatch = useDispatch();
   const [quntity, setQuantity] = useState(1);
   const [showWishListContent, setShowWishListContent] = useState(
     <span className="svg-img-icon">
-    <svg
-      width="15"
-      height="14"
-      viewBox="0 0 15 14"
-    >
-      <path d="M10.9091 0.333344C9.47727 0.333344 8.23227 1.00489 7.5 2.13027C6.76773 1.00489 5.52273 0.333344 4.09091 0.333344C3.00632 0.334657 1.96652 0.783347 1.19959 1.58098C0.432674 2.37862 0.00126314 3.46007 0 4.5881C0 6.65875 1.24091 8.81379 3.68864 10.9922C4.81026 11.9863 6.02183 12.8649 7.30636 13.616C7.36589 13.6493 7.43242 13.6667 7.5 13.6667C7.56758 13.6667 7.63411 13.6493 7.69364 13.616C8.97817 12.8649 10.1897 11.9863 11.3114 10.9922C13.7591 8.81379 15 6.65875 15 4.5881C14.9987 3.46007 14.5673 2.37862 13.8004 1.58098C13.0335 0.783347 11.9937 0.334657 10.9091 0.333344ZM7.5 12.7509C6.38114 12.0793 0.818182 8.53936 0.818182 4.5881C0.819084 3.68565 1.16418 2.82042 1.77774 2.18228C2.3913 1.54415 3.2232 1.18523 4.09091 1.1843C5.47364 1.1843 6.63477 1.95228 7.12159 3.189C7.15241 3.26703 7.20484 3.33378 7.27222 3.38075C7.3396 3.42773 7.41888 3.45281 7.5 3.45281C7.58112 3.45281 7.6604 3.42773 7.72778 3.38075C7.79516 3.33378 7.84759 3.26703 7.87841 3.189C8.36523 1.95228 9.52636 1.1843 10.9091 1.1843C11.7768 1.18523 12.6087 1.54415 13.2223 2.18228C13.8358 2.82042 14.1809 3.68565 14.1818 4.5881C14.1818 8.53936 8.61886 12.0793 7.5 12.7509Z" />
-    </svg>
+      <svg
+        width="15"
+        height="14"
+        viewBox="0 0 15 14"
+      >
+        <path d="M10.9091 0.333344C9.47727 0.333344 8.23227 1.00489 7.5 2.13027C6.76773 1.00489 5.52273 0.333344 4.09091 0.333344C3.00632 0.334657 1.96652 0.783347 1.19959 1.58098C0.432674 2.37862 0.00126314 3.46007 0 4.5881C0 6.65875 1.24091 8.81379 3.68864 10.9922C4.81026 11.9863 6.02183 12.8649 7.30636 13.616C7.36589 13.6493 7.43242 13.6667 7.5 13.6667C7.56758 13.6667 7.63411 13.6493 7.69364 13.616C8.97817 12.8649 10.1897 11.9863 11.3114 10.9922C13.7591 8.81379 15 6.65875 15 4.5881C14.9987 3.46007 14.5673 2.37862 13.8004 1.58098C13.0335 0.783347 11.9937 0.334657 10.9091 0.333344ZM7.5 12.7509C6.38114 12.0793 0.818182 8.53936 0.818182 4.5881C0.819084 3.68565 1.16418 2.82042 1.77774 2.18228C2.3913 1.54415 3.2232 1.18523 4.09091 1.1843C5.47364 1.1843 6.63477 1.95228 7.12159 3.189C7.15241 3.26703 7.20484 3.33378 7.27222 3.38075C7.3396 3.42773 7.41888 3.45281 7.5 3.45281C7.58112 3.45281 7.6604 3.42773 7.72778 3.38075C7.79516 3.33378 7.84759 3.26703 7.87841 3.189C8.36523 1.95228 9.52636 1.1843 10.9091 1.1843C11.7768 1.18523 12.6087 1.54415 13.2223 2.18228C13.8358 2.82042 14.1809 3.68565 14.1818 4.5881C14.1818 8.53936 8.61886 12.0793 7.5 12.7509Z" />
+      </svg>
     </span>
   );
 
@@ -39,7 +40,7 @@ function ProductCard({pLength, product, setLoading, hidebutton, setisLoading }) 
     checkCartExist ? "Go To cart" : "Add To Cart"
   );
 
-  
+
   var settings = {
     dots: true,
     infinite: true,
@@ -65,7 +66,7 @@ function ProductCard({pLength, product, setLoading, hidebutton, setisLoading }) 
         price: product?.product_attributes[0]?.price,
         qty: quntity,
         product_hcn: product?.product_hcn,
-        sku: product?.sku||"",
+        sku: product?.sku || "",
         variant_id: product?.product_attributes[0]?.id,
         old_price: product?.product_attributes[0]?.old_price,
         discount: product?.product_attributes[0]?.discount,
@@ -78,7 +79,7 @@ function ProductCard({pLength, product, setLoading, hidebutton, setisLoading }) 
         product_hcn: product?.product_hcn,
         discount: product?.discount,
         price: product?.price,
-        sku: product?.sku||"",
+        sku: product?.sku || "",
       };
     }
 
@@ -118,7 +119,7 @@ function ProductCard({pLength, product, setLoading, hidebutton, setisLoading }) 
         setShowAddToCartListContent("Go To Cart");
       }
       if (showAddToCartListContent === "Go To Cart") {
-        dispatch(openModal('Signin', {})); 
+        dispatch(openModal('Signin', {}));
         // navigate(`${window.location?.pathname + window.location?.search}`, {
         //   state: { popName: "Sigin" },
         // });
@@ -145,10 +146,6 @@ function ProductCard({pLength, product, setLoading, hidebutton, setisLoading }) 
       );
     } else {
       dispatch(openModal('Signin', {}));
-      // console.log(window.location , "<<<<<<<<<setShowWishListContent");
-      // navigate(`${window.location?.pathname + window.location?.search}`, {
-      //   state: { popName: "Sigin" },
-      // });
     }
   };
 
@@ -239,7 +236,6 @@ function ProductCard({pLength, product, setLoading, hidebutton, setisLoading }) 
           item.product_id == (product?.id ? product.id : product?.product_id)
       );
       if (foundWishListProduct) {
-        // console.log(foundWishListProduct , "<<<<<<<<<foundWishListProduct");
         setShowWishListContent(
           <span
             className="svg-img-icon"
@@ -268,7 +264,7 @@ function ProductCard({pLength, product, setLoading, hidebutton, setisLoading }) 
               width="15"
               height="14"
               viewBox="0 0 15 14"
-              
+
             >
               <path d="M10.9091 0.333344C9.47727 0.333344 8.23227 1.00489 7.5 2.13027C6.76773 1.00489 5.52273 0.333344 4.09091 0.333344C3.00632 0.334657 1.96652 0.783347 1.19959 1.58098C0.432674 2.37862 0.00126314 3.46007 0 4.5881C0 6.65875 1.24091 8.81379 3.68864 10.9922C4.81026 11.9863 6.02183 12.8649 7.30636 13.616C7.36589 13.6493 7.43242 13.6667 7.5 13.6667C7.56758 13.6667 7.63411 13.6493 7.69364 13.616C8.97817 12.8649 10.1897 11.9863 11.3114 10.9922C13.7591 8.81379 15 6.65875 15 4.5881C14.9987 3.46007 14.5673 2.37862 13.8004 1.58098C13.0335 0.783347 11.9937 0.334657 10.9091 0.333344ZM7.5 12.7509C6.38114 12.0793 0.818182 8.53936 0.818182 4.5881C0.819084 3.68565 1.16418 2.82042 1.77774 2.18228C2.3913 1.54415 3.2232 1.18523 4.09091 1.1843C5.47364 1.1843 6.63477 1.95228 7.12159 3.189C7.15241 3.26703 7.20484 3.33378 7.27222 3.38075C7.3396 3.42773 7.41888 3.45281 7.5 3.45281C7.58112 3.45281 7.6604 3.42773 7.72778 3.38075C7.79516 3.33378 7.84759 3.26703 7.87841 3.189C8.36523 1.95228 9.52636 1.1843 10.9091 1.1843C11.7768 1.18523 12.6087 1.54415 13.2223 2.18228C13.8358 2.82042 14.1809 3.68565 14.1818 4.5881C14.1818 8.53936 8.61886 12.0793 7.5 12.7509Z" />
             </svg>
@@ -281,7 +277,7 @@ function ProductCard({pLength, product, setLoading, hidebutton, setisLoading }) 
   // console.log(product , " <<<<<<<<product");
 
   return (
-    <div className={`${pLength && pLength ==1 ? "item card-itm single-item":"item card-itm"}`}>
+    <div className={`${pLength && pLength == 1 ? "item card-itm single-item" : "item card-itm"}`}>
       {/* <LoaderSmall/> */}
       <div className="img">
         {!hidebutton && (
@@ -313,13 +309,19 @@ function ProductCard({pLength, product, setLoading, hidebutton, setisLoading }) 
               <div key={index}>
                 <a className="product-imgggg"
                   href={`/product-details/${product?.id ? product.id : product?.product_id
-                    }/${product?.product_attributes[0]?.attribute_name ? product?.product_attributes[0]?.attribute_name:""}`}
+                    }/${product?.product_attributes[0]?.attribute_name ? product?.product_attributes[0]?.attribute_name : ""}`}
                 >
-                  <img
+                  <LazyImage
+                    src={`${baseUrl}/${imageUrl.trim()}`}
+                    className="img-fluid category-image"
+                    placeholder={`${baseUrl}/${product.thumbnail}`}
+                    alt={product?.product_name}
+                  />
+                  {/* <img
                     src={`${baseUrl}/${imageUrl.trim()}`}
                     className="img-fluid category-image"
                     alt={product?.product_name}
-                  />
+                  /> */}
                 </a>
               </div>
             ))}
@@ -327,33 +329,41 @@ function ProductCard({pLength, product, setLoading, hidebutton, setisLoading }) 
         ) : (
           <a
             href={`/product-details/${product?.id ? product.id : product?.product_id
-              }/${product?.product_attributes[0]?.attribute_name ? product?.product_attributes[0]?.attribute_name:""}`}
+              }/${product?.product_attributes[0]?.attribute_name ? product?.product_attributes[0]?.attribute_name : ""}`}
           >
-            <img
+
+            <LazyImage
+              src={`${baseUrl}/${product.thumbnail}`}
+              className="img-fluid category-image"
+              placeholder={`${baseUrl}/${product.thumbnail}`}
+              alt={product?.product_name}
+            />
+
+            {/* <img
               src={`${baseUrl}/${product.thumbnail}`}
               className="img-fluid category-image"
               alt={product?.product_name}
-            />
+            /> */}
           </a>
         )}
       </div>
       <div className="second-sec">
         {
           // console.log(product?.rating_count, "count")
-          product?.rating_count == "0" ? "":
-        <StarRating
-          averageRatio={product?.avg_rating}
-          productReviewCount={product?.rating_count}
-        />
+          product?.rating_count == "0" ? "" :
+            <StarRating
+              averageRatio={product?.avg_rating}
+              productReviewCount={product?.rating_count}
+            />
 
         }
         <a
           href={`/product-details/${product?.id ? product.id : product?.product_id
-            }/${product?.product_attributes[0]?.attribute_name ? product?.product_attributes[0]?.attribute_name:""}`}
+            }/${product?.product_attributes[0]?.attribute_name ? product?.product_attributes[0]?.attribute_name : ""}`}
         >
-          {product?.brand_name?.name &&<p className="head"> {product?.brand_name?.name}</p>}
-          
-           <p className=" gray bold">{product?.product_name?.substring(0,35)}</p>
+          {product?.brand_name?.name && <p className="head"> {product?.brand_name?.name}</p>}
+
+          <p className=" gray bold">{product?.product_name?.substring(0, 35)}</p>
 
         </a>
 
@@ -423,10 +433,10 @@ function ProductCard({pLength, product, setLoading, hidebutton, setisLoading }) 
         )}
         {
           ((product.product_attributes?.length > 0 &&
-             (product.product_attributes[0]?.price == null || product.product_attributes[0]?.price == "0.00"))
-            ||  (product.product_attributes?.length == "0" && (product?.price == "null" || product?.price == "0.00"))) || (
+            (product.product_attributes[0]?.price == null || product.product_attributes[0]?.price == "0.00"))
+            || (product.product_attributes?.length == "0" && (product?.price == "null" || product?.price == "0.00"))) || (
               (product.product_attributes?.length > 0 && (product.product_attributes[0]?.quantity == null || product.product_attributes[0]?.quantity == "0"))
-              || (product.product_attributes?.length == "0" &&(product?.quantity == "null" || product?.quantity == "0"))
+              || (product.product_attributes?.length == "0" && (product?.quantity == "null" || product?.quantity == "0"))
             ) ?
             "" :
             <div className="hover-btn">
